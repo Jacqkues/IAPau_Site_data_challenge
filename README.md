@@ -1,5 +1,14 @@
 # IA Pau : Data Challenge website
 
+## Installation
+
+```bash
+npm i                       # installer les dépendences nécessaires
+npx parcel src/index.html   # lancer le serveur
+```
+  
+Ouvrir le navigateur à l'adresse : [http://localhost:1234](http://localhost:1234)
+
 ## Git usage
 
 ### Branches 
