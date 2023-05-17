@@ -38,9 +38,15 @@ CREATE TABLE Contact(
     prenom VARCHAR(50),
     mail VARCHAR(100),
     numTel INT,
-    idProjet VARCHAR(200),
-    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(libelle)
 );
+
+CREATE TABLE Lier(
+    idContact INT PRIMARY KEY,
+    idProjet VARCHAR(200),
+    CONSTRAINT pk_lier PRIMARY KEY(idContact, idProjet),
+    FOREIGN KEY fk_contact(idContact) REFERENCES Contact(idContact),
+    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(libelle)
+)
 
 CREATE TABLE Ressources(
     idRessources INT PRIMARY KEY NOT NULL,
