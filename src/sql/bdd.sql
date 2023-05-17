@@ -16,13 +16,6 @@ CREATE TABLE User(
     mdp VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE Contact(
-    idContact INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50),
-    prenom VARCHAR(50),
-    mail VARCHAR(100),
-    numTel INT
-);
 
 
 CREATE TABLE dataChallenge(
@@ -35,10 +28,18 @@ CREATE TABLE projetData(
     libelle VARCHAR(200) PRIMARY KEY NOT NULL,
     descrip VARCHAR(200),
     lienImg VARCHAR(200),
-    coordonnées INT,
     libelleData VARCHAR(200),
-    FOREIGN KEY fk_coordonnées(coordonnées) REFERENCES Contact(idContact),
     FOREIGN KEY fk_libelleData(libelleData) REFERENCES dataChallenge(libelle)
+);
+
+CREATE TABLE Contact(
+    idContact INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50),
+    prenom VARCHAR(50),
+    mail VARCHAR(100),
+    numTel INT,
+    idProjet VARCHAR(200),
+    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(libelle)
 );
 
 CREATE TABLE Ressources(
