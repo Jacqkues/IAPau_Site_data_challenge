@@ -11,6 +11,14 @@ Ouvrir le navigateur à l'adresse : [http://localhost:1234](http://localhost:123
 
 ## Git usage
 
+### Correction pb connexion git
+
+Le dossier git a été créé avec une méthode de connexion en https, pour éviter une erreur de connexion si vous utilisez SSH, voici la procédure :  
+```
+git remote remove origin
+git remote add origin git@github.com:Jacqkues/IAPau_Site_data_challenge.git
+```
+
 ### Branches 
 
 **1 modification = 1 branche.**
