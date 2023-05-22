@@ -18,12 +18,13 @@ if(isset($error)) {
     </header>
 
     <section>
-      <h2>Connexion</h2>
-      <form action="/trylogin" method="post">
-        <input type="email" id="eail" name="email" placeholder="Votre email" required>
-        <input type="password" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
-        <input class="bouton" type="submit" value="Connexion">
-      </form>
+      <?php 
+      if(isset($_GET['methode']) && $_GET['methode'] == "connexion") {
+        include "./vue/components/signin-login/connexion.php";
+      } else {
+        include "./vue/components/signin-login/inscription.php";
+      }
+      ?>
     </section>
 
     <section>

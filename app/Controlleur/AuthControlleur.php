@@ -24,7 +24,7 @@ class AuthControlleur implements Controlleur
             $user = $userRepo->findByEmail($email);
         } catch (Exception $e) {
             $error = "L'utilisateur n'existe pas";
-            $loginPage = new View("./vue/components/login/login.php");
+            $loginPage = new View("./vue/components/signin-login/signin-login.php");
             $loginPage->assign("error", $error);
             $loginPage->show();
         }
@@ -48,9 +48,8 @@ class AuthControlleur implements Controlleur
             header('Location: /');
             exit();
         }
-        $loginPage = new View("./vue/components/login/login.php");
+        $loginPage = new View("./vue/components/signin-login/signin-login.php");
         $loginPage->show();
-
     }
 
 

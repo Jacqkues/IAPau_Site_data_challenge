@@ -11,8 +11,8 @@
       <?php include "./vue/components/header/header.php"; ?>
 
       <div class="compte">
-        <a class="bouton" href="/login">Connexion</a>
-        <a class="bouton bouton-secondaire" href="">Inscription</a>
+        <a class="bouton" href="/login?methode=connexion">Connexion</a>
+        <a class="bouton bouton-secondaire" href="/login?methode=inscription">Inscription</a>
       </div>
     </header>
 
