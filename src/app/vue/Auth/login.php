@@ -1,7 +1,3 @@
-<?php $title="Connexion"; ?>
-
-<?php ob_start(); ?>
-
 <h1>Connexion</h1>
 
 <?php if(isset($error)){
@@ -23,6 +19,3 @@
     </div>
 </form>
 
-<?php $content = ob_get_clean(); ?>
-
-<?php require('./vue/layout.php') ?>

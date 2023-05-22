@@ -30,9 +30,13 @@ $authController = new AuthControlleur();
 //les pages 
 $loginPage = new Route("/login",$authController,"index");
 $mainPage = new Route("/",$mainControlleur,"index");
+
+
+$loginHandler = new Route("/trylogin",$authController,"login");
 //ajout des pages au router
 $router->addRoute($loginPage);
 $router->addRoute($mainPage);
+$router->addRoute($loginHandler);
 
 
 $router->handleRequest();

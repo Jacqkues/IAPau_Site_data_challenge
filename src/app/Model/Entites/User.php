@@ -1,5 +1,5 @@
 <?php
-namespace Model;
+namespace Model\Entites;
 
 class User {
     protected int $id;
