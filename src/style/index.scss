@@ -1,37 +1,5 @@
 @use "global-components.scss" as global;
 
-header {
-  position: fixed;
-  width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: global.$PADDING;
-  z-index: 999;
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 1vw;
-
-    img {
-      width: 3vw;
-    }
-
-    h1 {
-      font-size: 1.5vw;
-      font-weight: normal;
-    }
-  }
-
-  .compte {
-    display: flex;
-    gap: 1vw;
-  }
-}
-
 .accueil {
   position: relative;
 
@@ -61,11 +29,11 @@ header {
     position: absolute;
     content: "";
     left: 0;
-    top: 0;
+    bottom: 0;
     width: 100%;
-    height: 100%;
-    clip-path: inherit;
+    height: 10%;
     background: url(../assets/bas-background-accueil.svg) no-repeat bottom;
+    background-size: 100% 100%;
     z-index: 1;
   }
 

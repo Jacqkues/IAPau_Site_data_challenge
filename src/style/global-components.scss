@@ -54,3 +54,35 @@ section {
 p {
   margin: 0;
 }
+
+header {
+  position: fixed;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: $PADDING;
+  z-index: 999;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+
+    img {
+      width: 3vw;
+    }
+
+    h1 {
+      font-size: 1.5vw;
+      font-weight: normal;
+    }
+  }
+
+  .compte {
+    display: flex;
+    gap: 1vw;
+  }
+}
