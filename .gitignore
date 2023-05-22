@@ -1,4 +1,4 @@
 .parcel-cache/
 dist/
 node_modules/
-src/php/credentials.php
+src/RequeteSQL/credentials.php
