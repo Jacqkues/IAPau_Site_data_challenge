@@ -3,9 +3,12 @@
 namespace Controlleur;
 use jmvc\Controlleur;
 use jmvc\View;
-use Model\User;
+use Model\Entites\User;
 use Model\UserRepository;
 use Lib\DatabaseConnection;
+use Exception;
+
+
 
 class AuthControlleur implements Controlleur{
 
@@ -13,16 +16,22 @@ class AuthControlleur implements Controlleur{
         $email = $_POST['email'];
         $mdp = $_POST['mdp'];
         $userRepo = new UserRepository(new DatabaseConnection());
-        $user = $userRepo->findByEmail($email);
-        if($user === null){
+        $user = null;
+        try{
+            $user = $userRepo->findByEmail($email);
+        }catch(Exception $e){
             $error = "L'utilisateur n'existe pas";
-            require('./vue/Auth/login.php');
+            $loginPage = new View("./vue/Auth/login.php");
+            $loginPage->assign("error", $error);
+            $loginPage->show();
         }
-
-        if(password_verify($mdp, $user->getMdp())){
-            $_SESSION['user'] = $user;
-            return true;
+        if($user != null){
+            if(password_verify($mdp, $user->getMdp())){
+                $_SESSION['user'] = $user;
+                return true;
+            }
         }
+       
     }
 
     public function logout(){

@@ -6,6 +6,7 @@
    </head>
 
    <body>
+      <h2>Yooo</h2>
       <?= $content ?>
    </body>
 </html>

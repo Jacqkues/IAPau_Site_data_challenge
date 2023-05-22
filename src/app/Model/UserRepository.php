@@ -2,6 +2,8 @@
 namespace Model;
 
 use Lib\DatabaseConnection;
+use Model\Entites\User;
+use Exception;
 
 class UserRepository {
     //point d'accés à la base de données
