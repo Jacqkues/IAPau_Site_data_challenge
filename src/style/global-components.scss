@@ -1,0 +1,56 @@
+$BLEU_IA_PAU: #4AB7BC;
+$MAIN_COLOR: white;
+$PADDING: 1vw 4vw;
+
+html, body {
+  position: relative;
+
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  font-family: Montserrat, Helvetica, Arial, Lucida, sans-serif;
+  color: $MAIN_COLOR;
+
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bouton {
+  width: max-content;
+
+  color: $MAIN_COLOR;
+  background-color: $BLEU_IA_PAU;
+  border: 2px solid $BLEU_IA_PAU;
+  text-decoration: none;
+
+  padding: .5vw 1.5vw;
+
+  border-radius: 2vw;
+}
+
+.bouton-secondaire {
+  background: none !important;
+  border-color: $MAIN_COLOR;
+}
+
+a {
+  text-decoration: none;
+  color: $MAIN_COLOR;
+}
+
+h2, h3 {
+  margin: 0;
+}
+
+section {
+  padding: $PADDING;
+}
+
+p {
+  margin: 0;
+}
