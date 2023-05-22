@@ -12,7 +12,7 @@ body {
   padding: 0;
 
   font-family: Montserrat, Helvetica, Arial, Lucida, sans-serif;
-  color: var(MAIN_COLOR);
+  color: var(--MAIN_COLOR);
 
   scroll-behavior: smooth;
 }
@@ -24,24 +24,26 @@ body {
 .bouton {
   width: max-content;
 
-  color: var(MAIN_COLOR);
-  background-color: var(BLEU_IA_PAU);
-  border: 2px solid var(BLEU_IA_PAU);
+  color: var(--MAIN_COLOR);
+  background-color: var(--BLEU_IA_PAU);
+  border: 2px solid var(--BLEU_IA_PAU);
   text-decoration: none;
 
   padding: .5vw 1.5vw;
 
   border-radius: 2vw;
+
+  cursor: pointer;
 }
 
 .bouton-secondaire {
   background: none !important;
-  border-color: var(MAIN_COLOR);
+  border-color: var(--MAIN_COLOR);
 }
 
 a {
   text-decoration: none;
-  color: var(MAIN_COLOR);
+  color: var(--MAIN_COLOR);
 }
 
 h2,
@@ -50,7 +52,7 @@ h3 {
 }
 
 section {
-  padding: var(PADDING);
+  padding: var(--PADDING);
 }
 
 p {
@@ -65,7 +67,7 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  padding: var(PADDING);
+  padding: var(--PADDING);
   z-index: 999;
 }
 

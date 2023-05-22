@@ -3,18 +3,15 @@
   <head>
     <title>IA Pau · Data Challenge</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./style/index.scss">
-    <link rel="stylesheet" href="./style/global-components.scss">
+    <link rel="stylesheet" href="./vue/components/main/main.css">
+    <link rel="stylesheet" href="./vue/global-components.css">
   </head>
   <body>
     <header>
-      <a href="/" class="logo">
-        <img src="./assets/logo.png" alt="logo-IA-Pau">
-        <h1>IA Pau</h1>
-      </a>
+      <?php include "./vue/components/header/header.php"; ?>
 
       <div class="compte">
-        <a class="bouton" href="./pages/connexion.html">Connexion</a>
+        <a class="bouton" href="/login">Connexion</a>
         <a class="bouton bouton-secondaire" href="">Inscription</a>
       </div>
     </header>
@@ -27,7 +24,7 @@
 
     <section id="challenges" class="challenges">
       <div class="challenge">
-        <img src="./assets/challenge.jpg" alt="challenge">
+        <img src="vue/assets/challenge.jpg" alt="challenge">
         <div class="challenge__desc">
           <p class="date">17/05/2023</p>
           <h3>Titre data challenge</h3>
@@ -38,7 +35,7 @@
         </div>
       </div>
       <div class="challenge">
-        <img src="./assets/challenge.jpg" alt="challenge">
+        <img src="vue/assets/challenge.jpg" alt="challenge">
         <div class="challenge__desc">
           <p class="date">17/05/2023</p>
           <h3>Titre data challenge</h3>
