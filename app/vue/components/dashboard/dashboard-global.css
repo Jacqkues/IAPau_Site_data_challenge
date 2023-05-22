@@ -1,0 +1,57 @@
+h1 {
+  color: black;
+}
+
+h2 {
+  font-weight: normal;
+}
+
+article {
+  top: 5vw;
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 5vw);
+
+  display: flex;
+
+  color: black;
+}
+
+article section {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+article section:first-of-type {
+  row-gap: 5vw;
+
+  width: 20%;
+  padding: 2vw 2vw 2vw calc(4vw - .5vw - 2px);
+
+  border-right: 1px solid black;
+}
+
+article section:first-of-type .utilisateur {
+  padding-left: calc(2px + .5vw);
+}
+
+article section:first-of-type .onglets {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vw;
+
+  height: 100%;
+}
+
+.onglet {
+  color: black !important;
+  padding: .75vw .5vw;
+  border: 2px solid transparent;
+
+  transition: 100ms ease-out border-color;
+}
+
+.onglet:hover {
+  border-color: var(--BLEU_IA_PAU);
+}

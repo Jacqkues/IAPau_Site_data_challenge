@@ -43,7 +43,7 @@ $adminGuard = new AuthGuard($authController,"isAdmin");
 $gestionnaireGuard = new AuthGuard($authController,"isGestionnaire");
 $userGuard = new AuthGuard($authController,"isLogged");
 
-//les pages ouvertes
+//les pages 
 $loginPage = new Route("/login",$authController,"index");
 $mainPage = new Route("/",$mainControlleur,"index");
 $loginHandler = new Route("/trylogin",$authController,"login");
@@ -55,6 +55,7 @@ $gestionnaireDashboard = new ProtectedRoute("/gestionnaire",$gestionnaireControl
 $userPage = new ProtectedRoute("/user",$userControlleur,"index",$userGuard);
 
 //ajout des pages au router
+$router->addRoute($dashboardPage);
 $router->addRoute($loginPage);
 $router->addRoute($mainPage);
 $router->addRoute($loginHandler);

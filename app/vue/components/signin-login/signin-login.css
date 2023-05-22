@@ -60,7 +60,7 @@ section:first-of-type form p a {
 
 section:first-of-type form input:not([type="submit"]), section:first-of-type form select {
   font-family: inherit;
-  padding: .75vw .5vw;
+  padding: .5vw .25vw;
 
   border: 2px solid var(--BLEU_IA_PAU);
 
