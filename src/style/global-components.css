@@ -1,0 +1,90 @@
+html,
+body {
+  --BLEU_IA_PAU: #4AB7BC;
+  --MAIN_COLOR: white;
+  --PADDING: 1vw 4vw;
+
+  position: relative;
+
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  font-family: Montserrat, Helvetica, Arial, Lucida, sans-serif;
+  color: var(MAIN_COLOR);
+
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bouton {
+  width: max-content;
+
+  color: var(MAIN_COLOR);
+  background-color: var(BLEU_IA_PAU);
+  border: 2px solid var(BLEU_IA_PAU);
+  text-decoration: none;
+
+  padding: .5vw 1.5vw;
+
+  border-radius: 2vw;
+}
+
+.bouton-secondaire {
+  background: none !important;
+  border-color: var(MAIN_COLOR);
+}
+
+a {
+  text-decoration: none;
+  color: var(MAIN_COLOR);
+}
+
+h2,
+h3 {
+  margin: 0;
+}
+
+section {
+  padding: var(PADDING);
+}
+
+p {
+  margin: 0;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: var(PADDING);
+  z-index: 999;
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+header .logo img {
+  width: 3vw;
+}
+
+header .logo h1 {
+  font-size: 1.5vw;
+  font-weight: normal;
+}
+
+header .compte {
+  display: flex;
+  gap: 1vw;
+}

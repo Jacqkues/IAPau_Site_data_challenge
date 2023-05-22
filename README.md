@@ -9,6 +9,17 @@ npx parcel src/index.html   # lancer le serveur
   
 Ouvrir le navigateur à l'adresse : [http://localhost:1234](http://localhost:1234)
 
+## Connexion BDD
+
+Créer un fichier ```src/php/credentials.php``` et y ajouter ce code : 
+```php
+<?php
+define("USER", "<votre user>");
+define("PASSWORD", "<votre mot de passe>");
+define("HOST", "localhost");
+define("BASE", "Challenge");
+```
+
 ## Créer nouvelle page
 
 - Créer un fichier ```<nom>.html``` dans le dossier ```src/pages```
