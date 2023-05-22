@@ -1,6 +1,7 @@
 <?php
 
 namespace Lib;
+
 use PDO;
 
 class DatabaseConnection
@@ -9,10 +10,10 @@ class DatabaseConnection
 
 	public function getConnection(): PDO
 	{
-    	if ($this->database === null) {
-        	$this->database = new PDO('mysql:host=localhost;dbname=Challenge;charset=utf8', 'user', 'password');
-    	}
+		if ($this->database === null) {
+			$this->database = new PDO('mysql:host=localhost;dbname=Challenge;charset=utf8', 'user', 'password');
+		}
 
-    	return $this->database;
+		return $this->database;
 	}
 }

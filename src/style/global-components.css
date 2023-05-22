@@ -1,8 +1,9 @@
-$BLEU_IA_PAU: #4AB7BC;
-$MAIN_COLOR: white;
-$PADDING: 1vw 4vw;
+html,
+body {
+  --BLEU_IA_PAU: #4AB7BC;
+  --MAIN_COLOR: white;
+  --PADDING: 1vw 4vw;
 
-html, body {
   position: relative;
 
   width: 100vw;
@@ -11,7 +12,7 @@ html, body {
   padding: 0;
 
   font-family: Montserrat, Helvetica, Arial, Lucida, sans-serif;
-  color: $MAIN_COLOR;
+  color: var(MAIN_COLOR);
 
   scroll-behavior: smooth;
 }
@@ -23,9 +24,9 @@ html, body {
 .bouton {
   width: max-content;
 
-  color: $MAIN_COLOR;
-  background-color: $BLEU_IA_PAU;
-  border: 2px solid $BLEU_IA_PAU;
+  color: var(MAIN_COLOR);
+  background-color: var(BLEU_IA_PAU);
+  border: 2px solid var(BLEU_IA_PAU);
   text-decoration: none;
 
   padding: .5vw 1.5vw;
@@ -35,20 +36,21 @@ html, body {
 
 .bouton-secondaire {
   background: none !important;
-  border-color: $MAIN_COLOR;
+  border-color: var(MAIN_COLOR);
 }
 
 a {
   text-decoration: none;
-  color: $MAIN_COLOR;
+  color: var(MAIN_COLOR);
 }
 
-h2, h3 {
+h2,
+h3 {
   margin: 0;
 }
 
 section {
-  padding: $PADDING;
+  padding: var(PADDING);
 }
 
 p {
@@ -63,26 +65,26 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  padding: $PADDING;
+  padding: var(PADDING);
   z-index: 999;
+}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 1vw;
+header .logo {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
 
-    img {
-      width: 3vw;
-    }
+header .logo img {
+  width: 3vw;
+}
 
-    h1 {
-      font-size: 1.5vw;
-      font-weight: normal;
-    }
-  }
+header .logo h1 {
+  font-size: 1.5vw;
+  font-weight: normal;
+}
 
-  .compte {
-    display: flex;
-    gap: 1vw;
-  }
+header .compte {
+  display: flex;
+  gap: 1vw;
 }

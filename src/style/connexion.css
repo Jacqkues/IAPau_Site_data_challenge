@@ -12,12 +12,12 @@ h1 {
 section {
   width: 50%;
   min-height: 100%;
+}
 
-  &:first-of-type {
-    background: white;
-  }
+section:first-of-type {
+  background: white;
+}
 
-  &:last-of-type {
+section:last-of-type {
 
-  }
 }
