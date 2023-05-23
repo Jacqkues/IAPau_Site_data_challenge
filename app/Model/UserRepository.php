@@ -97,4 +97,212 @@ class UserRepository {
         return $user;
     }
 
+    /*!
+     *  \fn function addUser(string $type, string $nom, string $prenom, string $etab, string $nivEtude, int $numTel, string $mail, date $dateDeb, date $ dateFin, string $mdp)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:17:05
+     *  \brief fonction permettant de rajouter un utilisateur   
+     *  \param $type string permettant de préciser le type d'utilisateur (admin, gestionnaire ,étudiant)
+     *  \param $nom string correspondant au nom de l'utilisateur
+     *  \param $prenom string correspondant au prénom de l'utilisateur
+     *  \param $etab string représentant le nom de l'école si l'utilisateur est un étudiant ou le nom de l'entreprise si l'utilisateur est un gestionnaire
+     *  \param $numTel entier correspondant au numéro de téléphone de l'utilisateur
+     *  \param $mail string correspondant à l'adresse mail de l'utilisateur
+     *  \param $dateDeb string correspondant à la date du début d'activation pour un gestionnaire
+     *  \param $dateFin string correspondant à la date de fin d'activation pour un gestionnaire
+     *  \param $mdp string correspondant au mot de passe de l'utilisateur
+     *  \return true quand tout se passe bien
+    */
+    public function addUser(string $type, string $nom, string $prenom, string $etab, string $nivEtude, int $numTel, string $mail, string $dateDeb, string $dateFin, string $mdp): bool {
+
+        //requête d'insertion dans la bdd du nouvel utilisateur
+        $req = "INSERT INTO User (types,nom,prenom,etablissement,nivEtude,numTel,mail,dateDeb,dateFin,mdp) VALUES ( :types, :nom, :prenom, :etablissement, :nivEtude, :numTel, :mail, :dateDeb, :dateFin, :mdp)";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['types' => $type, 'nom' => $nom, 'prenom' => $prenom, 'etablissement' => $etab, 'nivEtude' => $nivEtude, "numTel" => $numTel, "mail" => $mail, "dateDeb" => $dateDeb, "dateFin" => $dateFin, 'mdp' => $mdp]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête d'ajout d'utilisateur a échouée.");
+        }
+        //Si l'utilisateur est un administrateur alors on l'écit dans le fichier data      
+        if($type == 'admin'){
+            $fichier = fopen('../sql/data.sql','a+');
+            $ecrit = $req."; \n";
+            fwrite($fichier, $ecrit);
+            fclose($fichier);
+        }
+
+        return true;
+    }
+
+
+    /*!
+     *  \fn function changeNom($nom)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier le nom de l'utilisateur
+     *  \param $nom string représentant le nouveau nom de l'utilisateur
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changeNom(string $nom, int $id) : bool{
+        //requête de modification du nom de l'utilisateur
+        $req = "UPDATE User SET nom = :nom WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["nom" => $nom, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication du nom de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+
+    /*!
+     *  \fn function changePrenom($prenom)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier le prénom de l'utilisateur
+     *  \param $prenom string représentant le nouveau prénom de l'utilisateur
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changePrenom(string $prenom, int $id) : bool{
+        //requête de modification du prenom de l'utilisateur
+        $req = "UPDATE User SET prenom = :prenom WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["prenom" => $prenom, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification du prénom de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+    /*!
+     *  \fn function changeEtab(string $etab, int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier l'établissement de l'utilisateur
+     *  \param $etab string représentant le nouvel etablissement de l'utilisateur
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changeEtab(string $etab, int $id) : bool{
+        //requête de modification du nom de l'utilisateur
+        $req = "UPDATE User SET etablissement = :etablissement WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["etablissement" => $etab, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification de l'établissement de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+
+    /*!
+     *  \fn function changeNiveau(string $niveau, int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier le niveau d'étude d'un étudiant
+     *  \param $niveau string représentant le nouveau niveau d'étude d'un étudiant
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changeNiveau(string $niveau, int $id) : bool{
+        //requête de modification du niveau d'étude de l'utilisateur
+        $req = "UPDATE User SET nivEtude = :nivEtude WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["nivEtude" => $niveau, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification du niveau d'étude de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+    
+    
+    /*!
+     *  \fn function changeTel(string $tel, int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier le numéro de téléphone d'un utilisateur
+     *  \param $tel int représentant le nouveau numéro de téléphone d'un utilisateur
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changeTel(int $tel, int $id) : bool{
+        //requête de modification du niveau d'étude de l'utilisateur
+        $req = "UPDATE User SET numTel = :numTel WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["numTel" => $tel, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification du numéro de téléphone de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+
+    /*!
+     *  \fn function changeMail(string $mail, int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier le mail d'un utilisateur
+     *  \param $mail string représentant la nouvelle addresse mail d'un utilisateur
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changeMail(string $mail, int $id) : bool{
+        //requête de modification du niveau d'étude de l'utilisateur
+        $req = "UPDATE User SET mail = :mail WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["mail" => $mail, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification de l'adresse mail de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+    
+    /*!
+     *  \fn function changeMdp(string $mdp, int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateMon 22 2023 - 14:59:12
+     *  \brief fonction permettant de modifier le mot de passe d'un utilisateur
+     *  \param $mdp string représentant le nouveau mot de passe d'un utilisateur
+     *  \param $id int représentant l'id de l'utilisateur à modifier
+     *  \return true quand tout se passe bien
+    */
+    public function changeMDP(string $mdp, int $id) : bool{
+        //requête de modification du niveau d'étude de l'utilisateur
+        $req = "UPDATE User SET mdp = :mdp WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["mdp" => $mdp, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification du mot de passe de l'utilisateur a échouée.");
+        }
+        return true;
+    }
 }

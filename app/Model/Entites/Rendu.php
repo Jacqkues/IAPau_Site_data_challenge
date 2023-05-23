@@ -4,7 +4,7 @@ namespace Model\Entites;
 
 class Rendu{
    protected string $lien;
-   protected date $dateRendu;
+   protected string $dateRendu;
    protected int $idEquipe;
 
     public function getLien(): string {
@@ -15,11 +15,11 @@ class Rendu{
          $this->lien = $lien;
     }
 
-    public function getDateRendu(): date {
+    public function getDateRendu(): string {
          return $this->dateRendu;
     }
 
-    public function setDateRendu(date $dateRendu): void {
+    public function setDateRendu(string $dateRendu): void {
          $this->dateRendu = $dateRendu;
     }
 

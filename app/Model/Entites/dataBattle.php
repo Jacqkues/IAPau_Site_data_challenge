@@ -4,8 +4,8 @@ namespace Model\Entites;
 
 class dataBattle{
     protected int $idBattle;
-    protected date $debut;
-    protected date $fin;
+    protected string $debut;
+    protected string $fin;
 
     public function getIdBattle() {
         return $this->idBattle;

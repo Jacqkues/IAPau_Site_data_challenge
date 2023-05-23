@@ -3,10 +3,17 @@
 namespace Model\Entites;
 
 class dataChallenge{
+    protected int $idChallenge;
     protected string $libelle;
-    protected date $tempsDebut;
-    protected date $tempsFin;
+    protected string $tempsDebut;
+    protected string $tempsFin;
 
+    public function getIdChallenge() : int{
+        return $this->idChallenge;
+    }
+    public function setIdChallenge(int $idChallenge) : void{
+        $this->idChallenge = $idChallenge;
+    }
     public function getLibelle(): string {
         return $this->libelle;
     }
@@ -14,19 +21,19 @@ class dataChallenge{
         $this->libelle = $libelle;
     }
 
-    public function getTempsDebut(): date {
+    public function getTempsDebut(): string {
         return $this->tempsDebut;
     }
 
-    public function setTempsDebut(date $tempsDebut): void {
+    public function setTempsDebut(string $tempsDebut): void {
         $this->tempsDebut = $tempsDebut;
     }
 
-    public function getTempsFin(): date {
+    public function getTempsFin(): string {
         return $this->tempsFin;
     }
 
-    public function setTempsFin(date $tempsFin): void {
+    public function setTempsFin(string $tempsFin): void {
         $this->tempsFin = $tempsFin;
     }
 }

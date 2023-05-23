@@ -19,17 +19,19 @@ CREATE TABLE User(
 
 
 CREATE TABLE dataChallenge(
-    libelle VARCHAR(200) PRIMARY KEY NOT NULL,
+    idChallenge INT PRIMARY KEY AUTO_INCREMENT,
+    libelle VARCHAR(200) NOT NULL,
     tempsDebut DATE,
     tempsFin DATE
 );
 
 CREATE TABLE projetData(
-    libelle VARCHAR(200) PRIMARY KEY NOT NULL,
+    idProjet INT PRIMARY KEY AUTO_INCREMENT,
+    idChallenge INT,
     descrip VARCHAR(200),
     lienImg VARCHAR(200),
     libelleData VARCHAR(200),
-    FOREIGN KEY fk_libelleData(libelleData) REFERENCES dataChallenge(libelle)
+    FOREIGN KEY fk_idData(idChallenge) REFERENCES dataChallenge(idChallenge)
 );
 
 CREATE TABLE Contact(
@@ -37,16 +39,16 @@ CREATE TABLE Contact(
     nom VARCHAR(50),
     prenom VARCHAR(50),
     mail VARCHAR(100),
-    numTel INT,
+    numTel INT
 );
 
 CREATE TABLE Lier(
-    idContact INT PRIMARY KEY,
-    idProjet VARCHAR(200),
+    idContact INT,
+    idProjet INT,
     CONSTRAINT pk_lier PRIMARY KEY(idContact, idProjet),
     FOREIGN KEY fk_contact(idContact) REFERENCES Contact(idContact),
-    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(libelle)
-)
+    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet)
+);
 
 CREATE TABLE Ressources(
     idRessources INT PRIMARY KEY NOT NULL,
@@ -55,18 +57,18 @@ CREATE TABLE Ressources(
 );
 
 CREATE TABLE Detenir(
-    libelleData VARCHAR(200),
+    idChallenge INT,
     idRessources INT,
-    CONSTRAINT pk_Detenir PRIMARY KEY (libelleData, idRessources),
-    FOREIGN KEY fk_libelleData(libelleData) REFERENCES dataChallenge(libelle),
+    CONSTRAINT pk_Detenir PRIMARY KEY (idChallenge, idRessources),
+    FOREIGN KEY fk_idChallenge(idChallenge) REFERENCES dataChallenge(idChallenge),
     FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources)
 );
 
 CREATE TABLE Posseder(
-    libelleProjet VARCHAR(200),
+    idProjet INT,
     idRessources INT,
-    CONSTRAINT pk_Posseder PRIMARY KEY (libelleProjet, idRessources),
-    FOREIGN KEY fk_libelleProjet(libelleProjet) REFERENCES projetData(libelle),
+    CONSTRAINT pk_Posseder PRIMARY KEY (idProjet, idRessources),
+    FOREIGN KEY fk_libelleProjet(idProjet) REFERENCES projetData(idProjet),
     FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources)
 );
 
@@ -92,11 +94,11 @@ CREATE TABLE Equipe(
     chef VARCHAR(50) NOT NULL,
     score INT,
     idBattle INT,
-    idProjet VARCHAR(200),
-    idData VARCHAR(200),
+    idProjet INT,
+    idData INT,
     FOREIGN KEY fk_battle(idBattle) REFERENCES dataBattle(idBattle),
-    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(libelle),
-    FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(libelle)
+    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet),
+    FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(idChallenge)
 );
 
 CREATE TABLE Membre(
@@ -112,4 +114,14 @@ CREATE TABLE Rendu(
     dateRendu DATE NOT NULL,
     idEquipe INT NOT NULL,
     FOREIGN KEY fk_equipe(idEquipe) REFERENCES Equipe(numero)
+);
+
+CREATE TABLE Messagerie(
+    idMessagerie INT PRIMARY KEY AUTO_INCREMENT,
+    auteur INT NOT NULL,
+    types VARCHAR(20) NOT NULL CHECK (types != "etudiant"),
+    contenu VARCHAR(10000) NOT NULL,
+    dateEnvoi DATE NOT NULL,
+    categorie VARCHAR(1000) DEFAULT 'GENERAL',
+    FOREIGN KEY fk_auteur(auteur) REFERENCES User(idUser)
 );
