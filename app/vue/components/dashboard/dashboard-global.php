@@ -1,13 +1,6 @@
-<?php
-$nom = "Travaux";
-$prenom = "Louis";
-$type = "Etudiant";
-?>
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Data Challenge · Dashboard</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./vue/components/dashboard/dashboard-global.css">
     <link rel="stylesheet" href="./vue/global-components.css">
@@ -28,11 +21,15 @@ $type = "Etudiant";
           <p><?= $type ?></p>
         </div>
         <div class="onglets">
-          <a href="" class="onglet">Mon compte</a>
-          <a href="" class="onglet">Challenges disponibles</a>
+          <?php 
+          foreach ($onglets as $onglet) {
+            echo "<a href='/".$type."?onglet=".$onglet."' class='onglet'>".$onglet."</a>";
+          }
+          ?>
         </div>
       </section>
-      <section></section>
+
+      <?php include $onglet_courant ?>
     </article>
   </body>
 </html>

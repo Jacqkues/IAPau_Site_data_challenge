@@ -27,13 +27,17 @@ article section:first-of-type {
   row-gap: 5vw;
 
   width: 20%;
-  padding: 2vw 2vw 2vw calc(4vw - .5vw - 2px);
+  padding: 2vw 2vw 2vw calc(4vw - .5vw);
 
-  border-right: 1px solid black;
+  box-shadow: 1px 10px 5px #031926;
 }
 
 article section:first-of-type .utilisateur {
   padding-left: calc(2px + .5vw);
+}
+
+article section:first-of-type .utilisateur p {
+  font-weight: lighter;
 }
 
 article section:first-of-type .onglets {
@@ -47,11 +51,14 @@ article section:first-of-type .onglets {
 .onglet {
   color: black !important;
   padding: .75vw .5vw;
-  border: 2px solid transparent;
-
-  transition: 100ms ease-out border-color;
 }
 
 .onglet:hover {
-  border-color: var(--BLEU_IA_PAU);
+  text-decoration: underline;
+}
+
+
+section:last-of-type {
+  max-width: 80%;
+  padding: 10vw;
 }

@@ -1,0 +1,46 @@
+
+.challenges {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2vw;
+
+  padding: 5vw 20vw;
+
+  color: black;
+}
+
+.challenges .challenge {
+  display: flex;
+  gap: 2vw;
+}
+
+.challenges .challenge img {
+  width: 15vw;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.challenges .challenge .challenge__desc {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vw;
+}
+
+.challenges .challenge .challenge__desc .date {
+  font-weight: lighter;
+}
+
+/* Alternance droite-gauche */
+.challenges .challenge:nth-of-type(even) {
+  flex-direction: row-reverse;
+}
+
+.challenges .challenge:nth-of-type(odd) {
+  flex-direction: row;
+}
+
+/* trait de sépraration entre les challenges */
+.challenges .challenge:not(:last-of-type) {
+  padding-bottom: 2vw;
+  border-bottom: 1px solid grey;
+}
