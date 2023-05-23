@@ -36,7 +36,7 @@ section {
 section:first-of-type {
   background: white;
   color: black;
-  row-gap: 3vw;
+  row-gap: 2vw;
 }
 
 section:first-of-type form {
@@ -56,18 +56,6 @@ section:first-of-type form p {
 section:first-of-type form p a {
   color: var(--BLEU_IA_PAU);
   text-decoration: underline;
-}
-
-section:first-of-type form input:not([type="submit"]), section:first-of-type form select {
-  font-family: inherit;
-  padding: .5vw .25vw;
-
-  border: 2px solid var(--BLEU_IA_PAU);
-
-  font-weight: lighter;
-  font-size: 1.75vw;
-
-  outline: none;
 }
 
 section:first-of-type form select {
@@ -91,7 +79,7 @@ section:first-of-type form input[type="submit"] {
 
 h2 {
   font-weight: normal;
-  font-size: 3vw;
+  font-size: 2.5vw;
   letter-spacing: .15vw;
 }
 

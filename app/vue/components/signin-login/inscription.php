@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="./vue/global-components.css">
   </head>
   <body>
-    <h2>Connexion</h2>
+    <h2>Inscription</h2>
     <form action="/trylogin" method="post">
-      <input type="text" name="nom" placeholder="Votre prénom" required>
-      <input type="text" name="nom" placeholder="Votre nom" required>
-      <input type="email" id="eail" name="email" placeholder="Votre email" required>
-      <input type="password" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
+      <input class="bouton-input-text" type="text" name="nom" placeholder="Votre prénom" required>
+      <input class="bouton-input-text" type="text" name="nom" placeholder="Votre nom" required>
+      <input class="bouton-input-text" type="email" id="eail" name="email" placeholder="Votre email" required>
+      <input class="bouton-input-text" type="password" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
       <div class="cursus">
-        <input type="text" placeholder="Établissement">
+        <input class="bouton-input-text" type="text" placeholder="Établissement">
         <select name="niv-etudes" id="niv-etudes">
           <option value="">Niveau d'études</option>
           <option value="L1">L1</option>
@@ -25,7 +25,7 @@
         </select>
       </div>
       <p>Vous avez déjà un compte ? <a href="/login?methode=connexion">Connectez-vous !</a></p>
-      <input class="bouton" type="submit" value="Connexion">
+      <input class="bouton" type="submit" value="S'inscrire">
     </form>
   </body>
 </html>

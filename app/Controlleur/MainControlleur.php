@@ -28,10 +28,4 @@ class MainControlleur implements Controlleur
         $mainPage = new View("./vue/components/main/main.php");
         $mainPage->show();
     }
-
-    public function dash_tmp()
-    {
-        $dash_tmpPage = new View("./vue/components/dashboard/dashboard-global.php");
-        $dash_tmpPage->show();
-    }
 }

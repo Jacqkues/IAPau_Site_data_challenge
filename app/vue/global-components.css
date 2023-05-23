@@ -24,6 +24,7 @@ body {
 
 .bouton {
   width: max-content;
+  height: max-content;
 
   color: var(--MAIN_COLOR);
   background-color: var(--BLEU_IA_PAU);
@@ -40,6 +41,18 @@ body {
 .bouton-secondaire {
   background: none !important;
   border-color: var(--MAIN_COLOR);
+}
+
+.bouton-input-text {
+  font-family: inherit;
+  padding: .5vw .25vw;
+
+  border: 2px solid var(--BLEU_IA_PAU);
+
+  font-weight: lighter;
+  font-size: 1.5vw;
+
+  outline: none;
 }
 
 a {

@@ -1,0 +1,69 @@
+article {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 2vw;
+
+  padding: var(--PADDING);
+  color: black;
+}
+
+article .message {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vw;
+}
+
+article .message .en-tete .date-auteur {
+  font-weight: lighter;
+  font-size: 1.25vw;
+}
+
+article .message .en-tete h2 {
+  font-weight: normal;
+  font-size: 1.75vw;
+}
+
+article .message .contenu {
+  font-size: 1vw;
+}
+
+
+article form {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: inherit;
+
+  display: flex;
+  align-items: flex-end;
+  column-gap: 2vw;
+}
+
+article form .champs {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+article form .champs .haut {
+  display: flex;
+}
+
+article form .champs .haut input {
+  width: 100%;
+  border-bottom: none;
+  border-right: none;
+}
+
+article form .bas {
+  border-top: none;
+}
+
+.bouton-input-text {
+  padding: .1vw .2vw !important;
+}

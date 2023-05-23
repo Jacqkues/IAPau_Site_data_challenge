@@ -84,7 +84,12 @@ class AdminControlleur implements Controlleur
 
     public function index()
     {
-        $fonctionnalite = ["Manage User" => "./vue/components/admin/manage-user.php", "Manage Data Challenge" => "./vue/components/admin/manage-challenge.php", "Manage Ressource" => "./vue/components/admin/manage-ressources.php"];
+        $fonctionnalite = [
+            "Manage User" => "./vue/components/admin/manage-user.php",
+            "Manage Data Challenge" => "./vue/components/admin/manage-challenge.php",
+            "Manage Ressource" => "./vue/components/admin/manage-ressources.php",
+            "Messagerie" => "./vue/components/messagerie/messagerie.php"
+        ];
         $type = "admin";
         if (isset($_GET['onglet'])) {
             $ongletcourant = $_GET['onglet'];
@@ -100,7 +105,6 @@ class AdminControlleur implements Controlleur
 
         $content = new View($page);
 
-
         if (isset($_GET['form']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("user", $this->userRepo->getUser($id));
@@ -113,8 +117,6 @@ class AdminControlleur implements Controlleur
         $content = $content->render();
 
 
-
-
         $dashboard = new View("./vue/components/dashboard/dashboard-global.php");
         $dashboard->assign("title", "Admin Dashboard");
         $dashboard->assign("type", $_SESSION['user']->getType());
@@ -125,8 +127,5 @@ class AdminControlleur implements Controlleur
         $dashboard->assign("content", $content);
 
         $dashboard->show();
-
     }
-
-
 }

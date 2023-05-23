@@ -30,26 +30,23 @@ class AuthControlleur implements Controlleur
             //echo $e->getMessage();
         }
         if ($user != null) {
-           /* if (password_verify($mdp, $user->getMdp())) {
+            /* if (password_verify($mdp, $user->getMdp())) {
+                 $_SESSION['user'] = $user;
+                 return true;
+             }*/
+            if ($mdp == $user->getMdp()) {
                 $_SESSION['user'] = $user;
-                return true;
-            }*/
-            if($mdp == $user->getMdp()){
-                $_SESSION['user'] = $user;
-                if($user->getType() == "admin"){
+                if ($user->getType() == "admin") {
                     header('Location: /admin');
                     exit();
-                }
-                else if($user->getType() == "gestionnaire"){
+                } else if ($user->getType() == "gestionnaire") {
                     header('Location: /gestionnaire');
                     exit();
-                }
-                else{
+                } else {
                     header('Location: /user');
                     exit();
                 }
-            }
-            else {
+            } else {
                 $error = "Mot de passe incorrect";
                 $loginPage = new View("./vue/components/signin-login/signin-login.php");
                 $loginPage->assign("error", $error);
@@ -65,7 +62,8 @@ class AuthControlleur implements Controlleur
         header('Location: /');
     }
 
-    public function isAdmin() : bool {
+    public function isAdmin(): bool
+    {
         if (isset($_SESSION['user'])) {
             $user = $_SESSION['user'];
             if ($user->getType() == "admin") {
@@ -75,14 +73,16 @@ class AuthControlleur implements Controlleur
         return false;
     }
 
-    public function isLogged() : bool {
+    public function isLogged(): bool
+    {
         if (isset($_SESSION['user'])) {
             return true;
         }
         return false;
     }
 
-    public function isCurrentUser($id) : bool {
+    public function isCurrentUser($id): bool
+    {
         if (isset($_SESSION['user'])) {
             $user = $_SESSION['user'];
             if ($user->getId() == $id) {
@@ -92,7 +92,8 @@ class AuthControlleur implements Controlleur
         return false;
     }
 
-    public function isGestionnaire() : bool {
+    public function isGestionnaire(): bool
+    {
         if (isset($_SESSION['user'])) {
             $user = $_SESSION['user'];
             if ($user->getType() == "gestionnaire") {

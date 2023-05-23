@@ -22,11 +22,9 @@
           <p><?= $type ?></p>
         </div>
         <div class="onglets">
-          <?php 
-          foreach ($onglets as $onglet) {
-            echo "<a href='/".$type."?onglet=".$onglet."' class='onglet'>".$onglet."</a>";
-          }
-          ?>
+          <?php foreach ($onglets as $onglet) { ?>
+            <a href="/<?= $type ?>?onglet=<?= $onglet ?>" class="onglet"><?= $onglet ?></a>
+          <?php } ?>
         </div>
       </section>
 
