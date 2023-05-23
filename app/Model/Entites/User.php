@@ -10,8 +10,8 @@ class User {
     protected string $nivEtude;
     protected string $numTel;
     protected string $mail;
-    protected date $dateDeb;
-    protected date $dateFin;
+    protected string $dateDeb;
+    protected string $dateFin;
     protected string $mdp;
 
     public function getId(): int {
@@ -78,19 +78,19 @@ class User {
         $this->mail = $mail;
     }
 
-    public function getDateDeb(): date {
+    public function getDateDeb(): string {
         return $this->dateDeb;
     }
 
-    public function setDateDeb(date $dateDeb): void {
+    public function setDateDeb(string $dateDeb): void {
         $this->dateDeb = $dateDeb;
     }
 
-    public function getDateFin(): date {
+    public function getDateFin(): string {
         return $this->dateFin;
     }
 
-    public function setDateFin(date $dateFin): void {
+    public function setDateFin(string $dateFin): void {
         $this->dateFin = $dateFin;
     }
 
