@@ -4,14 +4,23 @@ namespace Controlleur;
 
 use jmvc\Controlleur;
 use jmvc\View;
-use Model\User;
+
+use Model\Entites\User;
 use Model\UserRepository;
 use Lib\DatabaseConnection;
 
 class MainControlleur implements Controlleur
 {
 
+    public function Test(){
+        $rep = new UserRepository(new DatabaseConnection());
+        $tes = $rep->getUsers();
+        var_dump($tes);
+    }
 
+    public function allChallenges(){
+
+    }
     public function index()
     {
 
@@ -19,6 +28,4 @@ class MainControlleur implements Controlleur
         $mainPage->show();
 
     }
-
-
 }

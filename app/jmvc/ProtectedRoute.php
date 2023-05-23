@@ -25,6 +25,8 @@ class ProtectedRoute implements Rt
             $controlleur = $this->ctrl;
             $method = $this->function;
             $controlleur->$method();
-        } 
+        } else{
+            header("Location: /login");
+        }
     }
 }

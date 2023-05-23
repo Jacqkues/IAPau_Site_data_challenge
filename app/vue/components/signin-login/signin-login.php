@@ -1,8 +1,4 @@
-<?php 
-if(isset($error)) {
-  echo "<p>$error</p>";
-}
-?>
+
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +15,12 @@ if(isset($error)) {
 
     <section>
       <?php 
-      if(isset($_GET['methode']) && $_GET['methode'] == "connexion") {
+        if(isset($error)) {
+          echo "<p>$error</p>";
+          }
+        ?>
+      <?php 
+      if(isset($_GET['methode']) && $_GET['methode'] == "connexion" ) {
         include "./vue/components/signin-login/connexion.php";
       } else {
         include "./vue/components/signin-login/inscription.php";

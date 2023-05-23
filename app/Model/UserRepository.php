@@ -42,7 +42,7 @@ class UserRepository {
 
     public function getUsers():array {
         //requête SQL
-        $sql = "SELECT * FROM user";
+        $sql = "SELECT * FROM User";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($sql);
         //exécution de la requête
@@ -53,8 +53,8 @@ class UserRepository {
         $users = [];
         foreach ($rows as $row) {
             $user = new User();
-            $user->setId($row['id']);
-            $user->setType($row['type']);
+            $user->setId($row['idUser']);
+            $user->setType($row['types']);
             $user->setNom($row['nom']);
             $user->setPrenom($row['prenom']);
             $user->setEtablissement($row['etablissement']);
@@ -72,7 +72,7 @@ class UserRepository {
 
     public function findByEmail(string $email): User{
         //requête SQL
-        $sql = "SELECT * FROM user WHERE mail = :mail";
+        $sql = "SELECT * FROM User WHERE mail = :mail";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($sql);
         //exécution de la requête
@@ -83,8 +83,8 @@ class UserRepository {
             throw new Exception("L'utilisateur n'existe pas");
         }        //création d'un objet User
         $user = new User();
-        $user->setId($row['id']);
-        $user->setType($row['type']);
+        $user->setId($row['idUser']);
+        $user->setType($row['types']);
         $user->setNom($row['nom']);
         $user->setPrenom($row['prenom']);
         $user->setEtablissement($row['etablissement']);
