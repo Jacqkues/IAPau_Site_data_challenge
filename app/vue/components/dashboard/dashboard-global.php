@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./vue/components/dashboard/dashboard-global.css">
     <link rel="stylesheet" href="./vue/global-components.css">
+    <title><?= $title ?></title>
   </head>
   <body>
     <header>
@@ -29,7 +30,9 @@
         </div>
       </section>
 
-      <?php include $onglet_courant ?>
+      <div class="content-container">
+        <?= $content ?>
+      </div>
     </article>
   </body>
 </html>

@@ -17,17 +17,20 @@ class UserRepository {
 
     public function getUser(int $id): User {
         //requête SQL
-        $sql = "SELECT * FROM user WHERE id = :id";
+        $sql = "SELECT * FROM User WHERE idUser = :id";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($sql);
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //récupération du résultat
         $row = $statement->fetch();
+        if(empty($row)){
+            throw new Exception("L'utilisateur n'existe pas");
+        }  
         //création d'un objet User
         $user = new User();
-        $user->setId($row['id']);
-        $user->setType($row['type']);
+        $user->setId($row['idUser']);
+        $user->setType($row['types']);
         $user->setNom($row['nom']);
         $user->setPrenom($row['prenom']);
         $user->setEtablissement($row['etablissement']);
@@ -97,4 +100,12 @@ class UserRepository {
         return $user;
     }
 
+    public function deleteUser(int $id){
+        //requête SQL
+        $sql = "DELETE FROM User WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+    }
 }

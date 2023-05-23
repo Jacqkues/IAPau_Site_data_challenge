@@ -12,14 +12,16 @@ use Lib\DatabaseConnection;
 class MainControlleur implements Controlleur
 {
 
-    public function Test(){
-        $rep = new UserRepository(new DatabaseConnection());
-        $tes = $rep->getUsers();
-        var_dump($tes);
+    public function showdatachallenge(){
+
     }
 
-    public function allChallenges(){
+    public function showClassement(){
 
+    }
+
+    public function showSubject(){
+        
     }
     public function index()
     {

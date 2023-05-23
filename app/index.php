@@ -47,23 +47,27 @@ $userGuard = new AuthGuard($authController,"isLogged");
 $loginPage = new Route("/login",$authController,"index");
 $mainPage = new Route("/",$mainControlleur,"index");
 $loginHandler = new Route("/trylogin",$authController,"login");
-
+$logout = new Route("/logout",$authController,"logout");
 
 //les pages protegees
 $adminDashboard = new ProtectedRoute("/admin",$adminControlleur,"index",$adminGuard);
 $gestionnaireDashboard = new ProtectedRoute("/gestionnaire",$gestionnaireControlleur,"index",$gestionnaireGuard);
 $userPage = new ProtectedRoute("/user",$userControlleur,"index",$userGuard);
-
+$deleteUser = new ProtectedRoute("/admin/deleteUser",$adminControlleur,"deleteUser",$adminGuard);
+$addUser = new ProtectedRoute("/admin/addUser",$adminControlleur,"addUser",$adminGuard);
 //ajout des pages au router
-$router->addRoute($dashboardPage);
+
 $router->addRoute($loginPage);
 $router->addRoute($mainPage);
 $router->addRoute($loginHandler);
 $router->addRoute($adminDashboard);
 $router->addRoute($gestionnaireDashboard);
 $router->addRoute($userPage);
+$router->addRoute($logout);
+$router->addRoute($deleteUser);
+$router->addRoute($addUser);
 
-
+echo "<script src='./index.js'></script>";
 $router->handleRequest();
 
 
