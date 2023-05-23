@@ -6,8 +6,8 @@ class Questionnaire{
     protected int $id;
     protected string $question;
     protected string $reponse;
-    protected date $debut;
-    protected date $fin;
+    protected string $debut;
+    protected string $fin;
     protected string $lien;
     protected int $idBattle;
 

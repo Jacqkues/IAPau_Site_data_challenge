@@ -7,8 +7,8 @@ class Equipe{
     protected string $idChef; #foreign key vers la table user
     protected int $score;
     protected int $idBattle; #foreign key vers la table dataBattle
-    protected string $libelleProjet; #foreign key vers la table projetData
-    protected string $libelleDataChallenge; #foreign key vers la table projetData
+    protected int $idProjet; #foreign key vers la table projetData
+    protected int $idDataChallenge; #foreign key vers la table projetData
 
     public function getId() {
         return $this->id;
@@ -42,20 +42,20 @@ class Equipe{
         $this->idBattle = $idBattle;
     }
 
-    public function getLibelleProjet() {
-        return $this->libelleProjet;
+    public function getIdProjet() : int{
+        return $this->idProjet;
     }
 
-    public function setLibelleProjet($libelleProjet) {
-        $this->libelleProjet = $libelleProjet;
+    public function setIdProjet($idProjet) {
+        $this->idProjet = $idProjet;
     }
 
-    public function getLibelleDataChallenge() {
-        return $this->libelleDataChallenge;
+    public function getIdDataChallenge() {
+        return $this->idDataChallenge;
     }
 
-    public function setLibelleDataChallenge($libelleDataChallenge) {
-        $this->libelleDataChallenge = $libelleDataChallenge;
+    public function setIdDataChallenge($idDataChallenge) {
+        $this->idDataChallenge = $idDataChallenge;
     }
 
     
