@@ -62,3 +62,8 @@ section:last-of-type {
   max-width: 80%;
   padding: 10vw;
 }
+
+.content-container{
+  margin-left:2em;
+  padding: 1em;
+}

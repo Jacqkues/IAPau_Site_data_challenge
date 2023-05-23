@@ -62,6 +62,7 @@ class AuthControlleur implements Controlleur
     public function logout()
     {
         unset($_SESSION['user']);
+        header('Location: /');
     }
 
     public function isAdmin() : bool {
