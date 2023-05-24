@@ -1,16 +1,19 @@
 <?php
 
 namespace Model;
+
 use Lib\DatabaseConnection;
 use Model\Entites\messagerie;
 use Exception;
 
-class RenduRepository{
+class MessagerieRepository
+{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
-    
 
-    public function __construct(DatabaseConnection $database) {
+
+    public function __construct(DatabaseConnection $database)
+    {
         //construit un objet de type DatabaseConnection
         $this->database = $database;
     }
@@ -24,8 +27,9 @@ class RenduRepository{
      *  \brief fonction permettant de récupérer un message en fonction de son id
      *  \param $id int correspondant à l'id du message voulu
      *  \return retourne un objet de type messagerie 
-    */
-    public function getMessage(int $id) : messagerie{
+     */
+    public function getMessage(int $id): messagerie
+    {
         //requête sql
         $req = "SELECT * FROM Messagerie WHERE idMessagerie= :id";
         //préparation de la requête
@@ -33,7 +37,7 @@ class RenduRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête de récupération de la messagerie a échouée.");
         }
         //récupération des informations
@@ -62,8 +66,9 @@ class RenduRepository{
      *  \param $dataEnvoi string correspondant à la date d'envoie du message
      *  \param $categorie string correspondant aux destiantaires du message (dataChallenge, Projet, dataBattle...)
      *  \return retourne true si tout se passe bien  
-    */
-    public function addMessage(int $idAuteur, string $types, string $contenu, string $dataEnvoi, string $categorie) : bool{
+     */
+    public function addMessage(int $idAuteur, string $types, string $contenu, string $dataEnvoi, string $categorie): bool
+    {
         //requête d'insertion dans la bdd d'une nouvelle ressource
         $req = "INSERT INTO Messagerie (auteur, types, contenu, dateEnvoi, categorie) VALUES ( :idAuteur, :types, :contenu, :dateEnvoie, :categorie)";
         //préparation de la requête
@@ -71,9 +76,9 @@ class RenduRepository{
         //exécution de la requête
         $statement->execute(['auteur' => $idAuteur, 'types' => $types, 'contenu' => $contenu, "dateEnvoie" => $dataEnvoi, "categorie" => $categorie]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête d'ajout d'un message a échouée.");
-        }   
+        }
         return true;
     }
 
@@ -86,8 +91,9 @@ class RenduRepository{
      *  \brief fonction permettant de récupérer tous les messages d'un utilisateur à l'aide de son id
      *  \param $idAuteur int id correspondant à l'utilisateur dont on veut récupérer les messages
      *  \return un tableau d'objets messagerie contenant tous les messages d'un utilisateur 
-    */
-    public function getMessageByAuteur(int $idAuteur) : array{
+     */
+    public function getMessageByAuteur(int $idAuteur): array
+    {
         //requête permettant de récupérer tous les messages d'un utilisateur
         $req = "SELECT * FROM Messagerie WHERE auteur = :id";
         //préparation de la requête
@@ -95,9 +101,9 @@ class RenduRepository{
         //exécution de la requête
         $statement->execute(['id' => $idAuteur]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête pour récupérer les messages d'un utilisateur a échouée.");
-        }   
+        }
         //récupération du résultat
         $rows = $statement->fetchAll();
         //création d'un tableau d'objets messagerie
@@ -113,7 +119,7 @@ class RenduRepository{
             $messages[] = $message;
         }
         return $messages;
-        
+
     }
 
 
@@ -124,8 +130,9 @@ class RenduRepository{
      *  \dateTue 23 2023 - 20:45:23
      *  \brief fonction permettant de récupérer l'intégralité des messages
      *  \return un tableau d'objet messagerie contenant tous les messages
-    */
-    public function getAllMessage():array {
+     */
+    public function getAllMessage(): array
+    {
         //requête SQL
         $sql = "SELECT * FROM Messagerie";
         //préparation de la requête
@@ -157,8 +164,9 @@ class RenduRepository{
      *  \brief fonction permettant de supprimer un message grâce à son id
      *  \param $id int correspondant à l'id du message que l'on souhaite supprimer
      *  \return true lorsque tout se passe bien 
-    */
-    public function deleteMessagerie(int $id) :bool{
+     */
+    public function deleteMessagerie(int $id): bool
+    {
         //requête de suppression d'un message
         $req = "DELETE FROM Messagerie WHERE idMessagerie = :id";
         //préparation de la requête
@@ -166,9 +174,9 @@ class RenduRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête de suppression d'une ressource a échouée.");
-        }   
+        }
         return true;
     }
 
@@ -180,20 +188,21 @@ class RenduRepository{
      *  \brief fonction permettant de récupérer tous les messages d'une ou plusieurs catégories
      *  \param $categorie array de string correspondant à toutes les catégories souhaitées
      *  \return un tableau d'objet Messagerie correspondant à tous les messages de toutes les catégories
-    */
-    public function getMessageByCat(array $categorie) : array{
+     */
+    public function getMessageByCat(array $categorie): array
+    {
         //On vérifie que le tableau est vide et si il l'est on jette une Exception
-        if(empty($categorie)){
+        if (empty($categorie)) {
             throw new Exception("Le tableau de catégorie est vide");
         }
-        $categoriesT = implode(',',array_fill(0, count($categorie), '?'));
+        $categoriesT = implode(',', array_fill(0, count($categorie), '?'));
         $req = "SELECT * FROM Messagerie WHERE categorie IN ($categoriesT)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
         $statement->execute($categorie);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête pour récupérer les messages d'une ou plusieurs catégories a échouée.");
         }
         //récupération du résultat
