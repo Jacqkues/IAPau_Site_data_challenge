@@ -51,8 +51,9 @@ CREATE TABLE Lier(
 );
 
 CREATE TABLE Ressources(
-    idRessources INT PRIMARY KEY NOT NULL,
+    idRessources INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom VARCHAR(50),
+    types VARCHAR(50),
     lien VARCHAR(200)
 );
 
@@ -122,6 +123,6 @@ CREATE TABLE Messagerie(
     types VARCHAR(20) NOT NULL CHECK (types != "etudiant"),
     contenu VARCHAR(10000) NOT NULL,
     dateEnvoi DATE NOT NULL,
-    categorie VARCHAR(1000) DEFAULT 'GENERAL',
+    categorie VARCHAR(200) DEFAULT 'GENERAL',
     FOREIGN KEY fk_auteur(auteur) REFERENCES User(idUser)
 );

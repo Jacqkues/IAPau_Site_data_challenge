@@ -32,7 +32,7 @@ class EquipeRepository{
         //exécution de la requête
         $statement->execute(['numero' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout d'équipe a échouée.");
         }
         //récupération des informations
@@ -243,6 +243,29 @@ class EquipeRepository{
             throw new Exception("La requête d'ajout d'un data Challenge a échouée.");
         }        
         
+        return true;
+    }
+
+    /*!
+     *  \fn deleteEquipe(int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateTue 23 2023 - 17:39:51
+     *  \brief fonction permettant de supprimer une équipe en fonction de son numéro
+     *  \param $id int correspondant au numéro de l'équipe 
+     *  \return retourne true si tout se passe bien 
+    */
+    public function deleteEquipe(int $id){
+        //requête de suppression d'une équipe
+        $req = "DELETE FROM Equipe WHERE numero = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de suppression d'une équipe a échouée.");
+        }   
         return true;
     }
 }
