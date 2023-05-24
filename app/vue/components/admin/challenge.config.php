@@ -1,12 +1,17 @@
+<link rel="stylesheet" href="./vue/components/admin/admin.css">
+<div class="flexcol">
+    
+    <div>
+        <h1><?= $challenge->getLibelle() ?></h1>
+        <p>Debut : <?= $challenge->getTempsDebut() ?></p>
+        <p>Fin : <?= $challenge->getTempsFin() ?></p>
+    </div>
 
-
-<div>
-    <link rel="stylesheet" href="./vue/components/admin/admin.css">
     <div class="manage-header">
-        <h1>Data Challenge</h1>
+        <h3>Projets Associés</h3>
         <a class="bouton" href="/admin?form">+ ajouter</a>
     </div>
-    
+   
 
     <div class="list-container">
         <div class="list-header user-info">
@@ -33,5 +38,5 @@
             
         <?php } ?>
         </div>
-    
+
 </div>

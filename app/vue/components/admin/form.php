@@ -13,12 +13,13 @@
 
 
 
-<form action="<?php if(isset($user)){echo "/admin/modifUser";}else{ echo "/admin/addUser";}?>" method="post">
+<form action="<?php if(isset($user)){echo "/admin/updateUser";}else{ echo "/admin/addUser";}?>" method="post">
     <select name="type" placeholder="Type" >
         <option value="admin" <?php if(isset($user) && $user->getType() == "admin"){ echo "selected";}?>>Admin</option>
         <option value="gestionnaire" <?php if(isset($user) && $user->getType() == "gestionnaire"){ echo "selected";}?>>Gestionnaire</option>
         <option value="user" <?php if(isset($user) && $user->getType() == "user"){ echo "selected";}?>>User</option>
     </select>
+    <input type="hidden" name="id" value="<?php if(isset($user)){echo $user->getId();}?>">
     <input type="text" name="nom" placeholder="Nom" value="<?php if(isset($user)){echo $user->getNom();}?>">
     <input type="text" name="prenom" placeholder="Prénom" value="<?php if(isset($user)){echo $user->getPrenom();}?>">
     <input type="text" name="etablissement" placeholder="etablissement" value="<?php if(isset($user)){echo $user->getEtablissement();}?>">

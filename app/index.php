@@ -55,6 +55,7 @@ $gestionnaireDashboard = new ProtectedRoute("/gestionnaire",$gestionnaireControl
 $userPage = new ProtectedRoute("/user",$userControlleur,"index",$userGuard);
 $deleteUser = new ProtectedRoute("/admin/deleteUser",$adminControlleur,"deleteUser",$adminGuard);
 $addUser = new ProtectedRoute("/admin/addUser",$adminControlleur,"addUser",$adminGuard);
+$updateUser = new ProtectedRoute("/admin/updateUser",$adminControlleur,"updateUser",$adminGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -66,6 +67,7 @@ $router->addRoute($userPage);
 $router->addRoute($logout);
 $router->addRoute($deleteUser);
 $router->addRoute($addUser);
+$router->addRoute($updateUser);
 
 echo "<script src='./index.js'></script>";
 $router->handleRequest();

@@ -4,6 +4,7 @@ namespace Model;
 use Lib\DatabaseConnection;
 use Model\Entites\User;
 use Exception;
+use PDO;
 
 class UserRepository {
     //point d'accés à la base de données
@@ -15,6 +16,14 @@ class UserRepository {
         $this->database = $database;
     }
 
+    public function deleteUser(int $id){
+        //requête SQL
+        $sql = "DELETE FROM User WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+    }
     public function getUser(int $id): User {
         //requête SQL
         $sql = "SELECT * FROM User WHERE idUser = :id";
@@ -117,29 +126,59 @@ class UserRepository {
      *  \param $mdp string correspondant au mot de passe de l'utilisateur
      *  \return true quand tout se passe bien
     */
-    public function addUser(string $type, string $nom, string $prenom, string $etab, string $nivEtude, int $numTel, string $mail, string $dateDeb, string $dateFin, string $mdp): bool {
+    public function addUser(User $user): bool {
 
         //requête d'insertion dans la bdd du nouvel utilisateur
         $req = "INSERT INTO User (types,nom,prenom,etablissement,nivEtude,numTel,mail,dateDeb,dateFin,mdp) VALUES ( :types, :nom, :prenom, :etablissement, :nivEtude, :numTel, :mail, :dateDeb, :dateFin, :mdp)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['types' => $type, 'nom' => $nom, 'prenom' => $prenom, 'etablissement' => $etab, 'nivEtude' => $nivEtude, "numTel" => $numTel, "mail" => $mail, "dateDeb" => $dateDeb, "dateFin" => $dateFin, 'mdp' => $mdp]);
+        $statement->execute(['types' => $user->getType(), 'nom' => $user->getNom(), 'prenom' => $user->getPrenom(), 'etablissement' => $user->getEtablissement(), 'nivEtude' => $user->getNivEtude(), "numTel" => $user->getNumTel(), "mail" => $user->getMail(), "dateDeb" => $user->getDateDeb(), "dateFin" => $user->getDateFin(), 'mdp' => $user->getMdp()]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout d'utilisateur a échouée.");
         }
         //Si l'utilisateur est un administrateur alors on l'écit dans le fichier data      
-        if($type == 'admin'){
+        if($user->getType() == 'admin'){
             $fichier = fopen('../sql/data.sql','a+');
             $ecrit = $req."; \n";
             fwrite($fichier, $ecrit);
             fclose($fichier);
         }
-
         return true;
     }
 
+    public function updateAll(User $user){
+        // Requête d'update dans la base de données pour le nouvel utilisateur
+        $req = "UPDATE User SET types=:types, nom=:nom, prenom=:prenom, etablissement=:etablissement, nivEtude=:nivEtude, numTel=:numTel, mail=:mail, dateDeb=:dateDeb, dateFin=:dateFin, mdp=:mdp  WHERE idUser=:idUser";
+      
+        // Préparation de la requête
+        
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->bindValue(':types', $user->getType(), PDO::PARAM_STR);
+        $statement->bindValue(':nom', $user->getNom(), PDO::PARAM_STR);
+        $statement->bindValue(':prenom', $user->getPrenom(), PDO::PARAM_STR);
+        $statement->bindValue(':etablissement', $user->getEtablissement(), PDO::PARAM_STR);
+        $statement->bindValue(':nivEtude', $user->getNivEtude(), PDO::PARAM_STR);
+        $statement->bindValue(':numTel', $user->getNumTel(), PDO::PARAM_INT);
+        $statement->bindValue(':mail', $user->getMail(), PDO::PARAM_STR);
+        $statement->bindValue(':dateDeb', $user->getDateDeb(), PDO::PARAM_STR);
+        $statement->bindValue(':dateFin', $user->getDateFin(), PDO::PARAM_STR);
+        $statement->bindValue(':mdp', $user->getMdp(), PDO::PARAM_STR);
+        $statement->bindValue(':idUser', $user->getId(), PDO::PARAM_INT);
+        // Exécution de la requête
+        $statement->execute();
+        
+        
+        
+      
+        // On vérifie que tout s'est bien passé, sinon on lance une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification d'utilisateur a échoué.");
+        }
+      
+        return true;
+    }
 
     /*!
      *  \fn function changeNom($nom)

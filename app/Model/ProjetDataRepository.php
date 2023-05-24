@@ -131,28 +131,5 @@ class ProjetDataRepository{
         return $projets;
     }
 
-    /*!
-     *  \fn deleteProjet(int $id)
-     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
-     *  \version 0.1 Premier jet
-     *  \dateTue 23 2023 - 17:48:20
-     *  \brief fonction permettant de supprimer un projet en fonction de son id
-     *  \param $id int id correspondant au projet que l'on souhait supprimer
-     *  \return retourne tru si tout c'est bien passé 
-    */
-    public function deleteProjet(int $id){
-        //requête de suppression d'un data Challenge
-        $req = "DELETE FROM projetData WHERE idProjet = :id";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($req);
-        //exécution de la requête
-        $statement->execute(['id' => $id]);
-        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
-            throw new Exception("La requête de suppression d'un projet a échouée.");
-        }   
-        return true;
-    }
-
 
 }

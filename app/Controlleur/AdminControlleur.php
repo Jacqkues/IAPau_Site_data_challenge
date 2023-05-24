@@ -6,6 +6,7 @@ use jmvc\Controlleur;
 use jmvc\View;
 use Model\Entites\User;
 use Model\UserRepository;
+use Model\DataChallengeRepository;
 use AuthControlleur;
 use Lib\DatabaseConnection;
 
@@ -13,10 +14,12 @@ class AdminControlleur implements Controlleur
 {
 
     private $userRepo;
+    private $challengerepo;
 
     public function __construct()
     {
         $this->userRepo = new UserRepository(new DatabaseConnection());
+        $this->challengerepo = new DataChallengeRepository(new DatabaseConnection());
     }
     //ajout suppresion et modification d'un utilisateur
     public function addUser()
@@ -48,7 +51,23 @@ class AdminControlleur implements Controlleur
 
     public function updateUser()
     {
-
+        if (isset($_POST)) {
+            $user = new User();
+            $user->setId($_POST['id']);
+            $user->setNom($_POST['nom']);
+            $user->setPrenom($_POST['prenom']);
+            $user->setMail($_POST['mail']);
+            $user->setMdp(password_hash($_POST['nom'], PASSWORD_DEFAULT));
+            $user->setType($_POST['type']);
+            $user->setEtablissement($_POST['etablissement']);
+            $user->setNivEtude($_POST['nivEtude']);
+            $user->setNumTel($_POST['numTel']);
+            $user->setDateDeb($_POST['dateDeb']);
+            $user->setDateFin($_POST['dateFin']);
+            $this->userRepo->updateAll($user);
+            header('Location: /admin?onglet=Manage User');
+        }
+     
     }
 
     //ajout suppression et modification d'un Data Challenge
@@ -101,6 +120,8 @@ class AdminControlleur implements Controlleur
 
         if (isset($_GET['form'])) {
             $page = "./vue/components/admin/form.php";
+        }else if(isset($_GET['config'])){
+            $page = "./vue/components/admin/challenge.config.php";
         }
 
         $content = new View($page);
@@ -108,10 +129,15 @@ class AdminControlleur implements Controlleur
         if (isset($_GET['form']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("user", $this->userRepo->getUser($id));
+        }else if(isset($_GET['config']) && isset($_GET['id'])){
+            $id = $_GET['id'];
+            $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
         }
 
         if ($ongletcourant == "Manage User") {
             $content->assign("users", $this->userRepo->getUsers());
+        }else if($ongletcourant == "Manage Data Challenge"){
+            $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
         }
 
         $content = $content->render();

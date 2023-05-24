@@ -30,13 +30,9 @@ class AuthControlleur implements Controlleur
             //echo $e->getMessage();
         }
         if ($user != null) {
-            /* if (password_verify($mdp, $user->getMdp())) {
-                 $_SESSION['user'] = $user;
-                 return true;
-             }*/
-            if ($mdp == $user->getMdp()) {
+            if(password_verify($mdp, $user->getMdp())){
                 $_SESSION['user'] = $user;
-                if ($user->getType() == "admin") {
+                if($user->getType() == "admin"){
                     header('Location: /admin');
                     exit();
                 } else if ($user->getType() == "gestionnaire") {
