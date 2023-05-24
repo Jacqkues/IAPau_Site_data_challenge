@@ -35,7 +35,7 @@ class DataBattleRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête de récupération du data Battle a échouée.");
         }
         //récupération des informations
@@ -67,7 +67,7 @@ class DataBattleRepository{
         //exécution de la requête
         $statement->execute(['debut' => $debut, 'fin' => $fin]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout dun data Challenge a échouée.");
         }   
         return true;
@@ -101,5 +101,28 @@ class DataBattleRepository{
             $battles[] = $battle;
         }
         return $battles;
+    }
+
+    /*!
+     *  \fn deleteBattle(int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateTue 23 2023 - 17:36:54
+     *  \brief fonction permettant de supprimer une data Battle via son id
+     *  \param $id int correspondant à l'id de la data Battle que l'on souhaite supprimer
+     *  \return retourne true si tout c'est bien passé 
+    */
+    public function deleteBattle(int $id){
+        //requête de suppression d'un data Battle
+        $req = "DELETE FROM dataBattle WHERE idBattle = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de suppression d'une battle a échouée.");
+        }   
+        return true;
     }
 }

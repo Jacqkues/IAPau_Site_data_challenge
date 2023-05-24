@@ -126,7 +126,7 @@ class UserRepository {
         //exécution de la requête
         $statement->execute(['types' => $type, 'nom' => $nom, 'prenom' => $prenom, 'etablissement' => $etab, 'nivEtude' => $nivEtude, "numTel" => $numTel, "mail" => $mail, "dateDeb" => $dateDeb, "dateFin" => $dateFin, 'mdp' => $mdp]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout d'utilisateur a échouée.");
         }
         //Si l'utilisateur est un administrateur alors on l'écit dans le fichier data      
@@ -306,6 +306,29 @@ class UserRepository {
         if($statement == NULL){
             throw new Exception("La requête de modification du mot de passe de l'utilisateur a échouée.");
         }
+        return true;
+    }
+
+    /*!
+     *  \fn deleteUser(int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateTue 23 2023 - 17:50:41
+     *  \brief fonction permettant de supprimer un utilisateur en onction de son id
+     *  \param $id int correspondant à l'id de l'utilisateur
+     *  \return true si tout c'ets bien passé 
+    */
+    public function deleteUser(int $id){
+        //requête de suppression d'un data Challenge
+        $req = "DELETE FROM User WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de suppression d'un utilisateur a échouée.");
+        }   
         return true;
     }
 }

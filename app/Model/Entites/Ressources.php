@@ -6,6 +6,7 @@ class Ressources{
     protected int $id;
     protected string $nom;
     protected string $lien;
+    protected string $types;
 
     public function getId(): int {
         return $this->id;
@@ -29,5 +30,12 @@ class Ressources{
 
     public function setLien(string $lien): void {
         $this->lien = $lien;
+    }
+    public function getTypes() : string{
+        return $this->types;
+    }
+
+    public function setTypes(string $type): void{
+        $this->types = $type;
     }
 }

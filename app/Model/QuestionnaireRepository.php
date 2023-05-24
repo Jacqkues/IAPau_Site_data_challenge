@@ -33,7 +33,7 @@ class QuestionnaireRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête de récupération du questionnaire a échouée.");
         }
         //récupération des informations
@@ -72,7 +72,7 @@ class QuestionnaireRepository{
         //exécution de la requête
         $statement->execute(['question' => $question,'reponse' => $reponse ,'debut' => $debut, 'fin' => $fin, 'lien' => $lien, 'idBattle' => $idBattle]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout d'un questionnaire a échouée.");
         }   
         return true;
@@ -95,7 +95,7 @@ class QuestionnaireRepository{
         //exécution de la requête
         $statement->execute();
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout de questionnaire a échouée.");
         }
         //récupération du résultat
@@ -116,4 +116,39 @@ class QuestionnaireRepository{
         return $questionnaires;
     }
 
+
+    /*!
+     *  \fn addQuestRep(string $question, string $reponse, int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateTue 23 2023 - 15:28:40
+     *  \brief fonction permettant de rajouter une question et sa réponse dnas le questionnaire
+     *  \param $question string correspondant à la question que l'on veut rajouter
+     *  \param $reponse string correspondant à la réponse de la nouvelle question
+     *  \param $id int correspondant au questionnaire que l'on souhaite modifier
+     *  \return true quand tout se passe bien
+    */
+    public function addQuestRep(string $question, string $reponse, int $id): bool{
+        //requête d'insertion dans la bdd d'un nouveau data Challenge
+        $req = "UPDATE Questionnaire SET question = :question WHERE idQuestionnaire = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['question' => $question,'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête d'ajout d'une question a échouée.");
+        }
+        //requête d'insertion dans la bdd d'un nouveau data Challenge
+        $req = "UPDATE Questionnaire SET reponse = :reponse WHERE idQuestionnaire = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['reponse' => $reponse,'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête d'ajout d'une reponse a échouée.");
+        }   
+        return true;
+    }
 }

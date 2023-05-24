@@ -33,7 +33,7 @@ class DataChallengeRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if($statement->rowCount() === 0){
             throw new Exception("La requête de récupération du data Challenge a échouée.");
         }
         //récupération des informations
@@ -67,8 +67,8 @@ class DataChallengeRepository{
         //exécution de la requête
         $statement->execute(['libelle' => $libelle, 'debut' => $debut, 'fin' => $fin]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
-            throw new Exception("La requête d'ajout d'équipe a échouée.");
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête d'ajout de data Challenge a échouée.");
         }   
         return true;
     }
@@ -101,6 +101,29 @@ class DataChallengeRepository{
             $challenges[] = $challenge;
         }
         return $challenges;
+    }
+
+    /*!
+     *  \fn deleteChallenge(int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateTue 23 2023 - 17:33:20
+     *  \brief fonction permettant de supprimer un challenge via son id
+     *  \param $id int qui correspond à l'id du challenge que l'on souhaite supprimer
+     *  \return tretourne rue si tout c'est bien passé
+    */
+    public function deleteChallenge(int $id){
+        //requête de suppression d'un data Challenge
+        $req = "DELETE FROM dataChallenge WHERE idChallenge = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de suppression d'un challenge a échouée.");
+        }   
+        return true;
     }
 
 }
