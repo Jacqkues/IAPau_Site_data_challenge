@@ -60,13 +60,13 @@ class ProjetDataRepository{
      *  \param $lienImg string représentant le lien de l'image permettant d'illuster le projet
      *  \param $libelle string correspondant au libelle du Projet
     */
-    public function addProjet(int $idChallenge, string $descrip, string $lienImg, string $libelle) : bool{
+    public function addProjet(projetData $projet) : bool{
         //requête d'insertion dans la bdd d'un nouveau data Projet
         $req = "INSERT INTO projetData (idChallenge,descrip,lienImg,libelleData) VALUES ( :idChallenge, :descrip, :lienImg, :libelle)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['idChallenge' => $idChallenge, 'descrip' => $descrip, 'lienImg' => $lienImg, 'libelle' => $libelle]);
+        $statement->execute(['idChallenge' => $projet->getIdDataChallenge() , 'descrip' => $projet->getDescription(), 'lienImg' => $projet->getLienImg(), 'libelle' => $projet->getLibelle()]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout d'équipe a échouée.");
@@ -131,5 +131,18 @@ class ProjetDataRepository{
         return $projets;
     }
 
+    public function deleteProjet(int $id){
+        //requête SQL
+        $sql = "DELETE FROM projetData WHERE idProjet = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de suppression du projet a échouée.");
+        }   
+        return true;
+    }
 
 }

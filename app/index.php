@@ -60,6 +60,10 @@ $deleteUser = new ProtectedRoute("/admin/deleteUser",$adminControlleur,"deleteUs
 $addUser = new ProtectedRoute("/admin/addUser",$adminControlleur,"addUser",$adminGuard);
 $updateUser = new ProtectedRoute("/admin/updateUser",$adminControlleur,"updateUser",$adminGuard);
 $publierMessage = new ProtectedRoute("/publierMessage", $messageControlleur, "publierMessage", $adminGuard);
+$addChallenge = new ProtectedRoute("/admin/addChallenge",$adminControlleur,"addDataChallenge",$adminGuard);
+$addProjet = new ProtectedRoute("/admin/addProjet",$adminControlleur,"addProjet",$adminGuard);
+$deleteProjet = new ProtectedRoute("/admin/deleteProjet",$adminControlleur,"deleteProjet",$adminGuard);
+$deleteChallenge = new ProtectedRoute("/admin/deleteChallenge",$adminControlleur,"deleteDataChallenge",$adminGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -74,6 +78,11 @@ $router->addRoute($deleteUser);
 $router->addRoute($addUser);
 $router->addRoute($updateUser);
 $router->addRoute(($publierMessage));
+$router->addRoute($addChallenge);
+$router->addRoute($addProjet);
+$router->addRoute($deleteProjet);
+$router->addRoute($deleteChallenge);
+
 
 echo "<script src='./index.js'></script>";
 $router->handleRequest();

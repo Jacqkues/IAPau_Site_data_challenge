@@ -16,6 +16,7 @@ class UserRepository {
         $this->database = $database;
     }
 
+   
     public function getUser(int $id): User {
         //requête SQL
         $sql = "SELECT * FROM User WHERE idUser = :id";

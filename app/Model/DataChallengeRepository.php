@@ -3,6 +3,7 @@
 namespace Model;
 use Lib\DatabaseConnection;
 use Model\Entites\dataChallenge;
+use Model\Entites\projetData;
 use Exception;
 
 class DataChallengeRepository{
@@ -59,15 +60,15 @@ class DataChallengeRepository{
      *  \param $fin string correspondant ) la date de fin
      *  \return true si tout se passe bien
     */
-    public function addChallenge(string $libelle, string $debut, string $fin){
+    public function addChallenge(dataChallenge $challenge){
         //requête d'insertion dans la bdd d'un nouveau data Challenge
         $req = "INSERT INTO dataChallenge (libelle,tempsDebut,tempsFin) VALUES ( :libelle, :debut, :fin)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['libelle' => $libelle, 'debut' => $debut, 'fin' => $fin]);
+        $statement->execute(['libelle' => $challenge->getLibelle(), 'debut' => $challenge->getTempsDebut(), 'fin' => $challenge->getTempsFin()]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if($statement == NULL){
             throw new Exception("La requête d'ajout de data Challenge a échouée.");
         }   
         return true;
@@ -124,6 +125,33 @@ class DataChallengeRepository{
             throw new Exception("La requête de suppression d'un challenge a échouée.");
         }   
         return true;
+    }
+
+    public function getProjets(int $id){
+        //requête sql
+        $req = "SELECT * FROM projetData WHERE idChallenge= :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("Aucun projet pour ce datachallenge");
+        }
+        //récupération des informations
+        $rows = $statement->fetchAll();
+        //création d'un objet Equipe
+        $projets = [];
+        foreach ($rows as $row) {
+            $projet = new projetData();
+            $projet->setIdProjet($row['idProjet']);
+            $projet->setLibelle($row['libelleData']);
+            $projet->setDescription($row['descrip']);
+            $projet->setIdDataChallenge($row['idChallenge']);
+            $projet->setLienImg($row['lienImg']);
+            $projets[] = $projet;
+        }
+        return $projets;
     }
 
 }

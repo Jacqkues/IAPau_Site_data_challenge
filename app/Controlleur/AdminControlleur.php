@@ -6,8 +6,11 @@ use jmvc\Controlleur;
 use jmvc\View;
 use Model\Entites\User;
 use Model\MessagerieRepository;
+use Model\Entites\projetData;
 use Model\UserRepository;
 use Model\DataChallengeRepository;
+use Model\ProjetDataRepository;
+use Model\Entites\dataChallenge;
 use AuthControlleur;
 use Lib\DatabaseConnection;
 
@@ -18,10 +21,15 @@ class AdminControlleur implements Controlleur
     private $challengerepo;
     private $messagerierepo;
 
+    private $projetRepo;
+
+    
+
     public function __construct()
     {
         $this->userRepo = new UserRepository(new DatabaseConnection());
         $this->challengerepo = new DataChallengeRepository(new DatabaseConnection());
+        $this->projetRepo = new ProjetDataRepository(new DatabaseConnection());
         $this->messagerierepo = new MessagerieRepository(new DatabaseConnection());
     }
 
@@ -74,16 +82,42 @@ class AdminControlleur implements Controlleur
 
     }
 
+    public function addProjet(){
+        if(isset($_POST)){
+            $projet = new projetData();
+            $projet->setLibelle($_POST['titre']);
+            $projet->setDescription($_POST['description']);
+            $projet->setLienImg($_POST['lienimg']);
+            $projet->setIdDataChallenge($_POST['id']);
+            $this->projetRepo->addProjet($projet);
+            header('Location: /admin?config&id='.$_POST['id']);
+        }
+    }
+
+    public function deleteProjet(){
+        $projetId = $_GET['id'];
+        $this->projetRepo->deleteProjet($projetId);
+        header('Location: /admin?config&id='.$_GET['idChallenge']);
+    }
     //ajout suppression et modification d'un Data Challenge
 
     public function addDataChallenge()
     {
-
+        if(isset($_POST)){
+            $challenge = new dataChallenge();
+            $challenge->setLibelle($_POST['titre']);
+            $challenge->setTempsDebut($_POST['debut']);
+            $challenge->setTempsFin($_POST['fin']);
+            $this->challengerepo->addChallenge($challenge);
+            header('Location: /admin?onglet=Manage Data Challenge');
+        }
     }
 
     public function deleteDataChallenge()
     {
-
+        $id = $_GET['id'];
+        $this->challengerepo->deleteChallenge($id);
+        header('Location: /admin?onglet=Manage Data Challenge');
     }
 
     public function updateDataChallenge()
@@ -123,9 +157,20 @@ class AdminControlleur implements Controlleur
         $page = $fonctionnalite[$ongletcourant];
 
         if (isset($_GET['form'])) {
+
             $page = "./vue/components/admin/form.php";
         } else if (isset($_GET['config'])) {
+
             $page = "./vue/components/admin/challenge.config.php";
+            $ongletcourant = "Manage Data Challenge";
+        }else if(isset($_GET['addP'])){
+
+            $page = "./vue/components/admin/projet.ajout.php";
+            $ongletcourant = "Manage Data Challenge";
+        }else if(isset($_GET["newData"])){
+
+            $page = "./vue/components/admin/challenge.ajout.php";
+            $ongletcourant = "Manage Data Challenge";
         }
 
         $content = new View($page);
@@ -135,6 +180,15 @@ class AdminControlleur implements Controlleur
             $id = $_GET['id'];
             $content->assign("user", $this->userRepo->getUser($id));
         } else if (isset($_GET['config']) && isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
+            try{
+                $content->assign("projets", $this->challengerepo->getProjets($id));
+            }catch (\Exception $e){
+                $content->assign("projets", null);
+            }
+            
+        }if(isset($_GET['addP']) && isset($_GET['id'])){
             $id = $_GET['id'];
             $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
         }

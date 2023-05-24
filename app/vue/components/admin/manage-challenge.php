@@ -4,14 +4,14 @@
     <link rel="stylesheet" href="./vue/components/admin/admin.css">
     <div class="manage-header">
         <h1>Data Challenge</h1>
-        <a class="bouton" href="/admin?form">+ ajouter</a>
+        <a class="bouton" href="/admin?newData">+ ajouter</a>
     </div>
     
 
     <div class="list-container">
         <div class="list-header user-info">
-            <span>Libelle</span>
-            <span>Debut</span>
+            <span>Titre</span>
+            <span>Description</span>
             <span>Fin</span>
         </div>
     

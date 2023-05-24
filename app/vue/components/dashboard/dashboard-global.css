@@ -1,71 +1,64 @@
-h1 {
-  color: black;
-}
-
-h2 {
-  font-weight: normal;
-}
-
-article {
-  top: 5vw;
-  position: relative;
-  width: 100%;
-  min-height: calc(100vh - 5vw);
-
-  display: flex;
-  color: black;
-
-  z-index: 999;
+article{
+    min-height: 100vh;
+    
+    color: black;
+    width:100%;
+    display: flex;
 }
 
 article section {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  z-index: 999;
 }
 
-article section:first-of-type {
-  row-gap: 5vw;
-
-  width: 20%;
-  padding: 2vw 2vw 2vw calc(4vw - .5vw);
-
-  box-shadow: 1px 10px 5px #031926;
+article section:first-of-type{
+    width: 300px;
+    background-color: rgb(233, 233, 233);
+    padding-top: 20px;
 }
 
-article section:first-of-type .utilisateur {
-  padding-left: calc(2px + .5vw);
+.content-container{
+    margin-top: 8vw;
+    
+    margin-left: 2vw;
 }
 
-article section:first-of-type .utilisateur p {
-  font-weight: lighter;
+.mtop{
+    margin-top: 6vw;
+    
+}
+.onglets{
+    margin-top: 5vw;
+    display: flex;
+    flex-direction: column;
+}
+.onglet{
+    color:black;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: all .3s;
+}
+.onglet:hover{
+    background-color: rgb(209, 209, 209);
+}
+.utilisateur{
+    
+    margin-left: 2vw;
+    margin-top: 2vw;
 }
 
-article section:first-of-type .onglets {
-  display: flex;
-  flex-direction: column;
-  row-gap: 1vw;
-
-  height: 100%;
+.onglet-active{
+    color:black;
+    font-weight: bold;
+    padding: 10px 20px;
+    
+    background-color: rgb(209, 209, 209);
 }
-
-.onglet {
-  color: black !important;
-  padding: .75vw .5vw;
-}
-
-.onglet:hover {
-  text-decoration: underline;
-}
-
-section:last-of-type {
-  max-width: 80%;
-  padding: 10vw;
-}
-
-.content-container {
-  width: 80%;
-  margin-left: 2em;
-  padding: 1em;
+.logo{
+    padding:2vw;
+    position: absolute;
+    top:0;
+    left:0;
+    color:#4ab6bcb3
 }

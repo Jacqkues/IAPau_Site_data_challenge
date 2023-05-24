@@ -85,17 +85,17 @@ header {
   z-index: 999;
 }
 
-header .logo {
+ .logo {
   display: flex;
   align-items: center;
   gap: 1vw;
 }
 
-header .logo img {
+.logo img {
   width: 3vw;
 }
 
-header .logo h1 {
+.logo h1 {
   font-size: 1.5vw;
   font-weight: normal;
 }
