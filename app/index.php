@@ -1,4 +1,5 @@
 <?php
+use Controlleur\MessageControlleur;
 spl_autoload_register(function ($class) {
     // Define the base directory for your classes
     $baseDir = __DIR__ . '/';
@@ -37,6 +38,7 @@ $authController = new AuthControlleur();
 $adminControlleur = new AdminControlleur();
 $gestionnaireControlleur = new GestionnaireControlleur();
 $userControlleur = new UserControlleur();
+$messageControlleur = new MessageControlleur();
 
 //gardes 
 $adminGuard = new AuthGuard($authController,"isAdmin");
@@ -47,7 +49,7 @@ $userGuard = new AuthGuard($authController,"isLogged");
 $loginPage = new Route("/login",$authController,"index");
 $mainPage = new Route("/",$mainControlleur,"index");
 $loginHandler = new Route("/trylogin",$authController,"login");
-$loginHandler = new Route("/tryRegister",$authController,"register");
+$registerHandler = new Route("/tryregister",$authController,"register");
 $logout = new Route("/logout",$authController,"logout");
 
 //les pages protegees
@@ -57,11 +59,13 @@ $userPage = new ProtectedRoute("/user",$userControlleur,"index",$userGuard);
 $deleteUser = new ProtectedRoute("/admin/deleteUser",$adminControlleur,"deleteUser",$adminGuard);
 $addUser = new ProtectedRoute("/admin/addUser",$adminControlleur,"addUser",$adminGuard);
 $updateUser = new ProtectedRoute("/admin/updateUser",$adminControlleur,"updateUser",$adminGuard);
+$publierMessage = new ProtectedRoute("/publierMessage", $messageControlleur, "publierMessage", $adminGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
 $router->addRoute($mainPage);
 $router->addRoute($loginHandler);
+$router->addRoute($registerHandler);
 $router->addRoute($adminDashboard);
 $router->addRoute($gestionnaireDashboard);
 $router->addRoute($userPage);
@@ -69,6 +73,7 @@ $router->addRoute($logout);
 $router->addRoute($deleteUser);
 $router->addRoute($addUser);
 $router->addRoute($updateUser);
+$router->addRoute(($publierMessage));
 
 echo "<script src='./index.js'></script>";
 $router->handleRequest();

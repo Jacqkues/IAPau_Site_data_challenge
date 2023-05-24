@@ -16,14 +16,6 @@ class UserRepository {
         $this->database = $database;
     }
 
-    public function deleteUser(int $id){
-        //requête SQL
-        $sql = "DELETE FROM User WHERE idUser = :id";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($sql);
-        //exécution de la requête
-        $statement->execute(['id' => $id]);
-    }
     public function getUser(int $id): User {
         //requête SQL
         $sql = "SELECT * FROM User WHERE idUser = :id";

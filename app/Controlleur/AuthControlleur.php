@@ -29,9 +29,9 @@ class AuthControlleur implements Controlleur
             $loginPage->show();
         }
         if ($user != null) {
-            if(password_verify($mdp, $user->getMdp())){
+            if (password_verify($mdp, $user->getMdp())) {
                 $_SESSION['user'] = $user;
-                if($user->getType() == "admin"){
+                if ($user->getType() == "admin") {
                     header('Location: /admin');
                     exit();
                 } else if ($user->getType() == "gestionnaire") {
@@ -100,7 +100,14 @@ class AuthControlleur implements Controlleur
 
     public function register()
     {
-        if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['etablissement']) && isset($_POST['niv_etudes'])) {
+        if (
+            isset($_POST['nom'])
+            && isset($_POST['prenom'])
+            && isset($_POST['email'])
+            && isset($_POST['mdp'])
+            && isset($_POST['etablissement'])
+            && isset($_POST['niv_etudes'])
+        ) {
             $error = "Veuillez remplir tous les champs";
             $loginPage = new View("./vue/components/signin-login/signin-login.php");
             $loginPage->assign("error", $error);
@@ -108,7 +115,18 @@ class AuthControlleur implements Controlleur
         }
 
         $userRepo = new UserRepository(new DatabaseConnection());
-        $user = new User($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['mdp'], $_POST['etablissement'], $_POST['niv_etudes']);
+        $user = new User();
+        $user->setNom($_POST['nom']);
+        $user->setPrenom($_POST['prenom']);
+        $user->setMail($_POST['email']);
+        $user->setMdp(password_hash($_POST['mdp'], PASSWORD_DEFAULT));
+        $user->setEtablissement($_POST['etablissement']);
+        $user->setNivEtude($_POST['niv_etudes']);
+        $user->setDateDeb(date("Y-m-d"));
+        $user->setDateFin(date("Y-m-d", strtotime("+5 year")));
+        $user->setType("user");
+        $user->setNumTel(0);
+
         $userRepo->addUser($user);
         $this->login();
     }
@@ -116,10 +134,6 @@ class AuthControlleur implements Controlleur
 
     public function index()
     {
-        if (isset($_SESSION['user'])) {
-            header('Location: /');
-            exit();
-        }
         $loginPage = new View("./vue/components/signin-login/signin-login.php");
         $loginPage->show();
     }

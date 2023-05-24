@@ -50,6 +50,7 @@ class MessagerieRepository
         $message->setContenu($row['contenu']);
         $message->setDateEnvoi($row['dateEnvoi']);
         $message->setCategorie($row['categorie']);
+        $message->setObjet($row['objet']);
         return $message;
     }
 
@@ -67,14 +68,14 @@ class MessagerieRepository
      *  \param $categorie string correspondant aux destiantaires du message (dataChallenge, Projet, dataBattle...)
      *  \return retourne true si tout se passe bien  
      */
-    public function addMessage(int $idAuteur, string $types, string $contenu, string $dataEnvoi, string $categorie): bool
+    public function addMessage(int $idAuteur, string $types, string $objet, string $contenu, string $dataEnvoi, string $categorie): bool
     {
         //requête d'insertion dans la bdd d'une nouvelle ressource
-        $req = "INSERT INTO Messagerie (auteur, types, contenu, dateEnvoi, categorie) VALUES ( :idAuteur, :types, :contenu, :dateEnvoie, :categorie)";
+        $req = "INSERT INTO Messagerie (auteur, types, contenu, dateEnvoi, objet, categorie) VALUES ( :idAuteur, :types, :contenu, :dateEnvoi, :objet, :categorie)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['auteur' => $idAuteur, 'types' => $types, 'contenu' => $contenu, "dateEnvoie" => $dataEnvoi, "categorie" => $categorie]);
+        $statement->execute(['auteur' => $idAuteur, 'types' => $types, 'contenu' => $contenu, "dateEnvoi" => $dataEnvoi, "objet"->$objet, "categorie" => $categorie]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if ($statement->rowCount() === 0) {
             throw new Exception("La requête d'ajout d'un message a échouée.");
@@ -116,6 +117,7 @@ class MessagerieRepository
             $message->setContenu($row['contenu']);
             $message->setDateEnvoi($row['dateEnvoi']);
             $message->setCategorie($row['categorie']);
+            $message->setObjet($row['objet']);
             $messages[] = $message;
         }
         return $messages;
@@ -151,6 +153,7 @@ class MessagerieRepository
             $message->setContenu($row['contenu']);
             $message->setDateEnvoi($row['dateEnvoi']);
             $message->setCategorie($row['categorie']);
+            $message->setObjet($row['objet']);
             $messages[] = $message;
         }
         return $messages;
@@ -217,6 +220,7 @@ class MessagerieRepository
             $message->setContenu($row['contenu']);
             $message->setDateEnvoi($row['dateEnvoi']);
             $message->setCategorie($row['categorie']);
+            $message->setObjet($row['objet']);
             $messages[] = $message;
         }
         return $messages;

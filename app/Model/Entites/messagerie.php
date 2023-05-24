@@ -1,49 +1,71 @@
 <?php
 namespace Model\Entites;
 
-class messagerie{
+class messagerie
+{
     protected int $idMessagerie;
     protected int $idAuteur;
     protected string $types;
     protected string $contenu;
     protected string $dateEnvoi;
     protected string $categorie = "GENERAL";
+    protected string $objet;
 
-    public function getIdMessagerie() : int{
+    public function getIdMessagerie(): int
+    {
         return $this->idMessagerie;
     }
-    public function setIdMessagerie(int $idMessagerie) : void{
+    public function setIdMessagerie(int $idMessagerie): void
+    {
         $this->idMessagerie = $idMessagerie;
     }
 
-    public function getIdAuteur() : int{
+    public function getIdAuteur(): int
+    {
         return $this->idAuteur;
     }
-    public function setIdAuteur(int $idAuteur) : void{
+    public function setIdAuteur(int $idAuteur): void
+    {
         $this->idAuteur = $idAuteur;
     }
-    public function getTypes() : string{
+    public function getTypes(): string
+    {
         return $this->types;
     }
-    public function setTypes(string $types) : void{
+    public function setTypes(string $types): void
+    {
         $this->types = $types;
     }
-    public function getContenu() : string{
+    public function getContenu(): string
+    {
         return $this->contenu;
     }
-    public function setContenu(string $contenu) : void{
+    public function getObjet(): string
+    {
+        return $this->objet;
+    }
+    public function setContenu(string $contenu): void
+    {
         $this->contenu = $contenu;
     }
-    public function getDateEnvoi() : string{
+    public function getDateEnvoi(): string
+    {
         return $this->dateEnvoi;
     }
-    public function setDateEnvoi(string $dataEnvoi) : void{
+    public function setDateEnvoi(string $dataEnvoi): void
+    {
         $this->dateEnvoi = $dataEnvoi;
     }
-    public function getCategorie() : string{
+    public function getCategorie(): string
+    {
         return $this->categorie;
     }
-    public function setCategorie(string $categorie) : void{
+    public function setCategorie(string $categorie): void
+    {
         $this->categorie = $categorie;
+    }
+    public function setObjet(string $objet): void
+    {
+        $this->objet = $objet;
     }
 }

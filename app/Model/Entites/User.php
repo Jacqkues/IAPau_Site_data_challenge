@@ -1,6 +1,6 @@
 <?php
 namespace Model\Entites;
-date_default_timezone_set('UTC+2');
+date_default_timezone_set('UTC');
 
 class User
 {
@@ -15,17 +15,6 @@ class User
     protected string $dateDeb;
     protected string $dateFin;
     protected string $mdp;
-
-    public function __construct(string $nom, string $prenom, string $mail, string $mdp, string $etablissement, string $nivEtude) {
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->mail = $mail;
-        $this->mdp = password_hash($mdp, PASSWORD_DEFAULT);
-        $this->etablissement = $etablissement;
-        $this->nivEtude = $nivEtude;
-        $this->dateDeb = date("Y-m-d");
-        $this->dateFin = date("Y-m-d", strtotime("+5 year"));
-    }
 
     public function getId(): int
     {

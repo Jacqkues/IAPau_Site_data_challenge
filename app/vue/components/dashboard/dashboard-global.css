@@ -13,14 +13,16 @@ article {
   min-height: calc(100vh - 5vw);
 
   display: flex;
-
   color: black;
+
+  z-index: 999;
 }
 
 article section {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  z-index: 999;
 }
 
 article section:first-of-type {
@@ -57,13 +59,13 @@ article section:first-of-type .onglets {
   text-decoration: underline;
 }
 
-
 section:last-of-type {
   max-width: 80%;
   padding: 10vw;
 }
 
-.content-container{
-  margin-left:2em;
+.content-container {
+  width: 80%;
+  margin-left: 2em;
   padding: 1em;
 }

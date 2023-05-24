@@ -1,41 +1,42 @@
-article {
+
+.safe-zone {
   position: relative;
   width: 100%;
+
+  background: red;
 
   display: flex;
   flex-direction: column;
   row-gap: 2vw;
 
-  padding: var(--PADDING);
   color: black;
 }
 
-article .message {
+.safe-zone .message {
   display: flex;
   flex-direction: column;
   row-gap: 1vw;
 }
 
-article .message .en-tete .date-auteur {
+.safe-zone .message .en-tete .date-auteur {
   font-weight: lighter;
   font-size: 1.25vw;
 }
 
-article .message .en-tete h2 {
+.safe-zone .message .en-tete h2 {
   font-weight: normal;
   font-size: 1.75vw;
 }
 
-article .message .contenu {
+.safe-zone .message .contenu {
   font-size: 1vw;
 }
 
-
-article form {
+.safe-zone form {
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  right: 2vw;
+  width: calc(80% - 4vw);
   padding: inherit;
 
   display: flex;
@@ -43,24 +44,24 @@ article form {
   column-gap: 2vw;
 }
 
-article form .champs {
+.safe-zone form .champs {
   display: flex;
   flex-direction: column;
 
   width: 100%;
 }
 
-article form .champs .haut {
+.safe-zone form .champs .haut {
   display: flex;
 }
 
-article form .champs .haut input {
+.safe-zone form .champs .haut input {
   width: 100%;
   border-bottom: none;
   border-right: none;
 }
 
-article form .bas {
+.safe-zone form .bas {
   border-top: none;
 }
 

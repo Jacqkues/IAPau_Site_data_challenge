@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <title>Data Challenge · Connexion</title>
-    <link rel="stylesheet" href="./vue/components/login/login.css">
+    <link rel="stylesheet" href="./vue/components/signin-login/signin-login.css">
     <link rel="stylesheet" href="./vue/global-components.css">
   </head>
   <body>

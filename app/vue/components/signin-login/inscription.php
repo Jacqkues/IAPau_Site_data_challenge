@@ -7,14 +7,14 @@
   </head>
   <body>
     <h2>Inscription</h2>
-    <form action="/tryRegister" method="post">
+    <form action="/tryregister" method="post">
       <input class="bouton-input-text" type="text" name="prenom" placeholder="Votre prénom" required>
       <input class="bouton-input-text" type="text" name="nom" placeholder="Votre nom" required>
       <input class="bouton-input-text" type="email" name="email" placeholder="Votre email" required>
       <input class="bouton-input-text" type="password" name="mdp" placeholder="Votre mot de passe" required>
       <div class="cursus">
         <input class="bouton-input-text" name="etablissement" type="text" placeholder="Établissement">
-        <select name="niv_etudes" id="niv-etudes" class="bouton-input-text">
+        <select name="niv_etudes" class="bouton-input-text">
           <option value="">Niveau d'études</option>
           <option value="L1">L1</option>
           <option value="L2">L2</option>

@@ -5,6 +5,7 @@ namespace Controlleur;
 use jmvc\Controlleur;
 use jmvc\View;
 use Model\Entites\User;
+use Model\MessagerieRepository;
 use Model\UserRepository;
 use Model\DataChallengeRepository;
 use AuthControlleur;
@@ -15,12 +16,15 @@ class AdminControlleur implements Controlleur
 
     private $userRepo;
     private $challengerepo;
+    private $messagerierepo;
 
     public function __construct()
     {
         $this->userRepo = new UserRepository(new DatabaseConnection());
         $this->challengerepo = new DataChallengeRepository(new DatabaseConnection());
+        $this->messagerierepo = new MessagerieRepository(new DatabaseConnection());
     }
+
     //ajout suppresion et modification d'un utilisateur
     public function addUser()
     {
@@ -67,7 +71,7 @@ class AdminControlleur implements Controlleur
             $this->userRepo->updateAll($user);
             header('Location: /admin?onglet=Manage User');
         }
-     
+
     }
 
     //ajout suppression et modification d'un Data Challenge
@@ -120,24 +124,33 @@ class AdminControlleur implements Controlleur
 
         if (isset($_GET['form'])) {
             $page = "./vue/components/admin/form.php";
-        }else if(isset($_GET['config'])){
+        } else if (isset($_GET['config'])) {
             $page = "./vue/components/admin/challenge.config.php";
         }
 
         $content = new View($page);
-
+        $content->assign('type', $type);
+        
         if (isset($_GET['form']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("user", $this->userRepo->getUser($id));
-        }else if(isset($_GET['config']) && isset($_GET['id'])){
+        } else if (isset($_GET['config']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
         }
 
-        if ($ongletcourant == "Manage User") {
-            $content->assign("users", $this->userRepo->getUsers());
-        }else if($ongletcourant == "Manage Data Challenge"){
-            $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
+        switch ($ongletcourant) {
+            case "Manage User":
+                $content->assign("users", $this->userRepo->getUsers());
+                break;
+            case "Manage Data Challenge":
+                $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
+                break;
+            case "Messagerie":
+                $content->assign("messages", $this->messagerierepo->getAllMessage());
+                break;
+            default:
+                break;
         }
 
         $content = $content->render();
