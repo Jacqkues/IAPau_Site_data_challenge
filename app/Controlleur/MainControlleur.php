@@ -13,7 +13,8 @@ class MainControlleur implements Controlleur
 {
 
     public function showdatachallenge(){
-
+        $descriptionChallenge = new View("./vue/components/description-challenge/description-challenge.php");
+        $descriptionChallenge->show();
     }
 
     public function showClassement(){

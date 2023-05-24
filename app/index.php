@@ -47,6 +47,7 @@ $userGuard = new AuthGuard($authController,"isLogged");
 $loginPage = new Route("/login",$authController,"index");
 $mainPage = new Route("/",$mainControlleur,"index");
 $loginHandler = new Route("/trylogin",$authController,"login");
+$loginHandler = new Route("/tryRegister",$authController,"register");
 $logout = new Route("/logout",$authController,"logout");
 
 //les pages protegees

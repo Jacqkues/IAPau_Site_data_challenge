@@ -27,7 +27,6 @@ class AuthControlleur implements Controlleur
             $loginPage = new View("./vue/components/signin-login/signin-login.php");
             $loginPage->assign("error", $error);
             $loginPage->show();
-            //echo $e->getMessage();
         }
         if ($user != null) {
             if(password_verify($mdp, $user->getMdp())){
@@ -98,6 +97,23 @@ class AuthControlleur implements Controlleur
         }
         return false;
     }
+
+    public function register()
+    {
+        if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['etablissement']) && isset($_POST['niv_etudes'])) {
+            $error = "Veuillez remplir tous les champs";
+            $loginPage = new View("./vue/components/signin-login/signin-login.php");
+            $loginPage->assign("error", $error);
+            $loginPage->show();
+        }
+
+        $userRepo = new UserRepository(new DatabaseConnection());
+        $user = new User($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['mdp'], $_POST['etablissement'], $_POST['niv_etudes']);
+        $userRepo->addUser($user);
+        $this->login();
+    }
+
+
     public function index()
     {
         if (isset($_SESSION['user'])) {
@@ -107,6 +123,4 @@ class AuthControlleur implements Controlleur
         $loginPage = new View("./vue/components/signin-login/signin-login.php");
         $loginPage->show();
     }
-
-
 }

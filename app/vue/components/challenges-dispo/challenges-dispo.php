@@ -9,22 +9,16 @@
         <div class="challenge">
           <img src="vue/assets/challenge.jpg" alt="challenge">
           <div class="challenge__desc">
-            <p class="date">17/05/2023</p>
             <h3>Titre data challenge</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique ut nisl ac blandit. Duis nec maximus tortor, eu tempus tortor. Duis eget malesuada eros.
-            </p>
+            <p class="date">17/05/2023 - 24/05/2023</p>
             <a href="" class="bouton">En savoir +</a>
           </div>
         </div>
         <div class="challenge">
           <img src="vue/assets/challenge.jpg" alt="challenge">
           <div class="challenge__desc">
-            <p class="date">17/05/2023</p>
             <h3>Titre data challenge</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique ut nisl ac blandit. Duis nec maximus tortor, eu tempus tortor. Duis eget malesuada eros.
-            </p>
+            <p class="date">17/05/2023 - 24/05/2023</p>
             <a href="" class="bouton">En savoir +</a>
           </div>
         </div>

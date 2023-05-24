@@ -4,6 +4,7 @@ namespace Controlleur;
 
 use jmvc\Controlleur;
 use jmvc\View;
+
 class UserControlleur implements Controlleur
 {
     public function index()
@@ -18,18 +19,18 @@ class UserControlleur implements Controlleur
           
        }
 
-       $content = new View($fonctionnalite[$ongletcourant]);
-       $content =  $content->render();
-      
+        $content = new View($fonctionnalite[$ongletcourant]);
+        $content = $content->render();
 
-         $dashboard = new View("./vue/components/dashboard/dashboard-global.php");
-         $dashboard->assign("title","Dashboard");
-         $dashboard->assign("type",$_SESSION['user']->getType());
-         $dashboard->assign("onglet_courant",$ongletcourant);
-         $dashboard->assign("onglets",array_keys($fonctionnalite));
-         $dashboard->assign("nom",$_SESSION['user']->getNom());
-         $dashboard->assign("prenom",$_SESSION['user']->getPrenom());
-         $dashboard->assign("content",$content);
+
+        $dashboard = new View("./vue/components/dashboard/dashboard-global.php");
+        $dashboard->assign("title", "Dashboard");
+        $dashboard->assign("type", $_SESSION['user']->getType());
+        $dashboard->assign("onglet_courant", $ongletcourant);
+        $dashboard->assign("onglets", array_keys($fonctionnalite));
+        $dashboard->assign("nom", $_SESSION['user']->getNom());
+        $dashboard->assign("prenom", $_SESSION['user']->getPrenom());
+        $dashboard->assign("content", $content);
 
         $dashboard->show();
     }
