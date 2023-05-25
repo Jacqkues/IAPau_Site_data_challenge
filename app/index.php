@@ -20,6 +20,7 @@ use Controlleur\MainControlleur;
 use Controlleur\AdminControlleur;
 use Controlleur\GestionnaireControlleur;
 use Controlleur\UserControlleur;
+use Controlleur\ChallengeDescControlleur;
 use jmvc\Router;
 use jmvc\Route;
 use jmvc\ProtectedRoute;
@@ -39,6 +40,7 @@ $adminControlleur = new AdminControlleur();
 $gestionnaireControlleur = new GestionnaireControlleur();
 $userControlleur = new UserControlleur();
 $messageControlleur = new MessageControlleur();
+$challengeDescController = new ChallengeDescControlleur();
 
 //gardes 
 $adminGuard = new AuthGuard($authController,"isAdmin");
@@ -51,6 +53,8 @@ $mainPage = new Route("/",$mainControlleur,"index");
 $loginHandler = new Route("/trylogin",$authController,"login");
 $registerHandler = new Route("/tryregister",$authController,"register");
 $logout = new Route("/logout",$authController,"logout");
+$challengeDesc = new Route("/dataChallenge",$challengeDescController,"index");
+
 
 //les pages protegees
 $adminDashboard = new ProtectedRoute("/admin",$adminControlleur,"index",$adminGuard);
@@ -79,11 +83,12 @@ $router->addRoute($logout);
 $router->addRoute($deleteUser);
 $router->addRoute($addUser);
 $router->addRoute($updateUser);
-$router->addRoute(($publierMessage));
+$router->addRoute($publierMessage);
 $router->addRoute($addChallenge);
 $router->addRoute($addProjet);
 $router->addRoute($deleteProjet);
 $router->addRoute($deleteChallenge);
+$router->addRoute($challengeDesc);
 $router->addRoute($addRessource);
 $router->addRoute($deleteRessource);
 

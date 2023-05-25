@@ -22,6 +22,6 @@
       <a href="/#challenges" class="bouton">Voir les challenges</a>
     </section>
 
-    <?php include "vue/components/challenges-dispo/challenges-dispo.php" ?>
+    <?= $challengesDispoPage ?>
   </body>
 </html>
