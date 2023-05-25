@@ -8,7 +8,7 @@
   <body>
     <h2>Inscription</h2>
     <form action="/tryregister" method="post">
-      <input class="bouton-input-text" type="text" name="prenom" placeholder="Votre prénom" required>
+      <input class="bouton-input-text" id="focus" type="text" name="prenom" placeholder="Votre prénom" required>
       <input class="bouton-input-text" type="text" name="nom" placeholder="Votre nom" required>
       <input class="bouton-input-text" type="email" name="email" placeholder="Votre email" required>
       <input class="bouton-input-text" type="password" name="mdp" placeholder="Votre mot de passe" required>

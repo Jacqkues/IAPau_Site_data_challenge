@@ -7,6 +7,7 @@
     <title>Data Challenge · Connexion</title>
     <link rel="stylesheet" href="./vue/components/signin-login/signin-login.css">
     <link rel="stylesheet" href="./vue/global-components.css">
+    <script src="vue/components/signin-login/signin-login.js" defer></script>
   </head>
   <body>
     <header>
