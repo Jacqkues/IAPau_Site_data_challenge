@@ -31,23 +31,15 @@ CREATE TABLE projetData(
     descrip VARCHAR(200),
     lienImg VARCHAR(200),
     libelleData VARCHAR(200),
-    FOREIGN KEY fk_idData(idChallenge) REFERENCES dataChallenge(idChallenge)
-);
-
-CREATE TABLE Contact(
-    idContact INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50),
-    prenom VARCHAR(50),
-    mail VARCHAR(100),
-    numTel INT
+    FOREIGN KEY fk_idData(idChallenge) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
 );
 
 CREATE TABLE Lier(
-    idContact INT,
+    idUser INT,
     idProjet INT,
-    CONSTRAINT pk_lier PRIMARY KEY(idContact, idProjet),
-    FOREIGN KEY fk_contact(idContact) REFERENCES Contact(idContact),
-    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet)
+    CONSTRAINT pk_lier PRIMARY KEY(idUser, idProjet),
+    FOREIGN KEY fk_User(idUser) REFERENCES User(idUser) ON DELETE CASCADE,
+    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet) ON DELETE CASCADE
 );
 
 CREATE TABLE Ressources(
@@ -61,16 +53,16 @@ CREATE TABLE Detenir(
     idChallenge INT,
     idRessources INT,
     CONSTRAINT pk_Detenir PRIMARY KEY (idChallenge, idRessources),
-    FOREIGN KEY fk_idChallenge(idChallenge) REFERENCES dataChallenge(idChallenge),
-    FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources)
+    FOREIGN KEY fk_idChallenge(idChallenge) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE ,
+    FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources) ON DELETE CASCADE
 );
 
 CREATE TABLE Posseder(
     idProjet INT,
     idRessources INT,
     CONSTRAINT pk_Posseder PRIMARY KEY (idProjet, idRessources),
-    FOREIGN KEY fk_libelleProjet(idProjet) REFERENCES projetData(idProjet),
-    FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources)
+    FOREIGN KEY fk_libelleProjet(idProjet) REFERENCES projetData(idProjet) ON DELETE CASCADE,
+    FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources) ON DELETE CASCADE
 );
 
 CREATE TABLE dataBattle(
@@ -87,7 +79,7 @@ CREATE TABLE Questionnaire(
     fin DATE,
     lien VARCHAR(200),
     idBattle INT,
-    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataBattle(idBattle)
+    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE
 );
 
 CREATE TABLE Equipe(
@@ -97,17 +89,17 @@ CREATE TABLE Equipe(
     idBattle INT,
     idProjet INT,
     idData INT,
-    FOREIGN KEY fk_battle(idBattle) REFERENCES dataBattle(idBattle),
-    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet),
-    FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(idChallenge)
+    FOREIGN KEY fk_battle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE,
+    FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet) ON DELETE CASCADE,
+    FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
 );
 
 CREATE TABLE Membre(
     idEquipe INT,
     idUser INT,
     CONSTRAINT pk_Membre PRIMARY KEY(idEquipe, idUser),
-    FOREIGN KEY fk_equipe(idEquipe) REFERENCES Equipe(numero),
-    FOREIGN KEY fk_user(idUser) REFERENCES User(idUser)
+    FOREIGN KEY fk_equipe(idEquipe) REFERENCES Equipe(numero) ON DELETE CASCADE,
+    FOREIGN KEY fk_user(idUser) REFERENCES User(idUser) ON DELETE CASCADE
 );
 
 CREATE TABLE Rendu(
@@ -124,5 +116,6 @@ CREATE TABLE Messagerie(
     contenu VARCHAR(10000) NOT NULL,
     dateEnvoi DATE NOT NULL,
     categorie VARCHAR(200) DEFAULT 'GENERAL',
+    objet VARCHAR(1000),
     FOREIGN KEY fk_auteur(auteur) REFERENCES User(idUser)
 );
