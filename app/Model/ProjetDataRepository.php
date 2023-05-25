@@ -5,7 +5,7 @@ use Lib\DatabaseConnection;
 use Model\Entites\projetData;
 use Exception;
 
-class ProjetDataRepository{
+class ProjetDataRepository extends LierRepository{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
     
@@ -143,6 +143,84 @@ class ProjetDataRepository{
             throw new Exception("La requête de suppression du projet a échouée.");
         }   
         return true;
+    }
+
+    
+    /*!
+     *  \fn getProjetByRessource(int $idRessource)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateThu 25 2023 - 10:11:31
+     *  \brief fonction permettant de récupérer tous les Projets liés à une Ressource
+     *  \param $idRessource int correspondant à l'id de la Ressource dont on souhaite récupérer les projets dant lesquels elle est utilisées
+     *  \return un tableau d'objet projetData récupérant tous les projets liés à une ressource
+    */
+    public function getProjetByRessource(int $idRessource) : array{
+        //requête SQL
+        $sql = "SELECT * FROM projetData WHERE idProjet IN (SELECT idProjet FROM Posseder WHERE idRessources = :idR";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['idR' => $idRessource]);
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets User
+        $projets = [];
+        foreach ($rows as $row) {
+            $projet = new projetData();
+            $projet->setIdProjet($row['idProjet']);
+            $projet->setLibelle($row['libelle']);
+            $projet->setDescription($row['description']);
+            $projet->setLienImg($row['lienImg']);
+            $projet->setIdDataChallenge($row['idDataChallenge']);   
+            $projets[] = $projet;
+        }
+        return $projets;
+    }
+
+
+    /*!
+     *  \fn getProjetByGest(int idUse)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateThu 25 2023 - 18:24:29
+     *  \brief fonction permettant de récupérer les projets liés à un gestionnaire
+     *  \param $idUser int correspondant à l'id d'un gestionnaire dont on souhaite récupérer les projets qu'il gère
+     *  \return un tableau d'objet projetData contenant les projets liés à un contact
+    */
+    public function getProjetByGest(int $idUser) : array{
+        try{
+            //On récupère les id des utilisateurs liés à l'id d'un projet
+            $recContact = $this->getLierByContact($idUser);
+            //Si Mon tableau est vide c'est qu'il n'y a pas de contact lié au projet
+            if(empty($recContact)){
+                throw new Exception("Le tableau d'utilisateur est vide");
+            }
+            $contacts = implode(',',array_fill(0, count($recContact), '?'));
+            $req = "SELECT * FROM User WHERE idUser IN ($contacts)";
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute($recContact);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if($statement->rowCount() === 0){
+                throw new Exception("La requête pour récupérer les id des contactes liés à un projet a échouée.");
+            }
+            $rows = $statement->fetchAll();
+            //création d'un tableau d'objets projetData
+            $projets = [];
+            foreach ($rows as $row) {
+                $projet = new projetData();
+                $projet->setIdProjet($row['idProjet']);
+                $projet->setLibelle($row['libelle']);
+                $projet->setDescription($row['description']);
+                $projet->setLienImg($row['lienImg']);
+                $projet->setIdDataChallenge($row['idDataChallenge']);   
+                $projets[] = $projet;
+            }
+        } catch (Exception $e){
+            throw new Exception("Erreur lors de la récupération des projet liés à un gestionnaire : " . $e->getMessage());
+        }
+        return $projets;
     }
 
 }

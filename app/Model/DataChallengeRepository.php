@@ -154,4 +154,35 @@ class DataChallengeRepository{
         return $projets;
     }
 
+    /*!
+     *  \fn getchallengeByRessources(int $idRessource)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateWed 24 2023 - 13:39:07
+     *  \brief fonction permettant de récupérer les data Challenge lié à une Ressource
+     *  \param $idRessource int correspondant à l'id de la ressource qui permet de récupérer les data challenge
+     *  \return un tableau d'objet dataChallenge correspondant aux challenges liés à la ressource
+    */
+    public function getChallengeByRessources(int $idRessource) : array{
+        //requête SQL
+        $sql = "SELECT * FROM dataChallenge WHERE idChallenge IN (SELECT idChallenge FROM Detenir WHERE idRessources = :idR";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['idR' => $idRessource]);
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets dataChallenge
+        $challenges = [];
+        foreach ($rows as $row) {
+            $challenge = new dataChallenge();
+            $challenge->setIdChallenge($row['idChallenge']);
+            $challenge->setLibelle($row['libelle']);
+            $challenge->setTempsDebut($row['tempsDebut']);
+            $challenge->setTempsFin($row['tempsFin']);   
+            $challenges[] = $challenge;
+        }
+        return $challenges;
+    }
+
 }

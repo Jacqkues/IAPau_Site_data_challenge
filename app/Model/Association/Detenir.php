@@ -7,11 +7,11 @@ class Detenir {
     private int $idRessource ; # foreign key vers la table ressources
 
 
-    public function getLibelleData(): int {
+    public function getIdData(): int {
         return $this->idData;
     }
 
-    public function setLibelleData(int $idData): void {
+    public function setIdData(int $idData): void {
         $this->idData = $idData;
     }
 

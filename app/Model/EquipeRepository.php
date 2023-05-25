@@ -268,4 +268,41 @@ class EquipeRepository{
         }   
         return true;
     }
+
+    /*!
+     *  \fn getEquipeByUser(int $idUser)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateWed 24 2023 - 16:17:54
+     *  \brief fonction permettant de récupérer toutes les équipes liées à un utilisateur
+     *  \param $idUser int correspondant à l'id de l'utilisateur dont on souhaite récupérer ses équipes
+     *  \return retourne un tableau d'objet Equipe qui contient toutes les équipes accueillant l'utilisateur 
+    */
+    public function getEquipeByUser(int $idUser) : array{
+         //requête sql
+         $req = "SELECT * FROM Equipe WHERE idEquipe IN (SELECT idEquipe FROM Membre WHERE idUser = idU)";
+         //préparation de la requête
+         $statement = $this->database->getConnection()->prepare($req);
+         //exécution de la requête
+         $statement->execute(['idU' => $idUser]);
+         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+         if($statement == NULL){
+             throw new Exception("La requête de récupération des équipes d'un utilisateur a échouée.");
+         }
+         //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets Equipe
+        $equipes = [];
+        foreach($rows as $row){
+            $equipe = new Equipe();
+            $equipe->setId($row['id']);
+            $equipe->setIdChef($row['idChef']);
+            $equipe->setIdBattle($row['idBattle']);
+            $equipe->setIdDataChallenge($row['idDataChallenge']);
+            $equipe->setIdProjet($row['idProjet']);
+            $equipe->setScore($row['score']);
+            $equipes[] = $equipe;
+        }
+        return $equipes;
+    }
 }

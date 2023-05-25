@@ -6,7 +6,7 @@ use Model\Entites\User;
 use Exception;
 use PDO;
 
-class UserRepository {
+class UserRepository{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
     
@@ -350,7 +350,7 @@ class UserRepository {
      *  \param $id int correspondant à l'id de l'utilisateur
      *  \return true si tout c'ets bien passé 
     */
-    public function deleteUser(int $id){
+    public function deleteUser(int $id) : bool{
         //requête de suppression d'un data Challenge
         $req = "DELETE FROM User WHERE idUser = :id";
         //préparation de la requête
@@ -360,7 +360,103 @@ class UserRepository {
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement == NULL){
             throw new Exception("La requête de suppression d'un utilisateur a échouée.");
-        }   
+        }
         return true;
+    }
+
+    /*!
+     *  \fn getUserByEquipe(int $idEquipe)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateWed 24 2023 - 16:06:59
+     *  \brief fonction permettant de récupére tous les utilisateurs appartenant à une équipe
+     *  \param $idEquipe int correspondant à l'id de l'équipe dont on souhaite connaitre les membres
+     *  \return un tableau d'objet User contenant tous les étudiants appartenant à une équipe
+    */
+    public function getUserByEquipe(int $idEquipe) : array{
+        //requête sql
+        $req = "SELECT * FROM User WHERE idUser IN (SELECT idUser FROM Membre WHERE idEquipe = idE)";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['idE' => $idEquipe]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de récupération d'un utilisateur par rapport à son équipe a échouée.");
+        }
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets User
+        $users = [];
+        foreach ($rows as $row) {
+            $user = new User();
+            $user->setId($row['idUser']);
+            $user->setType($row['types']);
+            $user->setNom($row['nom']);
+            $user->setPrenom($row['prenom']);
+            $user->setEtablissement($row['etablissement']);
+            $user->setNivEtude($row['nivEtude']);
+            $user->setNumTel($row['numTel']);
+            $user->setMail($row['mail']);
+            $user->setDateDeb($row['dateDeb']);
+            $user->setDateFin($row['dateFin']);
+            $user->setMdp($row['mdp']);
+            $users[] = $user;
+        }
+        return $users;
+    }
+
+
+    /*!
+     *  \fn getGestByProjet(int idProjet)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateThu 25 2023 - 17:59:59
+     *  \brief fonction permettant de récupérer les gestionnaires liés à un projet
+     *  \param $idProjet int correspondant à l'id du projet dont on souhaite récupérer les contacts
+     *  \return retourne un tableau d'objet User correspondant aux contacts liés à un Projet
+    */
+    public function getGestByProjet(int $idProjet) : array{
+        try{
+            //On récupère les id des utilisateurs liés à l'id d'un projet
+            $recUsers = $this->getLierByProjet($idProjet);
+            //Si Mon tableau est vide c'est qu'il n'y a pas de contact lié au projet
+            if(empty($recUsers)){
+                throw new Exception("Le tableau d'utilisateur est vide");
+            }
+            
+            $users = implode(',',array_fill(0, count($recUsers), '?'));
+            $req = "SELECT * FROM User WHERE idUser IN ($users)";
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute($recUsers);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if($statement->rowCount() === 0){
+                throw new Exception("La requête pour récupérer les id des contactes liés à un projet a échouée.");
+            }
+            //récupération du résultat
+            $rows = $statement->fetchAll();
+            //création d'un tableau d'objets User
+            $users = [];
+            foreach ($rows as $row) {
+                $user = new User();
+                $user->setId($row['idUser']);
+                $user->setType($row['types']);
+                $user->setNom($row['nom']);
+                $user->setPrenom($row['prenom']);
+                $user->setEtablissement($row['etablissement']);
+                $user->setNivEtude($row['nivEtude']);
+                $user->setNumTel($row['numTel']);
+                $user->setMail($row['mail']);
+                $user->setDateDeb($row['dateDeb']);
+                $user->setDateFin($row['dateFin']);
+                $user->setMdp($row['mdp']);
+                $users[] = $user;
+            }
+        } catch (Exception $e){
+            throw new Exception("Erreur lors de la récupération des utilisateurs liés au projet : " . $e->getMessage());
+        }
+        return $users;
     }
 }

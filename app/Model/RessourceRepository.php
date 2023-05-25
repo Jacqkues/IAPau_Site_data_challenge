@@ -160,5 +160,68 @@ class RenduRepository{
         return true;
     }
 
+    /*!
+     *  \fn getRessourceByChallenge(int $idChallenge)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateThu 25 2023 - 10:16:01
+     *  \brief fonction permettant de récupérer toutes les ressources détenues par un data Challenge
+     *  \param $idChallenge int correspondant à l'id d'un data Challenge dont on souhaite récupérer ses ressources
+     *  \return retourne un tableau d'objet Ressources correspondant à toutes les ressources détenues par un data Challenge 
+    */
+
+    public function getRessourceByChallenge(int $idChallenge): array{
+          //requête SQL
+          $sql = "SELECT * FROM Ressources WHERE idRessources IN (SELECT idRessources FROM Detenir WHERE idChallenge = :idC)";
+          //préparation de la requête
+          $statement = $this->database->getConnection()->prepare($sql);
+          //exécution de la requête
+          $statement->execute(['idC' => $idChallenge]);
+          //récupération du résultat
+          $rows = $statement->fetchAll();
+          //création d'un tableau d'objets Ressources
+          $ressources = [];
+          foreach ($rows as $row) {
+              $ressource = new Ressources();
+              $ressource->setLien($row['lien']);
+              $ressource->setId($row['idRessources']);
+              $ressource->setNom($row['nom']);
+              $ressource->setTypes($row['types']);
+              $ressources[] = $ressource;
+          }
+          return $ressources;
+    }
+
+    /*!
+     *  \fn getRessourceByProjet(int $idProjet)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateThu 25 2023 - 10:19:09
+     *  \brief fonction permettant de récupérer toutes les ressources possédées par un data projet
+     *  \param $idProjet int correspondant à l'id d'un Projet dont on souhaite récupérer les ressources qu'il utilise
+     *  \return un tableau d'objet Ressources contenant toutes les ressources possédées par un projet
+    */
+    public function getRessourceByProjet(int $idProjet): array{
+        //requête SQL
+        $sql = "SELECT * FROM Ressources WHERE idRessources IN (SELECT idRessources FROM Posseder WHERE idProjet = :idP)";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['idP' => $idProjet]);
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets Ressources
+        $ressources = [];
+        foreach ($rows as $row) {
+            $ressource = new Ressources();
+            $ressource->setLien($row['lien']);
+            $ressource->setId($row['idRessources']);
+            $ressource->setNom($row['nom']);
+            $ressource->setTypes($row['types']);
+            $ressources[] = $ressource;
+        }
+        return $ressources;
+  }
+
 
 }
