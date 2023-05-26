@@ -41,10 +41,10 @@ class ProjetDataRepository extends LierRepository{
         //création d'un objet Equipe
         $projet = new projetData();
         $projet->setIdProjet($row['idProjet']);
-        $projet->setLibelle($row['libelle']);
-        $projet->setDescription($row['description']);
+        $projet->setLibelle($row['libelleData']);
+        $projet->setDescription($row['descrip']);
         $projet->setLienImg($row['lienImg']);
-        $projet->setIdDataChallenge($row['idDataChallenge']);
+        $projet->setIdDataChallenge($row['idChallenge']);
         return $projet;
     }
 

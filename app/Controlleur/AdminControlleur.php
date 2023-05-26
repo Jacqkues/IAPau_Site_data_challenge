@@ -11,6 +11,9 @@ use Model\UserRepository;
 use Model\DataChallengeRepository;
 use Model\ProjetDataRepository;
 use Model\Entites\dataChallenge;
+use Model\Entites\Ressources;
+use Model\RessourceRepository;
+use Model\AssociationRepository;
 use AuthControlleur;
 use Lib\DatabaseConnection;
 
@@ -23,6 +26,9 @@ class AdminControlleur implements Controlleur
 
     private $projetRepo;
 
+    private $ressourceRepository;
+
+    private $associationRepository;
     
 
     public function __construct()
@@ -31,6 +37,8 @@ class AdminControlleur implements Controlleur
         $this->challengerepo = new DataChallengeRepository(new DatabaseConnection());
         $this->projetRepo = new ProjetDataRepository(new DatabaseConnection());
         $this->messagerierepo = new MessagerieRepository(new DatabaseConnection());
+        $this->ressourceRepository = new RessourceRepository(new DatabaseConnection());
+        $this->associationRepository = new AssociationRepository(new DatabaseConnection());
     }
 
     //ajout suppresion et modification d'un utilisateur
@@ -116,6 +124,7 @@ class AdminControlleur implements Controlleur
     public function deleteDataChallenge()
     {
         $id = $_GET['id'];
+        echo $id;
         $this->challengerepo->deleteChallenge($id);
         header('Location: /admin?onglet=Manage Data Challenge');
     }
@@ -128,10 +137,31 @@ class AdminControlleur implements Controlleur
     //ajout suppression et modification des ressources
     public function addRessource()
     {
+        if(isset($_POST)){
+            $ressource = new Ressources();
+            $ressource->setNom($_POST['titre']);
+            $ressource->setLien($_POST['lien']);
+            $ressource->setTypes($_POST['type']);
+            $id = $this->ressourceRepository->addRessources($ressource);
+            if(isset($_POST['challenge'])){
+                $this->associationRepository->addResourceDataChallenge($_POST['challenge'],$id);
+                header('Location: /admin?config&id='.$_POST['challenge']);
+            }else if(isset($_POST['projetId'])){
+                $this->associationRepository->addResourceProjet($_POST['projetId'],$id);
+            
+                 header('Location: /admin?projetConf&id='.$_POST['projetId'] . "&idChallenge=" . $_POST['idChallenge']);
+            }
+            
+        }
 
     }
     public function deleteRessource()
     {
+
+        if(isset($_GET['id'])){
+            $this->ressourceRepository->deleteRessource($_GET['id']);
+            header('Location: /admin?config&id='.$_GET['idChallenge']);
+        }
 
     }
     public function updateRessource()
@@ -139,6 +169,9 @@ class AdminControlleur implements Controlleur
 
     }
 
+    public function Test(){
+        echo "oui oui oui";
+    }
     public function index()
     {
         $fonctionnalite = [
@@ -171,6 +204,14 @@ class AdminControlleur implements Controlleur
 
             $page = "./vue/components/admin/challenge.ajout.php";
             $ongletcourant = "Manage Data Challenge";
+
+        }else if(isset($_GET["addR"])){
+            $page = "./vue/components/admin/ressource.ajout.php";
+            $ongletcourant = "Manage Ressource";
+        }elseif(isset($_GET["projetConf"])){
+            $page = "./vue/components/admin/projet.modif.php";
+            $ongletcourant = "Manage Data Challenge";
+            
         }
 
         $content = new View($page);
@@ -187,10 +228,30 @@ class AdminControlleur implements Controlleur
             }catch (\Exception $e){
                 $content->assign("projets", null);
             }
+            try{
+                $content->assign("ressources", $this->associationRepository->getResourceByChallenge($id));
+            }catch (\Exception $e){
+                $content->assign("ressources", null);
+            }
+
             
-        }if(isset($_GET['addP']) && isset($_GET['id'])){
+
+
+        }else if(isset($_GET['addP']) && isset($_GET['id'])){
             $id = $_GET['id'];
             $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
+        }else if(isset($_GET['addR']) && isset($_GET['id'])){
+            $id = $_GET['id'];
+            $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
+        }else if(isset($_GET['projetConf']) && isset($_GET['id']) && isset($_GET['idChallenge'])){
+            $id = $_GET['id'];
+            $content->assign("projet", $this->projetRepo->getProjetData($id));
+            $content->assign("ressources", $this->associationRepository->getResourceByChallenge($_GET['idChallenge']));
+            try{
+                $content->assign("projetressources", $this->associationRepository->getRessourceByProjet($id));
+            }catch (\Exception $e){
+                $content->assign("projetressources", null);
+            }
         }
 
         switch ($ongletcourant) {
@@ -202,6 +263,11 @@ class AdminControlleur implements Controlleur
                 break;
             case "Messagerie":
                 $content->assign("messages", $this->messagerierepo->getAllMessage());
+                break;
+            case "Manage Ressource":
+                $content->assign("ressources", $this->ressourceRepository->getAllRessources());
+                $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
+                
                 break;
             default:
                 break;

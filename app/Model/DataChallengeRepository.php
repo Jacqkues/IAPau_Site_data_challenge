@@ -84,7 +84,7 @@ class DataChallengeRepository{
     */
     public function getAllChallenges():array {
         //requête SQL
-        $sql = "SELECT * FROM dataChallenge";
+        $sql = "SELECT * FROM dataChallenge ORDER BY idCHallenge DESC";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($sql);
         //exécution de la requête

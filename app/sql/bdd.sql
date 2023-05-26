@@ -43,13 +43,14 @@ CREATE TABLE Lier(
 );
 
 CREATE TABLE Ressources(
-    idRessources INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    idRessources INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50),
     types VARCHAR(50),
     lien VARCHAR(200)
 );
 
 CREATE TABLE Detenir(
+    id INT PRIMARY KEY AUTO_INCREMENT,
     idChallenge INT,
     idRessources INT,
     CONSTRAINT pk_Detenir PRIMARY KEY (idChallenge, idRessources),

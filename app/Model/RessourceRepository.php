@@ -5,7 +5,7 @@ use Lib\DatabaseConnection;
 use Model\Entites\Ressources;
 use Exception;
 
-class RenduRepository{
+class RessourceRepository{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
     
@@ -59,18 +59,18 @@ class RenduRepository{
      *  \param $type string correspondant au type de ressource (image, texte...)
      *  \return true si tout c'est bien passé 
     */
-    public function addRessources(string $nom, string $lien, string $type) : bool{
+    public function addRessources(Ressources $res) : int{
         //requête d'insertion dans la bdd d'une nouvelle ressource
         $req = "INSERT INTO Ressources (nom,types,lien) VALUES ( :nom, :types, :lien)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['nom' => $nom,'types' => $type ,'lien' => $lien]);
+        $statement->execute(['nom' => $res->getNom(),'types' => $res->getTypes() ,'lien' => $res->getLien()]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout d'une ressource a échouée.");
-        }   
-        return true;
+        }
+        return $this->database->getConnection()->lastInsertId();
     }
 
 

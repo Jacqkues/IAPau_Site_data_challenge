@@ -11,7 +11,7 @@
     <div class="list-container">
         <div class="list-header user-info">
             <span>Titre</span>
-            <span>Description</span>
+            <span>Debut</span>
             <span>Fin</span>
         </div>
     

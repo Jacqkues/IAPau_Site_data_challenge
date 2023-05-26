@@ -13,16 +13,19 @@ article section {
 }
 
 article section:first-of-type{
+    padding: 0;
     width: 300px;
     background-color: rgb(233, 233, 233);
     padding-top: 20px;
+    position: fixed;
 }
 
 .content-container{
     margin-top: 8vw;
-    
-    margin-left: 2vw;
+    margin-left:calc(300px + 2vw);
+    margin-bottom: 8vw;
 }
+
 
 .mtop{
     margin-top: 6vw;

@@ -64,6 +64,8 @@ $addChallenge = new ProtectedRoute("/admin/addChallenge",$adminControlleur,"addD
 $addProjet = new ProtectedRoute("/admin/addProjet",$adminControlleur,"addProjet",$adminGuard);
 $deleteProjet = new ProtectedRoute("/admin/deleteProjet",$adminControlleur,"deleteProjet",$adminGuard);
 $deleteChallenge = new ProtectedRoute("/admin/deleteChallenge",$adminControlleur,"deleteDataChallenge",$adminGuard);
+$addRessource = new ProtectedRoute("/admin/addRessource",$adminControlleur,"addRessource",$adminGuard);
+$deleteRessource = new ProtectedRoute("/admin/deleteRessource",$adminControlleur,"deleteRessource",$adminGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -82,7 +84,8 @@ $router->addRoute($addChallenge);
 $router->addRoute($addProjet);
 $router->addRoute($deleteProjet);
 $router->addRoute($deleteChallenge);
-
+$router->addRoute($addRessource);
+$router->addRoute($deleteRessource);
 
 echo "<script src='./index.js'></script>";
 $router->handleRequest();
