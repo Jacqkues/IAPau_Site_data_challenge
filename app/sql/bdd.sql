@@ -16,8 +16,6 @@ CREATE TABLE User(
     mdp VARCHAR(64) NOT NULL
 );
 
-
-
 CREATE TABLE dataChallenge(
     idChallenge INT PRIMARY KEY AUTO_INCREMENT,
     libelle VARCHAR(200) NOT NULL,
@@ -49,8 +47,7 @@ CREATE TABLE Ressources(
     lien VARCHAR(200)
 );
 
-CREATE TABLE Detenir(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Detenir (
     idChallenge INT,
     idRessources INT,
     CONSTRAINT pk_Detenir PRIMARY KEY (idChallenge, idRessources),

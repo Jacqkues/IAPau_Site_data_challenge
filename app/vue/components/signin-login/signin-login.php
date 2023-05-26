@@ -16,15 +16,10 @@
 
     <section>
       <?php 
-        if(isset($error)) {
-          echo "<p>$error</p>";
-          }
-        ?>
-      <?php 
-      if(isset($_GET['methode']) && $_GET['methode'] == "connexion" ) {
-        include "./vue/components/signin-login/connexion.php";
-      } else {
+      if(isset($_GET['methode']) && $_GET['methode'] == "inscription" ) {
         include "./vue/components/signin-login/inscription.php";
+      } else {
+        include "./vue/components/signin-login/connexion.php";
       }
       ?>
     </section>

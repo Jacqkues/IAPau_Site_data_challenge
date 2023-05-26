@@ -107,3 +107,6 @@ header .compte {
   gap: 1vw;
 }
 
+.error {
+  color: red;
+}

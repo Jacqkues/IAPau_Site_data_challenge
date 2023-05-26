@@ -24,6 +24,11 @@
           <option value="D">Doctorant</option>
         </select>
       </div>
+      <?php
+        if (isset($_GET['error'])) {
+          echo "<p class='error'>".$_GET['error']."</p>";
+        }
+      ?>
       <p>Vous avez déjà un compte ? <a href="/login?methode=connexion">Connectez-vous !</a></p>
       <input class="bouton" type="submit" value="S'inscrire">
     </form>

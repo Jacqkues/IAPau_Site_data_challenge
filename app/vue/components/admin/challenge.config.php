@@ -17,7 +17,7 @@
 
     <div class="manage-header">
         <h3>Projets Associés</h3>
-        <a class="bouton" href="/admin?addP&id=<?= $challenge->getIdChallenge() ?>">+ ajouter</a>
+        <a class="bouton" href="/admin?addP&id=<?= $challenge->getIdChallenge() ?>">Ajouter</a>
     </div>
 
 
@@ -60,7 +60,7 @@
 
     <div class="manage-header" style="margin-top:50px;">
         <h3>Ressources Associés</h3>
-        <a class="bouton" href="/admin?addR&id=<?= $challenge->getIdChallenge() ?>">+ ajouter</a>
+        <a class="bouton" href="/admin?addR&id=<?= $challenge->getIdChallenge() ?>">Ajouter</a>
     </div>
 
     <div class="list-container">

@@ -24,9 +24,8 @@ class AuthControlleur implements Controlleur
             $user = $userRepo->findByEmail($email);
         } catch (Exception $e) {
             $error = "L'utilisateur n'existe pas";
-            $loginPage = new View("./vue/components/signin-login/signin-login.php");
-            $loginPage->assign("error", $error);
-            $loginPage->show();
+            header('Location: /login?methode=connexion&error=' . $error);
+            exit();
         }
         if ($user != null) {
             if (password_verify($mdp, $user->getMdp())) {
@@ -55,6 +54,7 @@ class AuthControlleur implements Controlleur
     {
         unset($_SESSION['user']);
         header('Location: /');
+        exit();
     }
 
     public function isAdmin(): bool
@@ -101,20 +101,29 @@ class AuthControlleur implements Controlleur
     public function register()
     {
         if (
-            isset($_POST['nom'])
-            && isset($_POST['prenom'])
-            && isset($_POST['email'])
-            && isset($_POST['mdp'])
-            && isset($_POST['etablissement'])
-            && isset($_POST['niv_etudes'])
+            !(
+                isset($_POST['nom'])
+                && isset($_POST['prenom'])
+                && isset($_POST['email'])
+                && isset($_POST['mdp'])
+                && isset($_POST['etablissement'])
+                && isset($_POST['niv_etudes'])
+            )
         ) {
             $error = "Veuillez remplir tous les champs";
-            $loginPage = new View("./vue/components/signin-login/signin-login.php");
-            $loginPage->assign("error", $error);
-            $loginPage->show();
+            header("Location: /login?methode=inscription&error=" . $error);
+            exit();
         }
 
         $userRepo = new UserRepository(new DatabaseConnection());
+        foreach ($userRepo->getUsers() as $existing_user) {
+            if (strtolower($existing_user->getMail()) == strtolower($_POST['email'])) {
+                $error = "Cet utilisateur existe déjà.";
+                header("Location: /login?methode=inscription&error=" . $error);
+                exit();
+            }
+        }
+
         $user = new User();
         $user->setNom($_POST['nom']);
         $user->setPrenom($_POST['prenom']);
@@ -128,7 +137,10 @@ class AuthControlleur implements Controlleur
         $user->setNumTel(0);
 
         $userRepo->addUser($user);
-        $this->login();
+
+        $_SESSION['user'] = $user;
+        header('Location: /user');
+        exit();
     }
 
 

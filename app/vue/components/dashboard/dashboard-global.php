@@ -27,7 +27,7 @@
             <?= $prenom . " " . $nom ?>
           </h2>
           <p>
-            <?= $type ?>
+            <?= $type=="user"?"Etudiant":$type; ?>
           </p>
         </div>
 
