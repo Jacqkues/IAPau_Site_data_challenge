@@ -3,17 +3,17 @@
 namespace Model;
 use Lib\DatabaseConnection;
 use Model\Entites\dataChallenge;
-use Model\Entites\projetData;
 use Exception;
 
 class DataChallengeRepository{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
-    
+    private DetenirRepository $detenirRepository;
 
     public function __construct(DatabaseConnection $database) {
         //construit un objet de type DatabaseConnection
         $this->database = $database;
+        $this->detenirRepository = new DetenirRepository(new DatabaseConnection());
     }
 
 
@@ -127,32 +127,6 @@ class DataChallengeRepository{
         return true;
     }
 
-    public function getProjets(int $id){
-        //requête sql
-        $req = "SELECT * FROM projetData WHERE idChallenge= :id";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($req);
-        //exécution de la requête
-        $statement->execute(['id' => $id]);
-        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
-            throw new Exception("Aucun projet pour ce datachallenge");
-        }
-        //récupération des informations
-        $rows = $statement->fetchAll();
-        //création d'un objet Equipe
-        $projets = [];
-        foreach ($rows as $row) {
-            $projet = new projetData();
-            $projet->setIdProjet($row['idProjet']);
-            $projet->setLibelle($row['libelleData']);
-            $projet->setDescription($row['descrip']);
-            $projet->setIdDataChallenge($row['idChallenge']);
-            $projet->setLienImg($row['lienImg']);
-            $projets[] = $projet;
-        }
-        return $projets;
-    }
 
     /*!
      *  \fn getchallengeByRessources(int $idRessource)
@@ -164,23 +138,37 @@ class DataChallengeRepository{
      *  \return un tableau d'objet dataChallenge correspondant aux challenges liés à la ressource
     */
     public function getChallengeByRessources(int $idRessource) : array{
-        //requête SQL
-        $sql = "SELECT * FROM dataChallenge WHERE idChallenge IN (SELECT idChallenge FROM Detenir WHERE idRessources = :idR";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($sql);
-        //exécution de la requête
-        $statement->execute(['idR' => $idRessource]);
-        //récupération du résultat
-        $rows = $statement->fetchAll();
-        //création d'un tableau d'objets dataChallenge
+        //création d'un tableau d'objets User
         $challenges = [];
-        foreach ($rows as $row) {
-            $challenge = new dataChallenge();
-            $challenge->setIdChallenge($row['idChallenge']);
-            $challenge->setLibelle($row['libelle']);
-            $challenge->setTempsDebut($row['tempsDebut']);
-            $challenge->setTempsFin($row['tempsFin']);   
-            $challenges[] = $challenge;
+        try{
+            //On récupère les id des challenges liés à une ressource
+            $recChall = $this->detenirRepository->getDetenirByRessource($idRessource);
+            //Si mon tableau est vide c'est qu'il n'y a pas de challenge lié à la ressource
+            if(empty($recChall)){
+                throw new Exception("Le tableau de challenge est vide");
+            }
+            $challId = implode(',',array_fill(0, count($recChall), '?'));
+            $req = "SELECT * FROM dataChallenge WHERE idChallenge IN ($challId)";
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute($recChall);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if($statement->rowCount() === 0){
+                throw new Exception("La requête pour récupérer les id des projets liés à une ressource a échouée.");
+            }
+            //récupération du résultat
+            $rows = $statement->fetchAll();
+            foreach ($rows as $row) {
+                $challenge = new dataChallenge();
+                $challenge->setIdChallenge($row['idChallenge']);
+                $challenge->setLibelle($row['libelle']);
+                $challenge->setTempsDebut($row['tempsDebut']);
+                $challenge->setTempsFin($row['tempsFin']);   
+                $challenges[] = $challenge;
+            }
+        } catch (Exception $e){
+            throw new Exception("Erreur lors de la récupération des challenges liés à une ressource : " . $e->getMessage());
         }
         return $challenges;
     }

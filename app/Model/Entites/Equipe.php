@@ -4,7 +4,7 @@ namespace Model\Entites;
 
 class Equipe{
     protected int $id;
-    protected string $idChef; #foreign key vers la table user
+    protected int $idChef; #foreign key vers la table user
     protected int $score;
     protected int $idBattle; #foreign key vers la table dataBattle
     protected int $idProjet; #foreign key vers la table projetData

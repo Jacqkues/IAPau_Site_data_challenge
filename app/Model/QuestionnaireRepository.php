@@ -151,4 +151,42 @@ class QuestionnaireRepository{
         }   
         return true;
     }
+
+    /*!
+     *  \fn getQuestionnaireByBattle(int $idBattle)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateFri 26 2023 - 10:34:08
+     *  \brief fonction permettant de récupérer les questionnaires liés à une data battle
+     *  \param $idBattle int correspodant à l'id de la data Battle dont on souhaite connaitre la liste des questionnaires
+     *  \return retourne un tbaleau d'objet Questionnaire contenant tous les quiestionnaires liés à une data battle
+    */
+    public function getQuestionnaireByBattle(int $idBattle) : array{
+        //requête SQL
+        $sql = "SELECT * FROM Questionnaire WHERE idBattle = :idB";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['idB' => $idBattle]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de récupération des questionnaires liés à une data battle a échouée.");
+        }
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets Questionnaire
+        $questionnaires = [];
+        foreach ($rows as $row) {
+            $questionnaire = new Questionnaire();
+            $questionnaire->setId($row['id']);
+            $questionnaire->setQuestion($row['question']);
+            $questionnaire->setReponse($row['reponse']);
+            $questionnaire->setDebut($row['debut']);
+            $questionnaire->setFin($row['fin']);
+            $questionnaire->setLien($row['lien']);
+            $questionnaire->setIdBattle($row['idBattle']);   
+            $questionnaires[] = $questionnaire;
+        }
+        return $questionnaires;
+    }
 }

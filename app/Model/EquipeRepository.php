@@ -9,10 +9,11 @@ use Exception;
 class EquipeRepository{
 
     protected DatabaseConnection $database;
-
+    private MembreRepository $membreRepository;
     public function __construct(DatabaseConnection $database){
         //construit un objet de type DatabaseConnection
         $this->database = $database;
+        $this->membreRepository = new MembreRepository(new DatabaseConnection());
     }
 
     /*!
@@ -90,16 +91,16 @@ class EquipeRepository{
      *  \version 0.1 Premier jet
      *  \dateMon 22 2023 - 20:02:20
      *  \brief fonction permettant de récupérer un équipe via son chef
-     *  \param $mailChef string correspondant au mail d'un chef d'équipe
+     *  \param $mailChef int correspondant à l'id d'un chef d'équipe
      *  \return $equipe l'équipe correspondante au chef
     */
-    public function getEquipeByChef(string $mailChef):Equipe{
+    public function getEquipeByChef(int $idChef):Equipe{
         //requête sql
         $req = "SELECT * FROM Equipe WHERE chef= :idChef";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['idChef' => $mailChef]);
+        $statement->execute(['idChef' => $idChef]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement == NULL){
             throw new Exception("La requête d'ajout de récupération d'équipe par le Chef a échouée.");
@@ -153,10 +154,10 @@ class EquipeRepository{
      *  \version 0.1 Premier jet
      *  \dateTue 23 2023 - 09:15:18
      *  \brief fonction permettant de rajouter une équipe
-     *  \param $chef string correspodnant au mail du chef d'équipe : celui qui créer l'équipe
+     *  \param $chef int correspodnant à l'id du chef d'équipe : celui qui créer l'équipe
      *  \return true si tout se passe bien
     */
-    public function addEquipe(string $chef){
+    public function addEquipe(int $chef){
         //requête d'insertion dans la bdd d'une nouvelle Equipe
         $req = "INSERT INTO Equipe (chef,score,idBattle,idProjet,idData) VALUES ( :chef, :score, :idBattle, :idProjet, :idData)";
         //préparation de la requête
@@ -279,29 +280,40 @@ class EquipeRepository{
      *  \return retourne un tableau d'objet Equipe qui contient toutes les équipes accueillant l'utilisateur 
     */
     public function getEquipeByUser(int $idUser) : array{
-         //requête sql
-         $req = "SELECT * FROM Equipe WHERE idEquipe IN (SELECT idEquipe FROM Membre WHERE idUser = idU)";
-         //préparation de la requête
-         $statement = $this->database->getConnection()->prepare($req);
-         //exécution de la requête
-         $statement->execute(['idU' => $idUser]);
-         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-         if($statement == NULL){
-             throw new Exception("La requête de récupération des équipes d'un utilisateur a échouée.");
-         }
-         //récupération du résultat
-        $rows = $statement->fetchAll();
         //création d'un tableau d'objets Equipe
         $equipes = [];
-        foreach($rows as $row){
-            $equipe = new Equipe();
-            $equipe->setId($row['id']);
-            $equipe->setIdChef($row['idChef']);
-            $equipe->setIdBattle($row['idBattle']);
-            $equipe->setIdDataChallenge($row['idDataChallenge']);
-            $equipe->setIdProjet($row['idProjet']);
-            $equipe->setScore($row['score']);
-            $equipes[] = $equipe;
+        try{
+            //On récupère la liste des id des équipes liées à l'id de notre utilisateur
+            $membre = $this->membreRepository->getMembreByUser($idUser);
+            //Si Mon tableau est vide c'est qu'il n'y a pas d'équipe lié à l'utilisateur
+            if(empty($membre)){
+                throw new Exception("Le tableau d' équipe est vide");
+            }
+            
+            $membres = implode(',',array_fill(0, count($membre), '?'));
+            $req = "SELECT * FROM Equipe WHERE idEquipe IN ($membres)";
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute($membre);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if($statement->rowCount() === 0){
+                throw new Exception("La requête pour récupérer les id des équipes liées à un utilisateur a échouée.");
+            }
+            //récupération du résultat
+            $rows = $statement->fetchAll();
+            foreach($rows as $row){
+                $equipe = new Equipe();
+                $equipe->setId($row['id']);
+                $equipe->setIdChef($row['idChef']);
+                $equipe->setIdBattle($row['idBattle']);
+                $equipe->setIdDataChallenge($row['idDataChallenge']);
+                $equipe->setIdProjet($row['idProjet']);
+                $equipe->setScore($row['score']);
+                $equipes[] = $equipe;
+            }
+        } catch (Exception $e){
+            throw new Exception("Erreur lors de la récupération des équipes liées à un utilisateur : " . $e->getMessage());
         }
         return $equipes;
     }
