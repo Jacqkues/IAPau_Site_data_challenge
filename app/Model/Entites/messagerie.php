@@ -8,7 +8,7 @@ class messagerie
     protected string $types;
     protected string $contenu;
     protected string $dateEnvoi;
-    protected string $categorie = "GENERAL";
+    protected string $categorie = "GÉNÉRAL";
     protected string $objet;
 
     public function getIdMessagerie(): int

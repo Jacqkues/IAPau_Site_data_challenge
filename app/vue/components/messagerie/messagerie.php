@@ -4,8 +4,8 @@
     <div class="message">
       <div class="en-tete">
         <p class="date-auteur">
-          <?= $message->getDate() ?> ·
-          <?= $message->getAuteur() ?> ·
+          <?= $message->getDateEnvoi() ?> ·
+          <?= $users->getUser($message->getIdAuteur())->getPrenom()." ".$users->getUser($message->getIdAuteur())->getNom() ?> ·
           <?= $message->getCategorie() ?>
         </p>
         <h2>
@@ -25,6 +25,9 @@
           <input type="text" name="objet" placeholder="Objet" class="bouton-input-text">
           <select name="categorie" class="bouton-input-text">
             <option value="GÉNÉRAL">GÉNÉRAL</option>
+            <?php foreach ($categories as $categorie) { ?>
+              <option value="<?= $categorie->getLibelle() ?>"><?= $categorie->getLibelle() ?></option>
+            <?php } ?>
           </select>
         </div>
         <input type="text" name="contenu" placeholder="Message" class="bas bouton-input-text">

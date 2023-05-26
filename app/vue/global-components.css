@@ -16,6 +16,7 @@ body {
   color: var(--MAIN_COLOR);
 
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 * {

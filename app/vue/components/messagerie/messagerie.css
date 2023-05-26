@@ -1,13 +1,14 @@
 
 .safe-zone {
   position: relative;
-  width: 100%;
-
-  background: red;
+  width: calc(80vw - 5vw);
+  max-height: calc(100vh - 15vw);
 
   display: flex;
   flex-direction: column;
   row-gap: 2vw;
+
+  overflow-y: scroll;
 
   color: black;
 }
@@ -16,6 +17,11 @@
   display: flex;
   flex-direction: column;
   row-gap: 1vw;
+}
+
+.safe-zone .message:not(:last-of-type) {
+  padding-bottom: 1vw;
+  border-bottom: 1px solid black;
 }
 
 .safe-zone .message .en-tete .date-auteur {
@@ -32,6 +38,8 @@
   font-size: 1vw;
 }
 
+
+/* PUBLIER */
 .safe-zone form {
   position: fixed;
   bottom: 0;

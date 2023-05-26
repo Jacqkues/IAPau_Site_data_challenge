@@ -82,7 +82,7 @@ class DataChallengeRepository{
      *  \brief fonction permettant de récupérer tous les challenges
      *  \return un tableau contenant tous les challenges
     */
-    public function getAllChallenges():array {
+    public function getAllChallenges(): array {
         //requête SQL
         $sql = "SELECT * FROM dataChallenge ORDER BY idCHallenge DESC";
         //préparation de la requête

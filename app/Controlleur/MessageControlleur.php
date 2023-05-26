@@ -40,6 +40,8 @@ class MessageControlleur implements Controlleur
 
       if (!$publié) {
         throw new Exception("Publication message impossible");
+      } else {
+        header('Location: /admin?onglet=Messagerie');
       }
     }
   }

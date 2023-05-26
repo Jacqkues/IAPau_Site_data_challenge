@@ -263,6 +263,8 @@ class AdminControlleur implements Controlleur
                 break;
             case "Messagerie":
                 $content->assign("messages", $this->messagerierepo->getAllMessage());
+                $content->assign("categories", $this->challengerepo->getAllChallenges());
+                $content->assign("users", $this->userRepo);
                 break;
             case "Manage Ressource":
                 $content->assign("ressources", $this->ressourceRepository->getAllRessources());

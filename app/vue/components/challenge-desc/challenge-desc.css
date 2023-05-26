@@ -2,23 +2,75 @@ article {
   position: relative;
 
   display: flex;
-  height: 100%;
+  min-height: 100%;
+
+  color: black;
 }
 
 article > * {
   max-width: 50%;
   height: 100%;
-
-  background: red;
 }
 
-article img {
-  width: 100%;
+article img:not(.projet-img) {
+  position: fixed;
+  width: 50%;
   height: 100%;
   object-fit: cover;
 }
 
 article section {
+  position: absolute;
+  padding: 4vw;
+  left: 50%;
   width: 50%;
-  
-} 
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 4vw;
+}
+
+article section .en-tete {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vw;
+}
+
+article section .en-tete .date {
+  font-weight: lighter;
+  font-size: 1.25vw;
+}
+
+article section .en-tete h2 {
+  font-weight: normal;
+  font-size: 2vw;
+}
+
+article section .projet {
+  display: flex;
+  align-items: flex-start;
+  row-gap: 1vw;
+}
+
+article section .projet:last-of-type {
+  padding-bottom: 2vw;
+}
+
+article section .projet .titre-projet {
+  font-size: 1.5vw;
+}
+
+article section .projet img {
+  height: 15vw;
+  width: 15vw;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+article section .projet .projet-desc {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vw;
+
+  padding: 1vw 2vw;
+}
