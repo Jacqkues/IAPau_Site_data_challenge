@@ -10,10 +10,13 @@ class UserRepository{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
     
-
+    private MembreRepository $membreRepository;
+    private LierRepository $lierRepository;
     public function __construct(DatabaseConnection $database) {
         //construit un objet de type DatabaseConnection
         $this->database = $database;
+        $this->membreRepository = new MembreRepository(new DatabaseConnection());
+        $this->lierRepository = new LierRepository(new DatabaseConnection());
     }
 
    
@@ -374,35 +377,45 @@ class UserRepository{
      *  \return un tableau d'objet User contenant tous les étudiants appartenant à une équipe
     */
     public function getUserByEquipe(int $idEquipe) : array{
-        //requête sql
-        $req = "SELECT * FROM User WHERE idUser IN (SELECT idUser FROM Membre WHERE idEquipe = idE)";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($req);
-        //exécution de la requête
-        $statement->execute(['idE' => $idEquipe]);
-        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
-            throw new Exception("La requête de récupération d'un utilisateur par rapport à son équipe a échouée.");
-        }
-        //récupération du résultat
-        $rows = $statement->fetchAll();
         //création d'un tableau d'objets User
         $users = [];
-        foreach ($rows as $row) {
-            $user = new User();
-            $user->setId($row['idUser']);
-            $user->setType($row['types']);
-            $user->setNom($row['nom']);
-            $user->setPrenom($row['prenom']);
-            $user->setEtablissement($row['etablissement']);
-            $user->setNivEtude($row['nivEtude']);
-            $user->setNumTel($row['numTel']);
-            $user->setMail($row['mail']);
-            $user->setDateDeb($row['dateDeb']);
-            $user->setDateFin($row['dateFin']);
-            $user->setMdp($row['mdp']);
-            $users[] = $user;
+        try{
+            $membre = $this->membreRepository->getMembreByTeam($idEquipe);
+            if(empty($membre)){
+                throw new Exception("Le tableau des membres d'équipes est vide");
+            }
+            
+            $membres = implode(',',array_fill(0, count($membre), '?'));
+            $req = "SELECT * FROM User WHERE idUser IN ($membres)";
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute($membre);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if($statement->rowCount() === 0){
+                throw new Exception("La requête pour récupérer les id des membres d'une équipe a échouée.");
+            }
+            //récupération du résultat
+            $rows = $statement->fetchAll();
+            foreach ($rows as $row) {
+                $user = new User();
+                $user->setId($row['idUser']);
+                $user->setType($row['types']);
+                $user->setNom($row['nom']);
+                $user->setPrenom($row['prenom']);
+                $user->setEtablissement($row['etablissement']);
+                $user->setNivEtude($row['nivEtude']);
+                $user->setNumTel($row['numTel']);
+                $user->setMail($row['mail']);
+                $user->setDateDeb($row['dateDeb']);
+                $user->setDateFin($row['dateFin']);
+                $user->setMdp($row['mdp']);
+                $users[] = $user;
+            }
+        }catch(Exception $e){
+            throw new Exception("Erreur lors de la récupération des membres liés à une équipe : " . $e->getMessage());
         }
+
         return $users;
     }
 
@@ -419,7 +432,7 @@ class UserRepository{
     public function getGestByProjet(int $idProjet) : array{
         try{
             //On récupère les id des utilisateurs liés à l'id d'un projet
-            $recUsers = $this->getLierByProjet($idProjet);
+            $recUsers = $this->lierRepository->getLierByProjet($idProjet);
             //Si Mon tableau est vide c'est qu'il n'y a pas de contact lié au projet
             if(empty($recUsers)){
                 throw new Exception("Le tableau d'utilisateur est vide");

@@ -85,11 +85,12 @@ CREATE TABLE Questionnaire(
 
 CREATE TABLE Equipe(
     numero INT PRIMARY KEY AUTO_INCREMENT,
-    chef VARCHAR(50) NOT NULL,
+    chef INT NOT NULL,
     score INT,
     idBattle INT,
     idProjet INT,
     idData INT,
+    FOREIGN KEY fk_Chef(chef) REFERENCES User(idUser) ON DELETE CASCADE,
     FOREIGN KEY fk_battle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE,
     FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet) ON DELETE CASCADE,
     FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE

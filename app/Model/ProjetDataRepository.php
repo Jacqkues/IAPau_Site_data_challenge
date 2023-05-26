@@ -5,14 +5,17 @@ use Lib\DatabaseConnection;
 use Model\Entites\projetData;
 use Exception;
 
-class ProjetDataRepository extends LierRepository{
+class ProjetDataRepository{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
-    
+    private LierRepository $lierRepository;
+    private PossederRepository $possederRepository;
 
     public function __construct(DatabaseConnection $database) {
         //construit un objet de type DatabaseConnection
         $this->database = $database;
+        $this->lierRepository = new LierRepository(new DatabaseConnection());
+        $this->possederRepository = new PossederRepository(new DatabaseConnection());
     }
 
 
@@ -46,6 +49,41 @@ class ProjetDataRepository extends LierRepository{
         $projet->setLienImg($row['lienImg']);
         $projet->setIdDataChallenge($row['idChallenge']);
         return $projet;
+    }
+
+    /*!
+     *  \fn getProjetByChallenge(int $id)
+     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
+     *  \version 0.1 Premier jet
+     *  \dateFri 26 2023 - 10:00:17
+     *  \brief fonction permettant de récupérer les projets liés à un data Challenge
+     *  \param $id int corredpondant à l'id d'un data Challenge dont on souhaite récupérer ses projets
+    */
+    public function getProjetByChallenge(int $id) : array{
+        //requête sql
+        $req = "SELECT * FROM projetData WHERE idChallenge= :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new Exception("Aucun projet pour ce datachallenge");
+        }
+        //récupération des informations
+        $rows = $statement->fetchAll();
+        //création d'un objet Equipe
+        $projets = [];
+        foreach ($rows as $row) {
+            $projet = new projetData();
+            $projet->setIdProjet($row['idProjet']);
+            $projet->setLibelle($row['libelleData']);
+            $projet->setDescription($row['descrip']);
+            $projet->setIdDataChallenge($row['idChallenge']);
+            $projet->setLienImg($row['lienImg']);
+            $projets[] = $projet;
+        }
+        return $projets;
     }
 
 
@@ -156,23 +194,37 @@ class ProjetDataRepository extends LierRepository{
      *  \return un tableau d'objet projetData récupérant tous les projets liés à une ressource
     */
     public function getProjetByRessource(int $idRessource) : array{
-        //requête SQL
-        $sql = "SELECT * FROM projetData WHERE idProjet IN (SELECT idProjet FROM Posseder WHERE idRessources = :idR";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($sql);
-        //exécution de la requête
-        $statement->execute(['idR' => $idRessource]);
-        $rows = $statement->fetchAll();
-        //création d'un tableau d'objets User
-        $projets = [];
-        foreach ($rows as $row) {
-            $projet = new projetData();
-            $projet->setIdProjet($row['idProjet']);
-            $projet->setLibelle($row['libelle']);
-            $projet->setDescription($row['description']);
-            $projet->setLienImg($row['lienImg']);
-            $projet->setIdDataChallenge($row['idDataChallenge']);   
-            $projets[] = $projet;
+        try{
+            //On récupère les id des projets liés à une ressource
+            $recProj = $this->possederRepository->getPossederByRessource($idRessource);
+            //Si Mon tableau est vide c'est qu'il n'y a pas de projet lié à la ressource
+            if(empty($recProj)){
+                throw new Exception("Le tableau de projet est vide");
+            }
+            $idProj = implode(',',array_fill(0, count($recProj), '?'));
+            $req = "SELECT * FROM projetData WHERE idProjet IN ($idProj)";
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute($recProj);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if($statement->rowCount() === 0){
+                throw new Exception("La requête pour récupérer les id des projets liés à une ressource a échouée.");
+            }
+            $rows = $statement->fetchAll();
+            //création d'un tableau d'objets projetData
+            $projets = [];
+            foreach ($rows as $row) {
+                $projet = new projetData();
+                $projet->setIdProjet($row['idProjet']);
+                $projet->setLibelle($row['libelle']);
+                $projet->setDescription($row['description']);
+                $projet->setLienImg($row['lienImg']);
+                $projet->setIdDataChallenge($row['idDataChallenge']);   
+                $projets[] = $projet;
+            }
+        } catch (Exception $e){
+            throw new Exception("Erreur lors de la récupération des projets liés à une ressource : " . $e->getMessage());
         }
         return $projets;
     }
@@ -189,21 +241,21 @@ class ProjetDataRepository extends LierRepository{
     */
     public function getProjetByGest(int $idUser) : array{
         try{
-            //On récupère les id des utilisateurs liés à l'id d'un projet
-            $recContact = $this->getLierByContact($idUser);
+            //On récupère les id des projets liés à l'id d'un contact
+            $recContact = $this->lierRepository->getLierByContact($idUser);
             //Si Mon tableau est vide c'est qu'il n'y a pas de contact lié au projet
             if(empty($recContact)){
                 throw new Exception("Le tableau d'utilisateur est vide");
             }
             $contacts = implode(',',array_fill(0, count($recContact), '?'));
-            $req = "SELECT * FROM User WHERE idUser IN ($contacts)";
+            $req = "SELECT * FROM projetData WHERE idProjet IN ($contacts)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
             $statement->execute($recContact);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if($statement->rowCount() === 0){
-                throw new Exception("La requête pour récupérer les id des contactes liés à un projet a échouée.");
+                throw new Exception("La requête pour récupérer les id des projets liés à un contact a échouée.");
             }
             $rows = $statement->fetchAll();
             //création d'un tableau d'objets projetData
@@ -218,7 +270,7 @@ class ProjetDataRepository extends LierRepository{
                 $projets[] = $projet;
             }
         } catch (Exception $e){
-            throw new Exception("Erreur lors de la récupération des projet liés à un gestionnaire : " . $e->getMessage());
+            throw new Exception("Erreur lors de la récupération des projets liés à un gestionnaire : " . $e->getMessage());
         }
         return $projets;
     }
