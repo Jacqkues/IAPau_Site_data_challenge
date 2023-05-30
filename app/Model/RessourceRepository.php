@@ -2,9 +2,12 @@
 
 namespace Model;
 
+
 use Lib\DatabaseConnection;
 use Model\Entites\Ressources;
 use Exception;
+use PDO;
+
 
 class RessourceRepository
 {
@@ -31,6 +34,7 @@ class RessourceRepository
      *  \param $id int correspondant à l'id de la ressource que l'on souhaite récupérer
      *  \return un objet de type Ressources 
      */
+   
     public function getRessources(int $id): Ressources
     {
         //requête sql
@@ -38,7 +42,7 @@ class RessourceRepository
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['idRessources' => $id]);
+        $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if ($statement->rowCount() === 0) {
             throw new Exception("La requête de récupération des ressources a échouée.");
@@ -65,15 +69,18 @@ class RessourceRepository
      *  \param $lien string correspondant au lien menant à la ressource
      *  \param $type string correspondant au type de ressource (image, texte...)
      *  \return true si tout c'est bien passé 
-    */
-    public function addRessources(Ressources $res) : int{
+     */
+    public function addRessources(Ressources $res): int
+    {
         //requête d'insertion dans la bdd d'une nouvelle ressource
         $req = "INSERT INTO Ressources (nom,types,lien) VALUES ( :nom, :types, :lien)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
+        
         $statement->execute(['nom' => $res->getNom(), 'types' => $res->getTypes(), 'lien' => $res->getLien()]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        
         if ($statement->rowCount() === 0) {
             throw new Exception("La requête d'ajout d'une ressource a échouée.");
         }
@@ -111,7 +118,7 @@ class RessourceRepository
         $ressource->setNom($row['nom']);
         $ressource->setTypes($row['types']);
         return $ressource;
-
+        
     }
 
 
@@ -179,25 +186,26 @@ class RessourceRepository
      *  \param $idChallenge int correspondant à l'id d'un data Challenge dont on souhaite récupérer ses ressources
      *  \return retourne un tableau d'objet Ressources correspondant à toutes les ressources détenues par un data Challenge 
      */
-    
-    public function getRessourceByChallenge(int $idChallenge): array{
+
+    public function getRessourceByChallenge(int $idChallenge): array
+    {
         //création d'un tableau d'objets ressource
         $ressources = [];
-        try{
+        try {
             //On récupère les id des ressources liées à un challenge
             $recRess = $this->detenirRepository->getDetenirByChallenge($idChallenge);
             //Si Mon tableau est vide c'est qu'il n'y a pas de ressources liées au challenge
-            if(empty($recRess)){
+            if (empty($recRess)) {
                 throw new Exception("Le tableau de ressource est vide");
             }
-            $idRess = implode(',',array_fill(0, count($recRess), '?'));
+            $idRess = implode(',', array_fill(0, count($recRess), '?'));
             $req = "SELECT * FROM Ressources WHERE idRessources IN ($idRess)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
             $statement->execute($recRess);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-            if($statement->rowCount() === 0){
+            if ($statement->rowCount() === 0) {
                 throw new Exception("La requête pour récupérer les ressources liées à un challenge a échouée.");
             }
             //récupération du résultat
@@ -210,7 +218,7 @@ class RessourceRepository
                 $ressource->setTypes($row['types']);
                 $ressources[] = $ressource;
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception("Erreur lors de la récupération des ressources liées à un challenge : " . $e->getMessage());
         }
         return $ressources;
@@ -224,25 +232,26 @@ class RessourceRepository
      *  \brief fonction permettant de récupérer toutes les ressources possédées par un data projet
      *  \param $idProjet int correspondant à l'id d'un Projet dont on souhaite récupérer les ressources qu'il utilise
      *  \return un tableau d'objet Ressources contenant toutes les ressources possédées par un projet
-    */
-    public function getRessourceByProjet(int $idProjet): array{
+     */
+    public function getRessourceByProjet(int $idProjet): array
+    {
         //création d'un tableau d'objets ressource
         $ressources = [];
-        try{
+        try {
             //On récupère les id des ressources liées à un projet
             $recRess = $this->possederRepository->getPossederByProjet($idProjet);
             //Si Mon tableau est vide c'est qu'il n'y a pas de ressources liées au projet
-            if(empty($recRess)){
+            if (empty($recRess)) {
                 throw new Exception("Le tableau de ressource est vide");
             }
-            $idRess = implode(',',array_fill(0, count($recRess), '?'));
+            $idRess = implode(',', array_fill(0, count($recRess), '?'));
             $req = "SELECT * FROM Ressources WHERE idRessources IN ($idRess)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
             $statement->execute($recRess);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-            if($statement->rowCount() === 0){
+            if ($statement->rowCount() === 0) {
                 throw new Exception("La requête pour récupérer les ressources liées à un projet a échouée.");
             }
             //récupération du résultat
@@ -255,9 +264,30 @@ class RessourceRepository
                 $ressource->setTypes($row['types']);
                 $ressources[] = $ressource;
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception("Erreur lors de la récupération des ressources liées à un projet : " . $e->getMessage());
         }
         return $ressources;
     }
+
+
+    public function updateRessources(Ressources $res)
+    {
+        $req = "UPDATE Ressources SET nom = :nom, types = :types, lien = :lien WHERE idRessources = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->bindValue(':nom', $res->getNom(),PDO::PARAM_STR);
+        $statement->bindValue(':types', $res->getTypes(),PDO::PARAM_STR);
+        $statement->bindValue(':lien', $res->getLien(),PDO::PARAM_STR);
+        $statement->bindValue(':id', $res->getId(),PDO::PARAM_INT);
+        //exécution de la requête
+        $statement->execute();
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if ($statement->rowCount() === 0) {
+            throw new Exception("La requête de modification d'une ressource a échouée.");
+        }
+        return true;
+        
+    }
+
 }

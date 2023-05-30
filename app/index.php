@@ -93,6 +93,7 @@ $router->addRoute($addRessource);
 $router->addRoute($deleteRessource);
 
 echo "<script src='./index.js'></script>";
+
 $router->handleRequest();
 
 

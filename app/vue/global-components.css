@@ -6,7 +6,7 @@ body {
   --PADDING: 1vw 4vw;
 
   position: relative;
-
+  background-color: white;
   width: 100vw;
   min-height: 100vh;
   margin: 0;
@@ -91,7 +91,9 @@ header {
   align-items: center;
   gap: 1vw;
   z-index: 999;
+  
 }
+
 
 .logo img {
   width: 3vw;

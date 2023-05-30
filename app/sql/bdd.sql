@@ -47,7 +47,7 @@ CREATE TABLE Ressources(
     lien VARCHAR(200)
 );
 
-CREATE TABLE Detenir (
+CREATE TABLE Detenir(
     idChallenge INT,
     idRessources INT,
     CONSTRAINT pk_Detenir PRIMARY KEY (idChallenge, idRessources),
