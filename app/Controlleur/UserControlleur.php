@@ -52,7 +52,12 @@ class UserControlleur implements Controlleur
     }
     public function index()
     {
-        $fonctionnalite = ["Mon compte" => "./vue/components/monCompte/monCompte.php" ,"Mes challenges" => "./vue/components/admin/manage-challenge.php","Challenges disponibles" => "./vue/components/admin/manage-ressources.php", "Mes equipes" => "./vue/components/admin/manage-ressources.php","Mon profil" => "./vue/components/admin/manage-ressources.php"];
+        $fonctionnalite = [
+            "Mon compte" => "./vue/components/monCompte/monCompte.php", 
+            "Mes challenges" => "./vue/components/admin/manage-challenge.php",
+            "Challenges disponibles" => "./vue/components/admin/manage-ressources.php", 
+            "Mes equipes" => "./vue/components/admin/manage-ressources.php"
+        ];
         $type = "user";
         if(isset($_GET['onglet'])){
             $ongletcourant = $_GET['onglet'];

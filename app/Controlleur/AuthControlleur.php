@@ -145,7 +145,8 @@ class AuthControlleur implements Controlleur
 
         $userRepo->addUser($user);
 
-        $_SESSION['user'] = $user;
+        $_SESSION['user'] = $userRepo->findByEmail($_POST['email']);
+
         header('Location: /user');
         exit();
     }
