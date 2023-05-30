@@ -169,9 +169,6 @@ class AdminControlleur implements Controlleur
 
     }
 
-    public function Test(){
-        echo "oui oui oui";
-    }
     public function index()
     {
         $fonctionnalite = [

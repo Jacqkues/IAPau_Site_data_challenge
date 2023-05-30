@@ -109,4 +109,5 @@ header .compte {
 
 .error {
   color: red;
+  font-size: 1vw !important;
 }
