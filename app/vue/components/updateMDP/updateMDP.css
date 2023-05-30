@@ -1,0 +1,19 @@
+.corps p{
+    font-size: 1.5vw;
+    margin-bottom: 9vh;
+    margin-top: 4vh;
+}
+
+.corps form input{
+    display: block;
+    margin-bottom: 4vh;
+}
+
+.corps form .bouton{
+    margin-top: 5vh;
+    font-size: 1vw;
+}
+
+.corps form p{
+    margin-top: -2vh;
+}

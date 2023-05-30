@@ -1,0 +1,85 @@
+body{
+    overflow-x: hidden;
+    height: 100%;
+}
+.corps #titreCompte{
+    display: flex;
+    margin-bottom: 10vh;
+    margin-top: -8vh;
+    font-size: 2vw;
+    width: 75vw;
+}
+
+.corps{
+    font-family: Montserrat, Helvetica, Arial, Lucida, sans-serif;
+}
+
+
+.corps .corpsInfo{
+    margin-bottom: 8vh;
+}
+
+.corps .corpsInfo #titreInfo{
+    margin-bottom: 2vh;
+    font-size: 1.5vw;
+}
+
+
+.corps .corpsInfo .infoUser .user .ensemble p{
+    height: 1vw;
+    font-size: 0.8vw;
+}
+
+.corps .corpsInfo .infoUser .user form{
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 2vw;
+    max-width: 70%;
+}
+
+.corps .corpsInfo .infoUser .user form input,.corps .corpsInfo .infoUser .user form select{
+    width: 20vw;
+    font-size: 1.2vw;
+}
+
+.corps .corpsInfo .infoUser .user form .bouton{
+    display: block;
+    margin-top:1vw;
+    width: 15vw;
+    font-size: 0.9vw;
+}
+
+.corps .corpsStat #titreStat{
+    font-size: 1.5vw;
+}
+
+.corps .corpsStat ul{
+    font-size: 1vw;
+}
+.corps .corpsStat #statUser{
+    color: #4AB7BC;
+    display: inline-block;
+}
+
+.corps .corpsStat{
+    margin-bottom: 5vh;
+}
+.corps .boutonMc #lien{
+    display: inline-block;
+    text-align: center;
+    border-style: solid;
+    border-color: #4AB7BC;
+    color: black;
+    font-size: 1vw;
+    padding: 1vw 1vw;
+    border-radius: 50px;
+    width: 14vw;
+    margin-right: 3vw;
+}
+
+.corps .boutonMc{
+    display: inline-flex;
+    position: absolute;
+    right: 0;
+
+}
