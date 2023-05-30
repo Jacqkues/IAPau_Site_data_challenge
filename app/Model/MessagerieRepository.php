@@ -205,18 +205,17 @@ class MessagerieRepository
      *  \param $categorie array de string correspondant à toutes les catégories souhaitées
      *  \return un tableau d'objet Messagerie correspondant à tous les messages de toutes les catégories
      */
-    public function getMessageByCat(array $categorie): array
+    public function getMessageByCat(string $categorie): array
     {
         //On vérifie que le tableau est vide et si il l'est on jette une Exception
         if (empty($categorie)) {
             throw new Exception("Le tableau de catégorie est vide");
         }
-        $categoriesT = implode(',', array_fill(0, count($categorie), '?'));
-        $req = "SELECT * FROM Messagerie WHERE categorie IN ($categoriesT)";
+        $req = "SELECT * FROM Messagerie WHERE categorie = :categorie";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute($categorie);
+        $statement->execute(['categorie' => $categorie]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if ($statement->rowCount() === 0) {
             throw new Exception("La requête pour récupérer les messages d'une ou plusieurs catégories a échoué.");
@@ -237,7 +236,6 @@ class MessagerieRepository
             $messages[] = $message;
         }
         return $messages;
-
     }
 
     public function getDistinctCat(): array

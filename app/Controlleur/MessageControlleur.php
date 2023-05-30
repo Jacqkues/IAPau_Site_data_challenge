@@ -38,10 +38,12 @@ class MessageControlleur implements Controlleur
         $_POST['categorie']
       );
 
+      
       if (!$publié) {
         throw new Exception("Publication message impossible");
       } else {
-        header('Location: /' .$_SESSION['user']->getType(). '?onglet=Messagerie');
+        $categorie = isset($_GET['categorie'])?$_GET['categorie']:"GÉNÉRAL";
+        header('Location: /' .$_SESSION['user']->getType(). '?onglet=Messagerie&categorie='. $categorie);
       }
     }
   }

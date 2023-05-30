@@ -287,7 +287,12 @@ class AdminControlleur implements Controlleur
                 $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
                 break;
             case "Messagerie":
-                $content->assign("messages", $this->messagerierepo->getAllMessage());
+                $categorie = isset($_GET['categorie'])?$_GET['categorie']:"GÉNÉRAL";
+                try {
+                    $content->assign("messages", $this->messagerierepo->getMessageByCat($categorie));
+                } catch (\Exception $e) {
+                    $content->assign("messages", []);
+                }
                 $content->assign("categories", $this->challengerepo->getAllChallenges());
                 $content->assign("users", $this->userRepo);
                 break;
