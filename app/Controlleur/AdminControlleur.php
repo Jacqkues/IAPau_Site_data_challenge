@@ -29,7 +29,7 @@ class AdminControlleur implements Controlleur
     private $ressourceRepository;
 
     private $associationRepository;
-    
+
 
     public function __construct()
     {
@@ -90,28 +90,30 @@ class AdminControlleur implements Controlleur
 
     }
 
-    public function addProjet(){
-        if(isset($_POST)){
+    public function addProjet()
+    {
+        if (isset($_POST)) {
             $projet = new projetData();
             $projet->setLibelle($_POST['titre']);
             $projet->setDescription($_POST['description']);
             $projet->setLienImg($_POST['lienimg']);
             $projet->setIdDataChallenge($_POST['id']);
             $this->projetRepo->addProjet($projet);
-            header('Location: /admin?config&id='.$_POST['id']);
+            header('Location: /admin?config&id=' . $_POST['id']);
         }
     }
 
-    public function deleteProjet(){
+    public function deleteProjet()
+    {
         $projetId = $_GET['id'];
         $this->projetRepo->deleteProjet($projetId);
-        header('Location: /admin?config&id='.$_GET['idChallenge']);
+        header('Location: /admin?config&id=' . $_GET['idChallenge']);
     }
     //ajout suppression et modification d'un Data Challenge
 
     public function addDataChallenge()
     {
-        if(isset($_POST)){
+        if (isset($_POST)) {
             $challenge = new dataChallenge();
             $challenge->setLibelle($_POST['titre']);
             $challenge->setTempsDebut($_POST['debut']);
@@ -137,40 +139,70 @@ class AdminControlleur implements Controlleur
     //ajout suppression et modification des ressources
     public function addRessource()
     {
-        if(isset($_POST)){
+        if (isset($_POST) && isset($_POST['titre']) && isset($_POST['lien']) && isset($_POST['type']) && !isset($_POST['id'])) {
             $ressource = new Ressources();
             $ressource->setNom($_POST['titre']);
             $ressource->setLien($_POST['lien']);
             $ressource->setTypes($_POST['type']);
             $id = $this->ressourceRepository->addRessources($ressource);
-            if(isset($_POST['challenge'])){
-                $this->associationRepository->addResourceDataChallenge($_POST['challenge'],$id);
-                header('Location: /admin?config&id='.$_POST['challenge']);
-            }else if(isset($_POST['projetId'])){
-                $this->associationRepository->addResourceProjet($_POST['projetId'],$id);
-            
-                 header('Location: /admin?projetConf&id='.$_POST['projetId'] . "&idChallenge=" . $_POST['idChallenge']);
+            if (isset($_POST['challenge'])) {
+                $this->associationRepository->addResourceDataChallenge($_POST['challenge'], $id);
+                if(isset($_POST['mnr'])){
+                    header('Location: /admin?onglet=Manage%20Ressource&idChallenge=' . $_POST['challenge']);
+                }else{
+                    header('Location: /admin?config&id=' . $_POST['challenge']);
+                }
+                
+            } else if (isset($_POST['projetId'])) {
+                $this->associationRepository->addResourceProjet($_POST['projetId'], $id);
+                if(isset($_POST['mnr'])){
+                    header('Location: /admin?onglet=Manage%20Ressource&idChallenge=' . $_POST['idChallenge'] . "&idProjet=" . $_POST['projetId']);
+                }else{  
+                    header('Location: /admin?projetConf&id=' . $_POST['projetId'] . "&idChallenge=" . $_POST['idChallenge']);
+                }
             }
-            
+
+
+
+        }else if(isset($_POST) && isset($_POST['id'])){
+            $ressource = new Ressources();
+            $ressource->setId($_POST['id']);
+            $ressource->setNom($_POST['titre']);
+            $ressource->setLien($_POST['lien']);
+            $ressource->setTypes($_POST['type']);
+            $this->ressourceRepository->updateRessources($ressource);
+            header('Location: /admin?onglet=Manage%20Ressource');
+        }
+        else {
+            header('Location: /admin?config&id=' . $_POST['idChallenge']);
         }
 
     }
     public function deleteRessource()
     {
 
-        if(isset($_GET['id'])){
+        if (isset($_GET['id'])) {
             $this->ressourceRepository->deleteRessource($_GET['id']);
-            header('Location: /admin?config&id='.$_GET['idChallenge']);
+            if(isset($_GET['idChallenge']) && isset($_GET['mnr'])){
+                
+                header('Location: /admin?onglet=Manage%20Ressource&idChallenge=' . $_GET['idChallenge']);
+            }else{
+                header('Location: /admin?config&id=' . $_GET['idChallenge']);
+            }
+            
         }
 
     }
-    public function updateRessource()
+    
+
+
+    public function debug_to_console($data)
     {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
 
-    }
-
-    public function Test(){
-        echo "oui oui oui";
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
     }
     public function index()
     {
@@ -196,62 +228,65 @@ class AdminControlleur implements Controlleur
 
             $page = "./vue/components/admin/challenge.config.php";
             $ongletcourant = "Manage Data Challenge";
-        }else if(isset($_GET['addP'])){
+        } else if (isset($_GET['addP'])) {
 
             $page = "./vue/components/admin/projet.ajout.php";
             $ongletcourant = "Manage Data Challenge";
-        }else if(isset($_GET["newData"])){
+        } else if (isset($_GET["newData"])) {
 
             $page = "./vue/components/admin/challenge.ajout.php";
             $ongletcourant = "Manage Data Challenge";
 
-        }else if(isset($_GET["addR"])){
+        } else if (isset($_GET["addR"])) {
             $page = "./vue/components/admin/ressource.ajout.php";
             $ongletcourant = "Manage Ressource";
-        }elseif(isset($_GET["projetConf"])){
+        } elseif (isset($_GET["projetConf"])) {
             $page = "./vue/components/admin/projet.modif.php";
             $ongletcourant = "Manage Data Challenge";
-            
+
         }
 
         $content = new View($page);
         $content->assign('type', $type);
-        
+
         if (isset($_GET['form']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("user", $this->userRepo->getUser($id));
         } else if (isset($_GET['config']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
-            try{
-                $content->assign("projets", $this->challengerepo->getProjets($id));
-            }catch (\Exception $e){
+            try {
+                $content->assign("projets", $this->projetRepo->getProjetByChallenge($id));
+            } catch (\Exception $e) {
                 $content->assign("projets", null);
             }
-            try{
+            try {
                 $content->assign("ressources", $this->associationRepository->getResourceByChallenge($id));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $content->assign("ressources", null);
             }
 
-            
 
 
-        }else if(isset($_GET['addP']) && isset($_GET['id'])){
+
+        } else if (isset($_GET['addP']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
-        }else if(isset($_GET['addR']) && isset($_GET['id'])){
+        } else if (isset($_GET['addR']) && isset($_GET['id'])) {
             $id = $_GET['id'];
             $content->assign("challenge", $this->challengerepo->getDataChallenge($id));
-        }else if(isset($_GET['projetConf']) && isset($_GET['id']) && isset($_GET['idChallenge'])){
+        } else if (isset($_GET['projetConf']) && isset($_GET['id']) && isset($_GET['idChallenge'])) {
             $id = $_GET['id'];
             $content->assign("projet", $this->projetRepo->getProjetData($id));
             $content->assign("ressources", $this->associationRepository->getResourceByChallenge($_GET['idChallenge']));
-            try{
+            try {
                 $content->assign("projetressources", $this->associationRepository->getRessourceByProjet($id));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $content->assign("projetressources", null);
             }
+        }else if(isset($_GET['addR']) && isset($_GET['idRes'])){
+            $id = $_GET['idRes'];
+            $content->assign("ressource", $this->ressourceRepository->getRessources($id));
         }
 
         switch ($ongletcourant) {
@@ -265,9 +300,30 @@ class AdminControlleur implements Controlleur
                 $content->assign("messages", $this->messagerierepo->getAllMessage());
                 break;
             case "Manage Ressource":
-                $content->assign("ressources", $this->ressourceRepository->getAllRessources());
+
                 $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
-                
+                if (isset($_GET['idChallenge'])) {
+                    self::debug_to_console($_GET['idChallenge']);
+                    try {
+                        $content->assign("challenge", $this->challengerepo->getDataChallenge($_GET['idChallenge']));
+                        $content->assign("ressources", $this->associationRepository->getResourceByChallenge($_GET['idChallenge']));
+                        $content->assign("projetList", $this->projetRepo->getProjetByChallenge($_GET['idChallenge']));
+                    } catch (\Exception $e) {
+                        $content->assign("challenge", null);
+                        $content->assign("ressources", null);
+                        $content->assign("projetList", null);
+                    }
+                }
+                if (isset($_GET['idProjet'])) {
+                    try {
+                        $content->assign("projetSelected", $this->projetRepo->getProjetData($_GET['idProjet']));
+                        $content->assign("projetressources", $this->associationRepository->getRessourceByProjet($_GET['idProjet']));
+                        $content->assign("idProjet", $_GET['idProjet']);
+                    } catch (\Exception $e) {
+                        $content->assign("projet", null);
+                        $content->assign("projetressources", null);
+                    }
+                }
                 break;
             default:
                 break;

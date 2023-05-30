@@ -50,7 +50,6 @@ CREATE TABLE Ressources(
 );
 
 CREATE TABLE Detenir(
-    id INT PRIMARY KEY AUTO_INCREMENT,
     idChallenge INT,
     idRessources INT,
     CONSTRAINT pk_Detenir PRIMARY KEY (idChallenge, idRessources),

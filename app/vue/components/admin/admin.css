@@ -154,3 +154,26 @@ form{
     width:100%;
     gap:1em;
 }
+
+a{
+    color:black;
+}
+
+.flexcol{
+    display: flex;
+    flex-direction: column;
+    gap:2em;
+}
+
+.flexrow{
+    display: flex;
+    flex-direction: row;
+    gap:1em;
+    align-items: center;
+}
+
+.cancel{
+    background-color: white;
+    border: 1px solid black;
+    color:black;
+}
