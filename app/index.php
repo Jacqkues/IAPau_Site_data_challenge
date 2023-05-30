@@ -46,6 +46,7 @@ $challengeDescController = new ChallengeDescControlleur();
 $adminGuard = new AuthGuard($authController,"isAdmin");
 $gestionnaireGuard = new AuthGuard($authController,"isGestionnaire");
 $userGuard = new AuthGuard($authController,"isLogged");
+$adminOrGestionnaireGuard = new AuthGuard($authController,"isAdminOrGestionnaire");
 
 //les pages 
 $loginPage = new Route("/login",$authController,"index");
@@ -58,18 +59,19 @@ $challengeDesc = new Route("/dataChallenge",$challengeDescController,"index");
 
 //les pages protegees
 $adminDashboard = new ProtectedRoute("/admin",$adminControlleur,"index",$adminGuard);
-$gestionnaireDashboard = new ProtectedRoute("/gestionnaire",$gestionnaireControlleur,"index",$gestionnaireGuard);
+$gestionnaireDashboard = new ProtectedRoute("/gestionnaire", $gestionnaireControlleur, "index", $gestionnaireGuard);
 $userPage = new ProtectedRoute("/user",$userControlleur,"index",$userGuard);
 $deleteUser = new ProtectedRoute("/admin/deleteUser",$adminControlleur,"deleteUser",$adminGuard);
 $addUser = new ProtectedRoute("/admin/addUser",$adminControlleur,"addUser",$adminGuard);
 $updateUser = new ProtectedRoute("/admin/updateUser",$adminControlleur,"updateUser",$adminGuard);
-$publierMessage = new ProtectedRoute("/publierMessage", $messageControlleur, "publierMessage", $adminGuard);
+$publierMessage = new ProtectedRoute("/publierMessage", $messageControlleur, "publierMessage", $adminOrGestionnaireGuard);
 $addChallenge = new ProtectedRoute("/admin/addChallenge",$adminControlleur,"addDataChallenge",$adminGuard);
 $addProjet = new ProtectedRoute("/admin/addProjet",$adminControlleur,"addProjet",$adminGuard);
 $deleteProjet = new ProtectedRoute("/admin/deleteProjet",$adminControlleur,"deleteProjet",$adminGuard);
 $deleteChallenge = new ProtectedRoute("/admin/deleteChallenge",$adminControlleur,"deleteDataChallenge",$adminGuard);
 $addRessource = new ProtectedRoute("/admin/addRessource",$adminControlleur,"addRessource",$adminGuard);
 $deleteRessource = new ProtectedRoute("/admin/deleteRessource",$adminControlleur,"deleteRessource",$adminGuard);
+$dataChallengeDetails = new ProtectedRoute("/gestionnaire/dataChallengeDetails",$gestionnaireControlleur,"deleteRessource",$adminGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);

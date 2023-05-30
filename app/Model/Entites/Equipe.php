@@ -57,7 +57,4 @@ class Equipe{
     public function setIdDataChallenge($idDataChallenge) {
         $this->idDataChallenge = $idDataChallenge;
     }
-
-    
-
 }

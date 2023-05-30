@@ -98,6 +98,13 @@ class AuthControlleur implements Controlleur
         return false;
     }
 
+    public function isAdminOrGestionnaire(): bool {
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user']->getType() == "gestionnaire" || $_SESSION['user']->getType() == "admin";
+        }
+        return false;
+    }
+
     public function register()
     {
         if (

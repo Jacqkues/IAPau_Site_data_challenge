@@ -18,7 +18,7 @@
     </div>
   <?php } ?>
 
-  <?php if ($type == "admin") { ?>
+  <?php if ($type == "admin" || $type == "gestionnaire") { ?>
     <form method="post" action="/publierMessage" class="publier">
       <div class="champs">
         <div class="haut">

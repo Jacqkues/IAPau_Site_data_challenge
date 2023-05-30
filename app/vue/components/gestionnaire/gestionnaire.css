@@ -1,0 +1,65 @@
+.data-challenge {
+  position: relative;
+  width: 75vw;
+}
+
+.manage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  padding-bottom: 1vw;
+}
+
+.list-container {
+  width: 100%;
+  max-width: 75vw;
+}
+
+.list-header {
+  display: flex;
+  padding-bottom: 1vw;
+
+  font-weight: bold;
+}
+
+.user-info .challenge-title {
+  width: 20vw;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  column-gap: 5vw;
+  width: 100%;
+}
+
+.user-info span {
+  width: 10vw;
+}
+
+.list-content {
+  display: flex;
+  padding: 1vw 0;
+}
+
+.list-content .user-info  {
+  display: flex;
+}
+
+.list-content:hover {
+  background: rgb(209, 209, 209);
+}
+
+.colonnes-equipes {
+  column-gap: 1vw !important;
+}
+
+.colonnes-equipes > * {
+  max-width: calc((75vw - 7vw) / 8) !important;
+  text-transform: capitalize;
+}
+
+.user-info span:last-of-type {
+  
+}

@@ -1,18 +1,18 @@
-article{
+article {
     min-height: 100vh;
-    
+
     color: black;
-    width:100%;
+    width: 100%;
     display: flex;
 }
 
 article section {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-article section:first-of-type{
+article section:first-of-type {
     padding: 0;
     width: 300px;
     background-color: rgb(233, 233, 233);
@@ -20,48 +20,54 @@ article section:first-of-type{
     position: fixed;
 }
 
-.content-container{
+.content-container {
     margin-top: 8vw;
-    margin-left:calc(300px + 2vw);
+    margin-left: calc(300px + 2vw);
     margin-bottom: 8vw;
 }
 
-
-.mtop{
+.mtop {
     margin-top: 6vw;
-    
 }
-.onglets{
+
+.onglets {
     margin-top: 5vw;
     display: flex;
     flex-direction: column;
 }
-.onglet{
-    color:black;
+
+.onglet {
+    color: black;
     font-weight: bold;
     padding: 10px 20px;
     transition: all .3s;
 }
-.onglet:hover{
+
+.onglet:hover {
     background-color: rgb(209, 209, 209);
 }
-.utilisateur{
-    
+
+.utilisateur {
     margin-left: 2vw;
     margin-top: 2vw;
 }
 
-.onglet-active{
-    color:black;
+.utilisateur {
+    text-transform: capitalize;
+}
+
+.onglet-active {
+    color: black;
     font-weight: bold;
     padding: 10px 20px;
-    
+
     background-color: rgb(209, 209, 209);
 }
-.logo{
-    padding:2vw;
+
+.logo {
+    padding: 2vw;
     position: absolute;
-    top:0;
-    left:0;
-    color:#4ab6bcb3
+    top: 0;
+    left: 0;
+    color: #4ab6bcb3
 }

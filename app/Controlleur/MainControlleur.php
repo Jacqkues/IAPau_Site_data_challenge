@@ -46,7 +46,7 @@ class MainControlleur implements Controlleur
                 case "user":
                     header('Location: /user');
                     break;
-                case "gesionnaire":
+                case "gestionnaire":
                     header('Location: /gestionnaire');
                     break;
             }

@@ -17,10 +17,7 @@
 
 
     <section>
-      <a href="/" class="logo">
-        <img src="vue/assets/logo.png" alt="logo-IA-Pau">
-        <h1>IA Pau</h1>
-      </a>
+      <?php include "./vue/components/header/header.php" ?>
       <div class="mtop">
         <div class="utilisateur">
           <h2>

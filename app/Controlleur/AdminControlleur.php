@@ -35,8 +35,8 @@ class AdminControlleur implements Controlleur
     {
         $this->userRepo = new UserRepository(new DatabaseConnection());
         $this->challengerepo = new DataChallengeRepository(new DatabaseConnection());
-        $this->projetRepo = new ProjetDataRepository(new DatabaseConnection());
         $this->messagerierepo = new MessagerieRepository(new DatabaseConnection());
+        $this->projetRepo = new ProjetDataRepository(new DatabaseConnection());
         $this->ressourceRepository = new RessourceRepository(new DatabaseConnection());
         $this->associationRepository = new AssociationRepository(new DatabaseConnection());
     }
@@ -109,8 +109,8 @@ class AdminControlleur implements Controlleur
         $this->projetRepo->deleteProjet($projetId);
         header('Location: /admin?config&id=' . $_GET['idChallenge']);
     }
-    //ajout suppression et modification d'un Data Challenge
 
+    //ajout suppression et modification d'un Data Challenge
     public function addDataChallenge()
     {
         if (isset($_POST)) {
