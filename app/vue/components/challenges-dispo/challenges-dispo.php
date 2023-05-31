@@ -1,29 +1,25 @@
-<html>
+<link rel="stylesheet" href="./vue/components/challenges-dispo/challenges-dispo.css">
 
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="./vue/components/challenges-dispo/challenges-dispo.css">
-  <link rel="stylesheet" href="./vue/global-components.css">
-</head>
-
-<body>
-
+<section id="challenges" class="challenges">
   <?php foreach ($challengesDispo as $challenge) { ?>
-    <section id="challenges" class="challenges">
-      <div class="challenge">
-        <img src="<?= 'vue/assets/challenge.jpg' ?>" alt="challenge">
-        <div class="challenge__desc">
-          <h3>
-            <?= $challenge->getLibelle() ?>
-          </h3>
-          <p class="date">
-            <?= $challenge->getTempsDebut() . " - " . $challenge->getTempsFin() ?>
-          </p>
-          <a href="/dataChallenge?challenge=<?= $challenge->getIdChallenge() ?>" class="bouton">En savoir +</a>
-        </div>
+    <div class="challenge">
+      <img src="<?php
+      try {
+        $lien_ressource_challenge = $detenir->getDetenirByChallenge($challenge->getIdChallenge());
+        echo ($ressource->getRessources($lien_ressource_challenge[0]->getIdRessource()))->getLien();
+      } catch (\Exception $e) {
+        echo "vue/assets/challenge.jpg";
+      }
+      ?>" alt="challenge">
+      <div class="challenge__desc">
+        <h3>
+          <?= $challenge->getLibelle() ?>
+        </h3>
+        <p class="date">
+          <?= $challenge->getTempsDebut() . " - " . $challenge->getTempsFin() ?>
+        </p>
+        <a href="/dataChallenge?challenge=<?= $challenge->getIdChallenge() ?>" class="bouton">En savoir +</a>
       </div>
-    </section>
+    </div>
   <?php } ?>
-</body>
-
-</html>
+</section>

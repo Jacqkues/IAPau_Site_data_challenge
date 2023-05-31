@@ -1,7 +1,7 @@
 
 .safe-zone {
   position: relative;
-  width: calc(80vw - 5vw);
+  width: 75vw;
   max-height: calc(100vh - 15vw);
 
   display: flex;
@@ -43,8 +43,7 @@
 .safe-zone form {
   position: fixed;
   bottom: 0;
-  right: 2vw;
-  width: calc(80% - 4vw);
+  width: 75vw;
   padding: inherit;
 
   display: flex;
@@ -53,10 +52,11 @@
 }
 
 .safe-zone form .champs {
+  position: relative;
   display: flex;
   flex-direction: column;
 
-  width: 100%;
+  width: calc(80vw - 7.5vw);
 }
 
 .safe-zone form .champs .haut {
@@ -75,4 +75,8 @@
 
 .bouton-input-text {
   padding: .1vw .2vw !important;
+}
+
+.bouton {
+  width: 7.5vw;
 }

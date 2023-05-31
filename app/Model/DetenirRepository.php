@@ -27,14 +27,14 @@ class DetenirRepository{
     */
     public function getDetenirByChallenge(int $idChal) : array{
         //requête sql
-        $req = "SELECT * FROM Detenir WHERE id= :id";
+        $req = "SELECT * FROM Detenir WHERE idChallenge = :id";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
         $statement->execute(['id' => $idChal]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération de la liaison 'Detenir' a échouée.");
+            throw new Exception("La requête de récupération de la liaison 'Detenir' a échoué.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();

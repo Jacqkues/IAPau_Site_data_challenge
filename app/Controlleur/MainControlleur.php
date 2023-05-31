@@ -6,19 +6,23 @@ use jmvc\Controlleur;
 use jmvc\View;
 
 use Model\DataChallengeRepository;
-use Model\RessourceRepository;
+use Model\DetenirRepository;
 use Lib\DatabaseConnection;
+use Model\RessourceRepository;
 
 class MainControlleur implements Controlleur
 {
     private $dataChallengeRepo;
 
+    private $detenir;
     private $ressource;
 
     public function __construct()
     {
-        $this->dataChallengeRepo = new DataChallengeRepository(new DatabaseConnection());
-        $this->ressource = new RessourceRepository(new DatabaseConnection());
+        $db = new DatabaseConnection();
+        $this->dataChallengeRepo = new DataChallengeRepository($db);
+        $this->detenir = new DetenirRepository($db);
+        $this->ressource = new RessourceRepository($db);
     }
 
     public function showdatachallenge()
@@ -54,7 +58,8 @@ class MainControlleur implements Controlleur
         }
         $challengesDispo = new View("./vue/components/challenges-dispo/challenges-dispo.php");
         $challengesDispo->assign("challengesDispo", $this->dataChallengeRepo->getAllChallenges());
-        $challengesDispo->assign("ressourceRepo", $this->ressource);
+        $challengesDispo->assign("detenir", $this->detenir);
+        $challengesDispo->assign("ressource", $this->ressource);
 
         $mainPage = new View("./vue/components/main/main.php");
         $mainPage->assign("challengesDispoPage", $challengesDispo->render());

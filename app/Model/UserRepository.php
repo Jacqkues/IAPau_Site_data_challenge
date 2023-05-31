@@ -339,7 +339,7 @@ class UserRepository{
         $statement->execute(["mdp" => $mdp, "id" => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement == NULL){
-            throw new Exception("La requête de modification du mot de passe de l'utilisateur a échouée.");
+            throw new Exception("La requête de modification du mot de passe de l'utilisateur a échoué.");
         }
         return true;
     }
@@ -362,7 +362,7 @@ class UserRepository{
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement == NULL){
-            throw new Exception("La requête de suppression d'un utilisateur a échouée.");
+            throw new Exception("La requête de suppression d'un utilisateur a échoué.");
         }
         return true;
     }
@@ -393,7 +393,7 @@ class UserRepository{
             $statement->execute($membre);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if($statement->rowCount() === 0){
-                throw new Exception("La requête pour récupérer les id des membres d'une équipe a échouée.");
+                throw new Exception("La requête pour récupérer les id des membres d'une équipe a échoué.");
             }
             //récupération du résultat
             $rows = $statement->fetchAll();

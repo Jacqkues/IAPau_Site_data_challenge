@@ -27,6 +27,18 @@ class AuthControlleur implements Controlleur
             header('Location: /login?methode=connexion&error=' . $error);
             exit();
         }
+
+        if ($user->getDateFin() < date("Y-m-d")) {
+            try {
+                $userRepo->deleteUser($user->getId());
+            } catch (Exception $e) {
+                echo $e;
+            }
+            $error = "L'utilisateur n'existe plus, le délai est dépassé.";
+            header('Location: /login?methode=connexion&error=' . $error);
+            exit();
+        }
+
         if ($user != null) {
             if (password_verify($mdp, $user->getMdp())) {
                 $_SESSION['user'] = $user;
@@ -42,9 +54,8 @@ class AuthControlleur implements Controlleur
                 }
             } else {
                 $error = "Mot de passe incorrect";
-                $loginPage = new View("./vue/components/signin-login/signin-login.php");
-                $loginPage->assign("error", $error);
-                $loginPage->show();
+                header('Location: /login?methode=connexion&error=' . $error);
+                exit();
             }
         }
 

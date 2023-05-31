@@ -294,12 +294,12 @@ class AdminControlleur implements Controlleur
             try {
                 $content->assign("projets", $this->projetRepo->getProjetByChallenge($id));
             } catch (\Exception $e) {
-                $content->assign("projets", null);
+                $content->assign("projets", []);
             }
             try {
                 $content->assign("ressources", $this->associationRepository->getResourceByChallenge($id));
             } catch (\Exception $e) {
-                $content->assign("ressources", null);
+                $content->assign("ressources", []);
             }
 
 
@@ -353,15 +353,20 @@ class AdminControlleur implements Controlleur
 
                 $content->assign("dataChallenges", $this->challengerepo->getAllChallenges());
                 if (isset($_GET['idChallenge'])) {
-
                     try {
                         $content->assign("challenge", $this->challengerepo->getDataChallenge($_GET['idChallenge']));
-                        $content->assign("ressources", $this->associationRepository->getResourceByChallenge($_GET['idChallenge']));
-                        $content->assign("projetList", $this->projetRepo->getProjetByChallenge($_GET['idChallenge']));
                     } catch (\Exception $e) {
                         $content->assign("challenge", null);
+                    }
+                    try {
+                        $content->assign("ressources", $this->associationRepository->getResourceByChallenge($_GET['idChallenge']));
+                    } catch (\Exception $e) {
                         $content->assign("ressources", null);
-                        $content->assign("projetList", null);
+                    }
+                    try {
+                        $content->assign("projetList", $this->projetRepo->getProjetByChallenge($_GET['idChallenge']));
+                    } catch (\Exception $e) {
+                        $content->assign("projetList", []);
                     }
                 }
                 if (isset($_GET['idProjet'])) {
@@ -370,8 +375,8 @@ class AdminControlleur implements Controlleur
                         $content->assign("projetressources", $this->associationRepository->getRessourceByProjet($_GET['idProjet']));
                         $content->assign("idProjet", $_GET['idProjet']);
                     } catch (\Exception $e) {
-                        $content->assign("projet", null);
-                        $content->assign("projetressources", null);
+                        $content->assign("projet", []);
+                        $content->assign("projetressources", []);
                     }
                 }
                 break;

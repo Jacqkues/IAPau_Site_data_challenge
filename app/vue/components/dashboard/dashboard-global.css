@@ -1,3 +1,9 @@
+:root {
+    --background-left-panel: rgb(233, 233, 233);
+    --background-onglet: rgb(209, 209, 209);
+}
+
+
 article {
     min-height: 100vh;
 
@@ -14,15 +20,15 @@ article section {
 
 article section:first-of-type {
     padding: 0;
-    width: 300px;
-    background-color: rgb(233, 233, 233);
+    width: 20vw;
+    background-color: var(--background-left-panel);
     padding-top: 20px;
     position: fixed;
 }
 
 .content-container {
     margin-top: 8vw;
-    margin-left: calc(300px + 2vw);
+    margin-left: calc(20vw + 2vw);
     margin-bottom: 8vw;
 }
 
@@ -39,12 +45,12 @@ article section:first-of-type {
 .onglet {
     color: black;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: .75vw 1.5vw;
     transition: all .3s;
 }
 
 .onglet:hover {
-    background-color: rgb(209, 209, 209);
+    background-color: var(--background-onglet);
 }
 
 .utilisateur {
@@ -59,9 +65,9 @@ article section:first-of-type {
 .onglet-active {
     color: black;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: .75vw 1.5vw;
 
-    background-color: rgb(209, 209, 209);
+    background-color: var(--background-onglet);
 }
 
 .logo {
