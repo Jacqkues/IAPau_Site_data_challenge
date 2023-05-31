@@ -74,6 +74,8 @@ $deleteRessource = new ProtectedRoute("/admin/deleteRessource",$adminControlleur
 $userUpdateUser = new ProtectedRoute("/user/updateUser", $userControlleur, 'updateUser',$userGuard);
 $userUpdateMDP = new ProtectedRoute("/user/updateUserPSW", $userControlleur,"updateUserPSW", $userGuard);
 $dataChallengeDetails = new ProtectedRoute("/gestionnaire/dataChallengeDetails",$gestionnaireControlleur,"deleteRessource",$adminGuard);
+$gestUpdateBattle = new ProtectedRoute("/gestionnaire/updateBattle",$gestionnaireControlleur,"updateBattle",$gestionnaireGuard);
+$gestAddQuestionnaire = new ProtectedRoute("/gestionnaire/addQuestionnaire", $gestionnaireControlleur,"addQuestionnaire",$gestionnaireGuard);
 $addpartenaire = new ProtectedRoute("/admin/addpartenaire",$adminControlleur,"addPartenaire",$adminGuard);
 $removepartenaire = new ProtectedRoute("/admin/removepartenaire",$adminControlleur,"removePartenaire",$adminGuard);
 $postDefi = new ProtectedRoute("/admin/postDefi",$adminControlleur,"postDefi",$adminGuard);
@@ -101,6 +103,8 @@ $router->addRoute($addRessource);
 $router->addRoute($deleteRessource);
 $router->addRoute($userUpdateUser);
 $router->addRoute($userUpdateMDP);
+$router->addRoute($gestUpdateBattle);
+$router->addRoute($gestAddQuestionnaire);
 $router->addRoute($dataChallengeDetails);
 $router->addRoute($addpartenaire);
 $router->addRoute($removepartenaire);

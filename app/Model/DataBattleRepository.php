@@ -45,6 +45,7 @@ class DataBattleRepository{
         $battle->setIdBattle($row['idBattle']);
         $battle->setDebut($row['debut']);
         $battle->setFin($row['fin']);
+        $battle->setLibelleBattle($row['libelleBattle']);
         return $battle;
     }
 
@@ -59,13 +60,13 @@ class DataBattleRepository{
      *  \param $fin string correspondant ) la date de fin
      *  \return true si tout se passe bien
     */
-    public function addBattle(string $debut, string $fin){
+    public function addBattle(string $debut, string $fin, string $libelle){
         //requête d'insertion dans la bdd d'un nouveau data Battle
-        $req = "INSERT INTO dataBattle (debut,fin) VALUES ( :debut, :fin)";
+        $req = "INSERT INTO dataBattle (libelleBattle,debut,fin) VALUES ( :libB, :debut, :fin)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['debut' => $debut, 'fin' => $fin]);
+        $statement->execute(['libB'=> $libelle,'debut' => $debut, 'fin' => $fin]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
             throw new Exception("La requête d'ajout dun data Challenge a échouée.");
@@ -97,7 +98,8 @@ class DataBattleRepository{
             $battle = new dataBattle();
             $battle->setIdBattle($row['idBattle']);
             $battle->setDebut($row['debut']);
-            $battle->setFin($row['fin']);   
+            $battle->setFin($row['fin']); 
+            $battle->setLibelleBattle($row['libelleBattle']); 
             $battles[] = $battle;
         }
         return $battles;
@@ -112,7 +114,7 @@ class DataBattleRepository{
      *  \param $id int correspondant à l'id de la data Battle que l'on souhaite supprimer
      *  \return retourne true si tout c'est bien passé 
     */
-    public function deleteBattle(int $id){
+    public function deleteBattle(int $id): bool{
         //requête de suppression d'un data Battle
         $req = "DELETE FROM dataBattle WHERE idBattle = :id";
         //préparation de la requête
@@ -123,6 +125,48 @@ class DataBattleRepository{
         if($statement->rowCount() === 0){
             throw new Exception("La requête de suppression d'une battle a échouée.");
         }   
+        return true;
+    }
+
+    public function updateDebBattle(int $id, string $debut):bool{
+        //requête de modification
+        $req = "UPDATE dataBattle SET debut = :deb WHERE idBattle = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["deb" => $debut, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication de la date de début d'une battle a échouée.");
+        }
+        return true;
+    }
+
+    public function updateFinBattle(int $id, string $fin):bool{
+        //requête de modification
+        $req = "UPDATE dataBattle SET fin = :fin WHERE idBattle = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["fin" => $fin, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication de la date de fin d'une battle a échouée.");
+        }
+        return true;
+    }
+
+    public function updateLibelleBattle(int $id, string $libelle):bool{
+        //requête de modification
+        $req = "UPDATE dataBattle SET libelleBattle = :lib WHERE idBattle = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["lib" => $libelle, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication du libelle d'une battle a échouée.");
+        }
         return true;
     }
 }

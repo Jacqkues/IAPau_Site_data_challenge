@@ -1,0 +1,25 @@
+.corps{
+    display: block;
+}
+
+.corps .Modif{
+    margin-bottom: 10vh;
+}
+
+.corps p{
+    margin-bottom: 6vh;
+    font-size: 1.5vw;
+}
+
+.corps form input{
+    display: block;
+    margin-bottom: 5vh;
+    width: 20vw;
+    font-size: 1.1vw;
+}
+
+.corps form .bouton {
+    font-size: 0.8vw;
+    border-radius: 50px;
+    width: 12vw;
+}

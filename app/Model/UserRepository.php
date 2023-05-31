@@ -344,6 +344,20 @@ class UserRepository{
         return true;
     }
 
+    public function changeType(string $types, int $id){
+        //requête de modification du niveau d'étude de l'utilisateur
+        $req = "UPDATE User SET types = :types WHERE idUser = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["types" => $types, "id" => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modification du type de l'utilisateur a échouée.");
+        }
+        return true;
+    }
+
     /*!
      *  \fn deleteUser(int $id)
      *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 

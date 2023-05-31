@@ -6,6 +6,7 @@ class dataBattle{
     protected int $idBattle;
     protected string $debut;
     protected string $fin;
+    protected string $libelleBattle;
 
     public function getIdBattle() {
         return $this->idBattle;
@@ -29,6 +30,14 @@ class dataBattle{
 
     public function setFin($fin) {
         $this->fin = $fin;
+    }
+
+    public function setLibelleBattle(string $libelleBattle) {
+        $this->libelleBattle = $libelleBattle;
+    }
+
+    public function getLibelleBattle() {
+        return $this->libelleBattle;
     }
 
 

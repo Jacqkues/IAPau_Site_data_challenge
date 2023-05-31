@@ -67,19 +67,25 @@ CREATE TABLE Posseder(
 
 CREATE TABLE dataBattle(
     idBattle INT PRIMARY KEY NOT NULL,
+    libelleBattle VARCHAR(10000),
     debut DATE,
     fin DATE
 );
 
 CREATE TABLE Questionnaire(
     idQuestionnaire INT PRIMARY KEY AUTO_INCREMENT,
-    question VARCHAR(250),
-    reponse VARCHAR(250),
     debut DATE,
     fin DATE,
     lien VARCHAR(200),
     idBattle INT,
     FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE
+);
+
+CREATE TABLE Question(
+    idQuestion INT PRIMARY KEY AUTO_INCREMENT,
+    question VARCHAR(10000),
+    idQuestionnaire INT,
+    FOREIGN KEY fk_idQuestionnaire(idQuestionnaire) REFERENCES Questionnaire(idQuestionnaire) ON DELETE CASCADE
 );
 
 CREATE TABLE Equipe(
@@ -93,6 +99,15 @@ CREATE TABLE Equipe(
     FOREIGN KEY fk_battle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE,
     FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet) ON DELETE CASCADE,
     FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
+);
+
+CREATE TABLE Reponse(
+    idReponse INT PRIMARY KEY AUTO_INCREMENT,
+    reponse VARCHAR(10000),
+    idQuestion INT NOT NULL,
+    idEquipe INT NOT NULL,
+    FOREIGN KEY fk_idQuestion(idQuestion) REFERENCES Question(idQuestion),
+    FOREIGN KEY fk_idEquipe(idEquipe) REFERENCES Equipe(numero)
 );
 
 CREATE TABLE Membre(

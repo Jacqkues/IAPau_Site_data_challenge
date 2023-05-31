@@ -5,8 +5,13 @@ namespace Controlleur;
 use jmvc\Controlleur;
 use jmvc\View;
 
+use Model\DataBattleRepository;
+use Model\Entites\dataBattle;
+use Model\Entites\Questionnaire;
 use Model\EquipeRepository;
 use Model\MembreRepository;
+use Model\QuestionnaireRepository;
+use Model\RessourceRepository;
 use Model\UserRepository;
 use Model\DataChallengeRepository;
 use Model\MessagerieRepository;
@@ -21,9 +26,10 @@ class GestionnaireControlleur implements Controlleur
     private $messagerierepo;
     private $equipesRepo;
     private $membreRepo;
+    private $ressourceRepository;
 
-    private $databattleRepo;
-
+    private $battleRepo;
+    private $questionnaireRepo;
     private $associationRepo;
 
     public function __construct()
@@ -34,8 +40,36 @@ class GestionnaireControlleur implements Controlleur
         $this->messagerierepo = new MessagerieRepository($db);
         $this->equipesRepo = new EquipeRepository($db);
         $this->membreRepo = new MembreRepository($db);
-        $this->databattleRepo = new DataBattleRepository($db);
         $this->associationRepo = new AssociationRepository($db);
+        $this->ressourceRepository = new RessourceRepository($db);
+        $this->battleRepo = new DataBattleRepository($db);
+        $this->questionnaireRepo = new QuestionnaireRepository($db);
+    }
+
+    public function updateBattle(){
+        if(isset($_POST)){
+            $battle = new dataBattle();
+            $battle->setIdBattle($_POST['id']);
+            $battle->setLibelleBattle($_POST['libelle']);
+            $battle->setDebut($_POST['debut']);
+            $battle->setFin($_POST['fin']);
+            $this->battleRepo->updateDebBattle($battle->getIdBattle(), $battle->getDebut());
+            $this->battleRepo->updateFinBattle($battle->getIdBattle(), $battle->getFin());
+            $this->battleRepo->updateLibelleBattle($battle->getIdBattle(), $battle->getLibelleBattle());
+            header('Location: /gestionnaire?onglet=Manage Data Battle');
+        }
+    }
+
+    public function addQuestionnaire(){
+        if(isset($_POST)){
+            $questionnaire = new Questionnaire();
+            $questionnaire->setDebut($_POST['debut']);
+            $questionnaire->setFin($_POST['fin']);
+            $questionnaire->setLien($_POST['lien']);
+            $questionnaire->setIdBattle($_POST['idBattle']);
+            $this->questionnaireRepo->addQuestionnaire($questionnaire->getDebut(), $questionnaire->getFin(), $questionnaire->getLien(), $questionnaire->getIdBattle());
+            header('Location: /gestionnaire?onglet=Manage Data Battle');
+        }
     }
 
     // tableau de bord du gestionnaire
@@ -44,7 +78,8 @@ class GestionnaireControlleur implements Controlleur
         $fonctionnalite = [
             "Manage Defis" => "./vue/components/gestionnaire/data-challenge.php",
             "Vos projets" => "./vue/components/gestionnaire/projet.php",
-            "Messagerie" => "./vue/components/messagerie/messagerie.php"
+            "Messagerie" => "./vue/components/messagerie/messagerie.php",
+            "Manage Data Battle" => "./vue/components/gestionnaire/data-battle.php"
         ];
         $type = $_SESSION['user']->getType();
         if (isset($_GET['onglet']) && $fonctionnalite[$_GET['onglet']]) {
@@ -57,6 +92,9 @@ class GestionnaireControlleur implements Controlleur
 
         if (isset($_GET['details-challenge'])) {
             $page = "./vue/components/gestionnaire/challenge-details.php";
+        }
+        elseif(isset($_GET['updateBattle'])){
+            $page ="./vue/components/gestionnaire/battle/updateBattle.php";
         }
 
         $content = new View($page);
@@ -86,6 +124,9 @@ class GestionnaireControlleur implements Controlleur
                 break;
             case "Vos projets":
                 $content->assign("projets", $this->associationRepo->getProjetByContact($_SESSION['user']->getId()));
+                break;
+            case "Manage Data Battle":
+                $content->assign("dataBattle", $this->battleRepo->getAllBattles());
                 break;
             default:
                 break;

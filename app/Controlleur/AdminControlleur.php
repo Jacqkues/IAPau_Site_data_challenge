@@ -112,15 +112,18 @@ class AdminControlleur implements Controlleur
             $user->setNom($_POST['nom']);
             $user->setPrenom($_POST['prenom']);
             $user->setMail($_POST['mail']);
-            $user->setMdp(password_hash($_POST['nom'], PASSWORD_DEFAULT));
-            $user->setType($_POST['type']);
             $user->setEtablissement($_POST['etablissement']);
             $user->setNivEtude($_POST['nivEtude']);
             $user->setNumTel($_POST['numTel']);
-            $user->setDateDeb($_POST['dateDeb']);
-            $user->setDateFin($_POST['dateFin']);
-            $this->userRepo->updateAll($user);
-            header('Location: /admin?onglet=User');
+            $user->setType($_POST['type']);
+            $this->userRepo->changeNom($user->getNom(), $user->getId());
+            $this->userRepo->changePrenom($user->getPrenom(), $user->getId());
+            $this->userRepo->changeEtab($user->getEtablissement(), $user->getId());
+            $this->userRepo->changeNiveau($user->getNivEtude(), $user->getId());
+            $this->userRepo->changeTel($user->getNumTel(), $user->getId());
+            $this->userRepo->changeMail($user->getMail(), $user->getId());
+            $this->userRepo->changeType($user->getType(), $user->getId());
+            header('Location: /admin?onglet=Manage User');
         }
 
     }

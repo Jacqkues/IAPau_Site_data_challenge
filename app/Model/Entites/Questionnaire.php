@@ -4,8 +4,6 @@ namespace Model\Entites;
 
 class Questionnaire{
     protected int $id;
-    protected string $question;
-    protected string $reponse;
     protected string $debut;
     protected string $fin;
     protected string $lien;
@@ -41,22 +39,6 @@ class Questionnaire{
 
     public function setFin($fin) {
         $this->fin = $fin;
-    }
-
-    public function getQuestion() {
-        return $this->question;
-    }
-
-    public function setQuestion($question) {
-        $this->question = $question;
-    }
-
-    public function getReponse() {
-        return $this->reponse;
-    }   
-
-    public function setReponse($reponse) {
-        $this->reponse = $reponse;
     }
 
     public function getLien() {
