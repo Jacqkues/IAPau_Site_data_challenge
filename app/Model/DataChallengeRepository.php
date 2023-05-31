@@ -1,16 +1,19 @@
 <?php
 
 namespace Model;
+
 use Lib\DatabaseConnection;
 use Model\Entites\dataChallenge;
 use Exception;
 
-class DataChallengeRepository{
+class DataChallengeRepository
+{
     //point d'accés à la base de données
     protected DatabaseConnection $database;
     private DetenirRepository $detenirRepository;
 
-    public function __construct(DatabaseConnection $database) {
+    public function __construct(DatabaseConnection $database)
+    {
         //construit un objet de type DatabaseConnection
         $this->database = $database;
         $this->detenirRepository = new DetenirRepository(new DatabaseConnection());
@@ -25,8 +28,30 @@ class DataChallengeRepository{
      *  \brief fonction permettant de récupérer les inforations d'un data Challenge
      *  \param $id int représentant l'id d'un data challenge
      *  \return les informations d'un data Challenge
-    */
-    public function getDataChallenge(int $id){
+     */
+
+    public function getId(dataChallenge $challenge)
+    {
+        $req = "SELECT idChallenge FROM dataChallenge WHERE libelle = :libelle AND tempsDebut = :tempsDebut AND tempsFin = :tempsFin AND types = :types AND estPublier = :estPublier";
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->execute([
+            'libelle' => $challenge->getLibelle(),
+            'tempsDebut' => $challenge->getTempsDebut(),
+            'tempsFin' => $challenge->getTempsFin(),
+            'types' => $challenge->getType(),
+            'estPublier' => $challenge->getIsPublied()
+        ]);
+
+        if ($statement->rowCount() === 0) {
+            throw new Exception("La requête de récupération du data Challenge a échouée.");
+        }
+
+        $row = $statement->fetch();
+        return $row['idChallenge'];
+    }
+
+    public function getDataChallenge(int $id)
+    {
         //requête sql
         $req = "SELECT * FROM dataChallenge WHERE idChallenge= :id";
         //préparation de la requête
@@ -34,7 +59,7 @@ class DataChallengeRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête de récupération du data Challenge a échouée.");
         }
         //récupération des informations
@@ -45,6 +70,8 @@ class DataChallengeRepository{
         $challenge->setLibelle($row['libelle']);
         $challenge->setTempsDebut($row['tempsDebut']);
         $challenge->setTempsFin($row['tempsFin']);
+        $challenge->setType($row['types']);
+        $challenge->setIsPublied($row['estPublier']);
         return $challenge;
     }
 
@@ -59,18 +86,19 @@ class DataChallengeRepository{
      *  \param $debut string correspodnant à la date de début 
      *  \param $fin string correspondant ) la date de fin
      *  \return true si tout se passe bien
-    */
-    public function addChallenge(dataChallenge $challenge){
+     */
+    public function addChallenge(dataChallenge $challenge)
+    {
         //requête d'insertion dans la bdd d'un nouveau data Challenge
-        $req = "INSERT INTO dataChallenge (libelle,tempsDebut,tempsFin) VALUES ( :libelle, :debut, :fin)";
+        $req = "INSERT INTO dataChallenge (libelle,tempsDebut,tempsFin,types,estPublier) VALUES ( :libelle, :debut, :fin, :types, :estPublier)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['libelle' => $challenge->getLibelle(), 'debut' => $challenge->getTempsDebut(), 'fin' => $challenge->getTempsFin()]);
+        $statement->execute(['libelle' => $challenge->getLibelle(), 'debut' => $challenge->getTempsDebut(), 'fin' => $challenge->getTempsFin(), 'types' => $challenge->getType(), 'estPublier' => $challenge->getIsPublied()]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement == NULL){
+        if ($statement == NULL) {
             throw new Exception("La requête d'ajout de data Challenge a échouée.");
-        }   
+        }
         return true;
     }
 
@@ -81,8 +109,9 @@ class DataChallengeRepository{
      *  \dateTue 23 2023 - 14:02:42
      *  \brief fonction permettant de récupérer tous les challenges
      *  \return un tableau contenant tous les challenges
-    */
-    public function getAllChallenges(): array {
+     */
+    public function getAllChallenges(): array
+    {
         //requête SQL
         $sql = "SELECT * FROM dataChallenge ORDER BY idCHallenge DESC";
         //préparation de la requête
@@ -98,7 +127,9 @@ class DataChallengeRepository{
             $challenge->setIdChallenge($row['idChallenge']);
             $challenge->setLibelle($row['libelle']);
             $challenge->setTempsDebut($row['tempsDebut']);
-            $challenge->setTempsFin($row['tempsFin']);   
+            $challenge->setTempsFin($row['tempsFin']);
+            $challenge->setType($row['types']);
+            $challenge->setIsPublied($row['estPublier']);
             $challenges[] = $challenge;
         }
         return $challenges;
@@ -112,8 +143,9 @@ class DataChallengeRepository{
      *  \brief fonction permettant de supprimer un challenge via son id
      *  \param $id int qui correspond à l'id du challenge que l'on souhaite supprimer
      *  \return tretourne rue si tout c'est bien passé
-    */
-    public function deleteChallenge(int $id){
+     */
+    public function deleteChallenge(int $id)
+    {
         //requête de suppression d'un data Challenge
         $req = "DELETE FROM dataChallenge WHERE idChallenge = :id";
         //préparation de la requête
@@ -121,12 +153,39 @@ class DataChallengeRepository{
         //exécution de la requête
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if($statement->rowCount() === 0){
+        if ($statement->rowCount() === 0) {
             throw new Exception("La requête de suppression d'un challenge a échouée.");
-        }   
+        }
         return true;
     }
 
+    public function publierDefi(int $id)
+    {
+        $req = "UPDATE dataChallenge SET estPublier = 1 WHERE idChallenge = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if ($statement->rowCount() === 0) {
+            throw new Exception("La requête de publication d'un challenge a échouée.");
+        }
+        return true;
+    }
+
+    public function masquerDefi(int $id)
+    {
+        $req = "UPDATE dataChallenge SET estPublier = 0 WHERE idChallenge = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if ($statement->rowCount() === 0) {
+            throw new Exception("La requête de publication d'un challenge a échouée.");
+        }
+        return true;
+    }
 
     /*!
      *  \fn getchallengeByRessources(int $idRessource)
@@ -136,25 +195,26 @@ class DataChallengeRepository{
      *  \brief fonction permettant de récupérer les data Challenge lié à une Ressource
      *  \param $idRessource int correspondant à l'id de la ressource qui permet de récupérer les data challenge
      *  \return un tableau d'objet dataChallenge correspondant aux challenges liés à la ressource
-    */
-    public function getChallengeByRessources(int $idRessource) : array{
+     */
+    public function getChallengeByRessources(int $idRessource): array
+    {
         //création d'un tableau d'objets User
         $challenges = [];
-        try{
+        try {
             //On récupère les id des challenges liés à une ressource
             $recChall = $this->detenirRepository->getDetenirByRessource($idRessource);
             //Si mon tableau est vide c'est qu'il n'y a pas de challenge lié à la ressource
-            if(empty($recChall)){
+            if (empty($recChall)) {
                 throw new Exception("Le tableau de challenge est vide");
             }
-            $challId = implode(',',array_fill(0, count($recChall), '?'));
+            $challId = implode(',', array_fill(0, count($recChall), '?'));
             $req = "SELECT * FROM dataChallenge WHERE idChallenge IN ($challId)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
             $statement->execute($recChall);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-            if($statement->rowCount() === 0){
+            if ($statement->rowCount() === 0) {
                 throw new Exception("La requête pour récupérer les id des projets liés à une ressource a échouée.");
             }
             //récupération du résultat
@@ -164,10 +224,12 @@ class DataChallengeRepository{
                 $challenge->setIdChallenge($row['idChallenge']);
                 $challenge->setLibelle($row['libelle']);
                 $challenge->setTempsDebut($row['tempsDebut']);
-                $challenge->setTempsFin($row['tempsFin']);   
+                $challenge->setTempsFin($row['tempsFin']);
+                $challenge->setType($row['types']);
+                $challenge->setIsPublied($row['estPublier']);
                 $challenges[] = $challenge;
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception("Erreur lors de la récupération des challenges liés à une ressource : " . $e->getMessage());
         }
         return $challenges;

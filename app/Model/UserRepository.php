@@ -472,4 +472,32 @@ class UserRepository{
         }
         return $users;
     }
+
+    public function getGestionnaire(){
+        $req = "SELECT * FROM User WHERE Types = 'Gestionnaire'";
+
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->execute();
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête pour récupérer les gestionnaires a échouée.");
+        }
+        $rows = $statement->fetchAll();
+        $users = [];
+        foreach ($rows as $row) {
+            $user = new User();
+            $user->setId($row['idUser']);
+            $user->setType($row['types']);
+            $user->setNom($row['nom']);
+            $user->setPrenom($row['prenom']);
+            $user->setEtablissement($row['etablissement']);
+            $user->setNivEtude($row['nivEtude']);
+            $user->setNumTel($row['numTel']);
+            $user->setMail($row['mail']);
+            $user->setDateDeb($row['dateDeb']);
+            $user->setDateFin($row['dateFin']);
+            $user->setMdp($row['mdp']);
+            $users[] = $user;
+        }
+        return $users;
+    }
 }

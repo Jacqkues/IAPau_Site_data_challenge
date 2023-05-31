@@ -19,6 +19,8 @@ CREATE TABLE User(
 CREATE TABLE dataChallenge(
     idChallenge INT PRIMARY KEY AUTO_INCREMENT,
     libelle VARCHAR(200) NOT NULL,
+    types VARCHAR(10) NOT NULL,
+    estPublier BOOLEAN NOT NULL,
     tempsDebut DATE,
     tempsFin DATE
 );

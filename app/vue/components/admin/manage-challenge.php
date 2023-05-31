@@ -3,7 +3,7 @@
 <div>
     <link rel="stylesheet" href="./vue/components/admin/admin.css">
     <div class="manage-header">
-        <h1>Data Challenge</h1>
+        <h1>Data Defis</h1>
         <a class="bouton" href="/admin?newData">Ajouter</a>
     </div>
     
@@ -13,6 +13,8 @@
             <span>Titre</span>
             <span>Debut</span>
             <span>Fin</span>
+            <span>Type</span>
+            <span>Publique</span>
         </div>
     
 
@@ -23,6 +25,8 @@
                     <span><?= $challenge->getLibelle() ?></span>
                     <span><?= $challenge->getTempsDebut() ?></span>
                     <span><?= $challenge->getTempsFin() ?></span>
+                    <span><?= $challenge->getType() ?></span>
+                    <span><?php if($challenge->getIsPublied()){echo "Vrai";} else {echo "Faux";}  ?></span>
                     </div>
                     <div class="btn-setting">
                         <a href="/admin/deleteChallenge?id=<?= $challenge->getIdChallenge() ?>"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12M8 9h8v10H8V9m7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5Z"/></svg></a>

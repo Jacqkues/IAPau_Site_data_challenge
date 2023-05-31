@@ -3,7 +3,7 @@
 <div class="overlay" id="ol">
     <div class="ct">
         <div>
-            <button class="closeBtn">X</button>
+            <button class="closeBtn" id="c1">X</button>
             <h1>Nouvelle ressource</h1>
 
         </div>
@@ -19,6 +19,33 @@
 </div>
 
 
+<div class="overlay" id="olPart">
+    <div class="ct">
+        <div>
+            <button class="closeBtn" id="c2">X</button>
+            <h1>Nouveau partenaire</h1>
+        </div>
+
+
+
+        <form action="/admin/addpartenaire" method="post">
+            <input type="hidden" name="idProjet" value="<?= $projet->getIdProjet() ?>">
+            <input type="hidden" name="idChallenge" value="<?= $_GET['idChallenge']; ?>">
+            <select name="id" id="">
+                <?php foreach ($gestionnaires as $user) { ?>
+                    <option value="<?= $user->getId() ?>">
+                        <?= $user->getNom() ?>     <?= $user->getPrenom() ?>
+                    </option>
+                <?php } ?>
+            </select>
+            <input type="submit" value="Ajouter au projet" class="bouton">
+        </form>
+    </div>
+
+</div>
+
+
+
 <div class="center-content">
     <div class="main-content">
         <img src="<?= $projet->getLienImg() ?>" alt="">
@@ -29,14 +56,39 @@
             <?= $projet->getDescription() ?>
         </p>
         <h2>Partenaires</h2>
+        <div class="ressources">
+            <?php foreach ($partenaires as $partenaire) { ?>
+                <div class="ressource contact">
+                    <div >
 
-        <button class="bouton">+ Ajouter</button>
+                        <h3>
+                            <?= $partenaire->getNom() ?> -
+                            <?= $partenaire->getPrenom() ?>
+                        </h3>
+                        <a href="/admin/removepartenaire?id=<?= $partenaire->getId() ?>&idProjet=<?= $projet->getIdProjet() ?>&idChallenge=<?= $_GET['idChallenge']; ?>">Supprimer</a>
+                    </div>
+                    <p>Email :
+                        <?= $partenaire->getMail() ?>
+                    </p>
+                    <p>Téléphone :
+                        <?= $partenaire->getNumTel() ?>
+                    </p>
+                    <p>Etablissement :
+                        <?= $partenaire->getEtablissement() ?>
+                    </p>
+
+                </div>
+            <?php } ?>
+        </div>
+
+        <button class="bouton" id="addPart">+ Ajouter</button>
         <h2>Ressources générale</h2>
         <div class="ressources">
             <?php foreach ($ressources as $ressource) { ?>
                 <div class="ressource">
                     <h3>
-                        <?= $ressource->getNom() ?>
+                        <?= $ressource->getNom() ?> (
+                        <?= $ressource->getTypes() ?>)
                     </h3>
                     <a class="wrap" href="<?= $ressource->getLien() ?>"><?= $ressource->getLien() ?></a>
                 </div>
@@ -51,7 +103,7 @@
                     <a class="wrap" href="<?= $ressource->getLien() ?>"><?= $ressource->getLien() ?></a>
                 </div>
             <?php } ?>
-           
+
             <button class="bouton" id="addRes">+ Ajouter</button>
         </div>
     </div>

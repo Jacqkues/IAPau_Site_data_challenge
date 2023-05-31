@@ -4,6 +4,8 @@
 namespace Model;
 use Lib\DatabaseConnection;
 use Model\Entites\Ressources;
+use Model\Entites\User;
+use Model\Entites\projetData;
 use Exception;
 
 
@@ -49,7 +51,7 @@ class AssociationRepository{
     }
 
     public function lierContactProjet(int $idContact, int $idProjet){
-        $req = "INSERT INTO Lier (idContact, idProjet) VALUES (:idContact, :idProjet)";
+        $req = "INSERT INTO Lier (idUser, idProjet) VALUES (:idContact, :idProjet)";
         $statement = $this->database->getConnection()->prepare($req);
         $statement->execute(['idContact' => $idContact, 'idProjet' => $idProjet]);
         if($statement->rowCount() === 0){
@@ -57,6 +59,54 @@ class AssociationRepository{
         }
     }
 
+    public function getContactByProjet(int $id):array{
+        $req = "SELECT * FROM User WHERE idUser IN (SELECT idUser FROM Lier WHERE idProjet = :id)";
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->execute(['id' => $id]);
+        $result = $statement->fetchAll();
+        $results = [];
+        foreach($result as $row){
+            $res = new User();
+            $res->setId($row['idUser']);
+            $res->setNom($row['nom']);
+            $res->setPrenom($row['prenom']);
+            $res->setMail($row['mail']);
+            $res->setNumTel($row['numTel']);
+            $res->setEtablissement($row['etablissement']);
+            $results[] = $res;
+
+        }
+        return $results;
+    }
+
+    public function getProjetByContact(int $userId){
+        $req = "SELECT * FROM projetData WHERE idProjet IN (SELECT idProjet FROM Lier WHERE idUser = :id)";
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->execute(['id' => $userId]);
+        $result = $statement->fetchAll();
+        $results = [];
+        foreach($result as $row){
+            $projet = new projetData();
+            $projet->setIdProjet($row['idProjet']);
+            $projet->setLibelle($row['libelleData']);
+            $projet->setDescription($row['descrip']);
+            $projet->setIdDataChallenge($row['idChallenge']);
+            $projet->setLienImg($row['lienImg']);
+            $results[] = $projet;
+
+        }
+        return $results;
+    }
+
+    public function removePartenaire(int $id, int $idProjet){
+        $req = "DELETE FROM Lier WHERE idUser = :id AND idProjet = :idProjet";
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->execute(['id' => $id, 'idProjet' => $idProjet]);
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de suppression de contact a échouée.");
+        }
+        return true;
+    }
     public function addResourceProjet(int $idProjet , int $idRessource){
         $req = "INSERT INTO Posseder (idProjet, idRessources) VALUES (:idProjet, :idRessource)";
         $statement = $this->database->getConnection()->prepare($req);

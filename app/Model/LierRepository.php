@@ -159,7 +159,7 @@ class LierRepository extends UserRepository{
     */
     public function deleteLier(int $idProjet, int $idUser) :bool{
         //requête de suppression d'une liaison Lier
-        $req = "DELETE FROM Lier WHERE dProjet = :idP AND idUser = :idU";
+        $req = "DELETE FROM Lier WHERE idProjet = :idP AND idUser = :idU";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête

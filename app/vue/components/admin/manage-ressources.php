@@ -50,7 +50,7 @@
 
 <div class="flexcol">
     <h1>Ressources</h1>
-    <h3>Data Challenge</h3>
+   
 
     <div class="list-container">
         <div class="list-header user-info">
@@ -77,10 +77,10 @@
                 <div class="btn-setting">
 
                     <?php if (isset($challenge) && $challenge->getIdChallenge() == $ch->getIdChallenge()) { ?>
-                        <a id="formChallenge" class="bouton cancel" href="/admin?onglet=Manage%20Ressource">Annuler</a>
+                        <a id="formChallenge" class="bouton cancel" href="/admin?onglet=Ressource">Annuler</a>
                     <?php } else { ?>
                         <a class="bouton" id="formChallenge"
-                            href="/admin?onglet=Manage%20Ressource&idChallenge=<?= $ch->getIdChallenge(); ?>">voir
+                            href="/admin?onglet=Ressource&idChallenge=<?= $ch->getIdChallenge(); ?>">voir
                             ressources</a>
                     <?php } ?>
 
@@ -92,7 +92,7 @@
     </div>
     <?php if (isset($ressources)) { ?>
 
-        <h3>Ressources du data Challenge
+        <h3>Ressources du data <?= $challenge->getType() ?> 
             <?= $challenge->getLibelle() ?> :
         </h3>
         <div class="list-container">
@@ -160,10 +160,10 @@
                     <div class="btn-setting">
                         <?php if (isset($idProjet) && $idProjet == $projet->getIdProjet()) { ?>
                             <a id="formChallenge" class="bouton cancel"
-                                href="/admin?onglet=Manage%20Ressource&idChallenge=<?= $challenge->getIdChallenge(); ?>">Annuler</a>
+                                href="/admin?onglet=Ressource&idChallenge=<?= $challenge->getIdChallenge(); ?>">Annuler</a>
                         <?php } else { ?>
                             <a class="bouton" id="formProjet"
-                                href="/admin?onglet=Manage%20Ressource&idChallenge=<?= $challenge->getIdChallenge(); ?>&idProjet=<?= $projet->getIdProjet() ?>">Voir
+                                href="/admin?onglet=Ressource&idChallenge=<?= $challenge->getIdChallenge(); ?>&idProjet=<?= $projet->getIdProjet() ?>">Voir
                                 Ressources</a>
                         <?php } ?>
 

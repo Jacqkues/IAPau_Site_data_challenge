@@ -8,8 +8,8 @@
 
 .user-info {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    width: 50%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;; 
+    width: 75%;
 }
 
 .btn-setting {
@@ -119,6 +119,10 @@ form {
     padding: 1em;
     border: 1px solid #ccc;
     margin-bottom: 1vw;
+}
+
+.contact{
+    gap:0px;
 }
 
 .ressources {
