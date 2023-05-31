@@ -16,7 +16,6 @@ use Model\UserRepository;
 use Model\DataChallengeRepository;
 use Model\MessagerieRepository;
 use Lib\DatabaseConnection;
-use Model\DataBattleRepository;
 use Model\AssociationRepository;
 
 class GestionnaireControlleur implements Controlleur
