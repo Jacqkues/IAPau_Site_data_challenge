@@ -123,7 +123,7 @@ class AdminControlleur implements Controlleur
             $user->setMail($_POST['mail']);
             $user->setEtablissement($_POST['etablissement']);
             $user->setNivEtude($_POST['nivEtude']);
-            $user->setNumTel($_POST['numTel']);
+            $user->setNumTel(intval($_POST['numTel']));
             $user->setType($_POST['type']);
             $this->userRepo->changeNom($user->getNom(), $user->getId());
             $this->userRepo->changePrenom($user->getPrenom(), $user->getId());

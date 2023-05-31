@@ -49,7 +49,7 @@
   <?php } ?>
 
   <?php if ($type == "user") { ?>
-    <select name="categorie" class="bouton-input-text">
+    <select name="categorie" class="bouton-input-text user-select">
       <option value="GÉNÉRAL" <?=
         !isset($_GET['categorie']) || $_GET['categorie'] == "GÉNÉRAL" ? "selected" : ""
         ?>>

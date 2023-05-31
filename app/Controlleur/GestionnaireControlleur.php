@@ -76,9 +76,9 @@ class GestionnaireControlleur implements Controlleur
     {
         $fonctionnalite = [
             "Manage Defis" => "./vue/components/gestionnaire/data-challenge.php",
+            "Manage Data Battle" => "./vue/components/gestionnaire/data-battle.php",
             "Vos projets" => "./vue/components/gestionnaire/projet.php",
-            "Messagerie" => "./vue/components/messagerie/messagerie.php",
-            "Manage Data Battle" => "./vue/components/gestionnaire/data-battle.php"
+            "Messagerie" => "./vue/components/messagerie/messagerie.php"
         ];
         $type = $_SESSION['user']->getType();
         if (isset($_GET['onglet']) && $fonctionnalite[$_GET['onglet']]) {

@@ -11,7 +11,7 @@
     </div>
 <?php } ?>
 <div>
-    <h1>Ajout d'un data Challenge</h1>
+    <h1>Ajout d'un Data <span id="type_defi">Challenge</span></h1>
 
     <form action="/admin/addChallenge" method="post">
         <input type="text" name="titre" placeholder="Titre" class="bouton-input-text" required>
@@ -32,14 +32,17 @@
 
 
 <script>
-    let selectType = document.getElementById("selectType");
-    let battle = document.getElementById("battle");
+    const selectType = document.getElementById("selectType");
+    const battle = document.getElementById("battle");
+    const type_defi = document.querySelector("#type_defi");
     battle.style.display = "none";
     selectType.addEventListener("change", function () {
         if (selectType.value === "battle"){
             battle.style.display = "flex";
+            type_defi.innerHTML = "Battle";
         } else {
             battle.style.display = "none";
+            type_defi.innerHTML = "Challenge";
         }
     })
 </script>

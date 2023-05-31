@@ -80,3 +80,10 @@
 .bouton {
   width: 7.5vw;
 }
+
+.user-select {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 2vw;
+}

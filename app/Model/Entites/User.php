@@ -10,7 +10,7 @@ class User
     protected string $prenom;
     protected string $etablissement;
     protected string $nivEtude;
-    protected string $numTel;
+    protected int $numTel;
     protected string $mail;
     protected string $dateDeb;
     protected string $dateFin;
@@ -76,12 +76,12 @@ class User
         $this->nivEtude = $nivEtude;
     }
 
-    public function getNumTel(): string
+    public function getNumTel(): int
     {
         return $this->numTel;
     }
 
-    public function setNumTel(string $numTel): void
+    public function setNumTel(int $numTel): void
     {
         $this->numTel = $numTel;
     }

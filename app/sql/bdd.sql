@@ -65,20 +65,13 @@ CREATE TABLE Posseder(
     FOREIGN KEY fk_idRessources(idRessources) REFERENCES Ressources(idRessources) ON DELETE CASCADE
 );
 
-CREATE TABLE dataBattle(
-    idBattle INT PRIMARY KEY NOT NULL,
-    libelleBattle VARCHAR(10000),
-    debut DATE,
-    fin DATE
-);
-
 CREATE TABLE Questionnaire(
     idQuestionnaire INT PRIMARY KEY AUTO_INCREMENT,
     debut DATE,
     fin DATE,
     lien VARCHAR(200),
     idBattle INT,
-    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE
+    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
 );
 
 CREATE TABLE Question(
@@ -93,11 +86,9 @@ CREATE TABLE Equipe(
     nom VARCHAR(50),
     chef INT NOT NULL,
     score INT,
-    idBattle INT,
     idProjet INT,
     idData INT,
     FOREIGN KEY fk_Chef(chef) REFERENCES User(idUser) ON DELETE CASCADE,
-    FOREIGN KEY fk_battle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE,
     FOREIGN KEY fk_projet(idProjet) REFERENCES projetData(idProjet) ON DELETE CASCADE,
     FOREIGN KEY fk_data(idData) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
 );

@@ -31,14 +31,14 @@ class MembreRepository
     public function getMembreByTeam(int $idEquipe): array
     {
         //requête sql
-        $req = "SELECT * FROM Membre WHERE idEquipe= :idE";
+        $req = "SELECT * FROM Membre WHERE idEquipe = :idE";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
         $statement->execute(['idE' => $idEquipe]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if ($statement->rowCount() === 0) {
-            throw new Exception("La requête de récupération de la liaison Membre a échouée.");
+            throw new Exception("La requête de récupération de la liaison Membre a échoué.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();

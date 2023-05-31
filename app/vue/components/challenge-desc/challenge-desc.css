@@ -74,3 +74,60 @@ article section .projet .projet-desc {
 
   padding: 1vw 2vw;
 }
+
+/* Popup choix équipe */
+.popup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60vw;
+  height: 40vw;
+  transform: translate(-50%, -50%);
+
+  padding: 2vw;
+
+  display: none;
+  flex-direction: column;
+  row-gap: 2vw;
+
+  color: black;
+  background: white;
+  border: 3px solid var(--BLEU_IA_PAU);
+
+  z-index: 999;
+}
+
+.popup h2 {
+  font-weight: normal;
+}
+
+.popup .header {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  column-gap: 1vw;
+  border-bottom: 2px solid black;
+}
+
+.popup .header span {
+  width: calc((100% - 7vw)/ 8);
+  padding: .5vw;
+  padding-bottom: 1vw;
+}
+
+.popup .equipe {
+  display: flex;
+  width: 100%;
+  column-gap: 1vw;
+}
+
+.popup .equipe:hover {
+  background: rgb(209, 209, 209);
+}
+
+.popup .equipe span {
+  width: calc((100% - 7vw)/ 8);
+  padding: 0 .5vw;
+  text-transform: capitalize;
+}

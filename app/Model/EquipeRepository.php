@@ -351,23 +351,16 @@ class EquipeRepository
         //création d'un tableau d'objets Equipe
         $equipes = [];
         try {
-            //On récupère la liste des id des équipes liées à l'id de notre utilisateur
-           /* $membre = $this->membreRepository->getMembreByUser($idUser);
-            //Si Mon tableau est vide c'est qu'il n'y a pas d'équipe lié à l'utilisateur
-            if (empty($membre)) {
-                throw new Exception("Le tableau d' équipe est vide");
-            }*/
 
-           // $membres = implode(',', array_fill(0, count($membre), '?'));
             $req = "SELECT * FROM Equipe WHERE numero IN (SELECT idEquipe FROM Membre WHERE idUser = :idUser)";
+
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
             $statement->execute(['idUser' => $idUser]);
-           // $statement->execute($membre->getIdEquipe());
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if ($statement->rowCount() === 0) {
-                throw new Exception("La requête pour récupérer les id des équipes liées à un utilisateur a échouée.");
+                throw new Exception("La requête pour récupérer les id des équipes liées à un utilisateur a échoué.");
             }
             //récupération du résultat
             $rows = $statement->fetchAll();
