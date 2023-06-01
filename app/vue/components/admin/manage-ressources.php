@@ -77,7 +77,7 @@
                 <div class="btn-setting">
 
                     <?php if (isset($challenge) && $challenge->getIdChallenge() == $ch->getIdChallenge()) { ?>
-                        <a id="formChallenge" class="bouton cancel" href="/admin?onglet=Ressource">Annuler</a>
+                        <a id="formChallenge" class="bouton-secondaire" href="/admin?onglet=Ressource">Annuler</a>
                     <?php } else { ?>
                         <a class="bouton" id="formChallenge"
                             href="/admin?onglet=Ressource&idChallenge=<?= $ch->getIdChallenge(); ?>">voir
@@ -117,7 +117,7 @@
                     </div>
                     <div class="btn-setting">
                         <a
-                            href="/admin/deleteRessource?id=<?= $res->getId() ?>&idChallenge=<?= $challenge->getIdChallenge() ?>&mnr">
+                            href="/admin/deleteRessource?id=<?= $res->getId() ?>&idChallenge=<?= $challenge->getIdChallenge() ?>&mnr" onclick="return confirmAction(event)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="black"
                                     d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12M8 9h8v10H8V9m7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5Z" />
@@ -167,7 +167,7 @@
                         </div>
                         <div class="btn-setting">
                             <?php if (isset($idProjet) && $idProjet == $projet->getIdProjet()) { ?>
-                                <a id="formChallenge" class="bouton cancel"
+                                <a id="formChallenge" class="bouton-secondaire"
                                     href="/admin?onglet=Ressource&idChallenge=<?= $challenge->getIdChallenge(); ?>">Annuler</a>
                             <?php } else { ?>
                                 <a class="bouton" id="formProjet"
@@ -207,7 +207,7 @@
                     </div>
                     <div class="btn-setting">
                         <a
-                            href="/admin/deleteRessource?id=<?= $res->getId() ?>&idChallenge=<?= $challenge->getIdChallenge() ?>&mnr"><svg
+                            href="/admin/deleteRessource?id=<?= $res->getId() ?>&idChallenge=<?= $challenge->getIdChallenge() ?>&mnr" onclick="return confirmAction(event)"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="black"
                                     d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12M8 9h8v10H8V9m7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5Z" />
@@ -229,3 +229,4 @@
 </div>
 
 <script src="./vue/components/admin/manageRessources.js"></script>
+<script src="./vue/components/ConfirmAction.js"></script>

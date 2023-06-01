@@ -40,8 +40,19 @@ body {
 }
 
 .bouton-secondaire {
-  background: none !important;
-  border-color: var(--MAIN_COLOR);
+  width: max-content;
+  height: max-content;
+
+  color: var(--BLEU_IA_PAU);
+  background-color: var(--MAIN_COLOR);
+  border: 2px solid var(--BLEU_IA_PAU);
+  text-decoration: none;
+
+  padding: .5vw 1.5vw;
+
+  border-radius: 2vw;
+
+  cursor: pointer;
 }
 
 .bouton-input-text {
@@ -127,7 +138,7 @@ header .compte {
   display: flex;
   flex-direction: column;
   width: auto;
-  max-width: 20em;
+  max-width: 35em;
   
   background-color: white;
   border-radius: 1em;
@@ -171,4 +182,3 @@ header .compte {
   
   margin-top: 1em;
 }
-

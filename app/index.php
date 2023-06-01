@@ -85,6 +85,7 @@ $postDefi = new ProtectedRoute("/admin/postDefi",$adminControlleur,"postDefi",$a
 $masqDefi = new ProtectedRoute("/admin/masqDefi",$adminControlleur,"masqDefi",$adminGuard);
 $createEquipe = new ProtectedRoute("/user/newequipe",$userControlleur,"newequipe",$userGuard);
 $deleteEquipe = new ProtectedRoute("/user/deleteEquipe",$userControlleur,"deleteequipe",$userGuard);
+$updateRendu = new ProtectedRoute("/user/rendu",$userControlleur,"Updaterendu",$userGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -119,6 +120,7 @@ $router->addRoute($autocomplete);
 $router->addRoute($addToEquipe);
 $router->addRoute($createEquipe);
 $router->addRoute($deleteEquipe);
+$router->addRoute($updateRendu);
 $router->handleRequest();
 
 

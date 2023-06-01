@@ -49,3 +49,10 @@ a{
     background-color: red;
     border-color: white;
 }
+
+.wrap {
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

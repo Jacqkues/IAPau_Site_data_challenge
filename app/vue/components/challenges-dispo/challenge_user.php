@@ -14,7 +14,14 @@
                 DATA <?= strtoupper($challenge->getType()) ?>
             </p>
 
-            <p class="nbP">Nombre de Projets : 4</p>
+            <p>Jour restant :  
+                <?php
+                $date1 = new DateTime($challenge->getTempsFin());
+                $date2 = new DateTime(date("Y-m-d H:i:s"));
+                $interval = $date1->diff($date2);
+                echo $interval->format('%a jours');
+                ?>
+            </p>
             <a href="/dataChallenge?challenge=<?= $challenge->getIdChallenge() ?>" class="bouton">En savoir +</a>
         </div>
     <?php } ?>

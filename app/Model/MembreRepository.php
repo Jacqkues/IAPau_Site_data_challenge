@@ -76,14 +76,14 @@ class MembreRepository
         $types = $types['types'];
 
         //requête permettant de vérifier si l'on ne dépasse pas la taille maximale d'un équipe
-        $compte = "SELECT COUNT(*) FROM Membre WHERE idEquipe = :id";
+        $compte = "SELECT COUNT(*) AS nbUser FROM Membre WHERE idEquipe = :id";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($compte);
         //exécution de la requête
         $statement->execute(['id' => $idEquipe]);
-        $verif = $statement->fetchAll();
-        $verif = $verif[0];
-        if (count($verif) > 7) {
+        $verif = $statement->fetch();
+        $res = $verif['nbUser'];
+        if ($res > 7) {
             throw new Exception("tailleMax");
         } elseif ($types != 'user') {
             throw new Exception("userNonEtud");
@@ -93,6 +93,7 @@ class MembreRepository
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
+        
             $statement->execute(['idE' => $idEquipe, 'idU' => $idUser]);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if ($statement->rowCount() === 0) {

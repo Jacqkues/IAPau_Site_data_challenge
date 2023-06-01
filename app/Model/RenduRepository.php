@@ -104,6 +104,8 @@ class RenduRepository{
     }
 
 
+    
+
     /*!
      *  \fn getAllRendus()
      *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
@@ -153,6 +155,25 @@ class RenduRepository{
         if($statement == NULL){
             throw new Exception("La requête de suppression d'un rendu a échouée.");
         }   
+        return true;
+    }
+
+    public function updateRendu(int $id , string $lien , string $dateRendu){
+        $req = "UPDATE Rendu SET lien = :lien WHERE idEquipe = :id";
+        $statement = $this->database->getConnection()->prepare($req);
+       
+        $statement->execute(['lien' => $lien, 'id' => $id ]);
+        if($statement == NULL){
+            throw new Exception("La requête de modification d'un rendu a échouée.");
+        }
+
+        $req = "UPDATE Rendu SET dateRendu = :dateRendu WHERE idEquipe = :id";
+        $statement = $this->database->getConnection()->prepare($req);
+        
+        $statement->execute(['dateRendu' => $dateRendu, 'id' => $id ]);
+        if($statement == NULL){
+            throw new Exception("La requête de modification d'un rendu a échouée.");
+        }
         return true;
     }
 

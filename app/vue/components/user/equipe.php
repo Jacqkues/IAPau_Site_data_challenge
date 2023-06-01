@@ -7,6 +7,9 @@
             case "echecAjoutMembre":
                 echo "L'utilisateur est déja présent dans l'équipe";
                 break;
+            case "tailleMax":
+                echo "L'équipe est pleine";
+                break;
         }
         ?>
     </div>
@@ -93,7 +96,8 @@
                     <a href="" class="bouton">Details</a>
                     <?php if ($equipe->getIdChef() == $_SESSION['user']->getId()) { ?>
                         <a href="/user?onglet=Mes%20equipes&addTo=<?= $equipe->getId() ?>" class="bouton">Ajouter Membre</a>
-                        <a href="/user/deleteEquipe?id=<?= $equipe->getId() ?>" class="bouton red">Supprimer</a>
+                        <a href="/user/deleteEquipe?id=<?= $equipe->getId() ?>" class="bouton red"
+                            onclick="return confirmAction(event)">Supprimer</a>
                     <?php } ?>
                 </div>
 
@@ -142,3 +146,4 @@
         }
     });
 </script>
+<script src="./vue/components/ConfirmAction.js"></script>

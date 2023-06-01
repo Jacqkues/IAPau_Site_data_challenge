@@ -71,7 +71,7 @@ CREATE TABLE Questionnaire(
     fin DATE,
     lien VARCHAR(200),
     idBattle INT,
-    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
+    FOREIGN KEY fk_idBattle(idBattle) REFERENCES projetData(idProjet) ON DELETE CASCADE
 );
 
 CREATE TABLE Question(

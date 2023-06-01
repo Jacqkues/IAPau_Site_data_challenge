@@ -439,7 +439,7 @@ class UserRepository{
         //création d'un tableau d'objets User
         $users = [];
         try{
-            $req = "SELECT * FROM User WHERE idUser IN (SELECT idUser FROM membre WHERE idEquipe = :idEquipe)";
+            $req = "SELECT * FROM User WHERE idUser IN (SELECT idUser FROM Membre WHERE idEquipe = :idEquipe)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête

@@ -10,6 +10,7 @@ use Model\EquipeRepository;
 use Model\MembreRepository;
 use Model\MessagerieRepository;
 use Model\ProjetDataRepository;
+use Model\RenduRepository;
 use Model\UserRepository;
 use Model\Entites\User;
 
@@ -24,6 +25,8 @@ class UserControlleur implements Controlleur
 
     private ProjetDataRepository $projetDataRepo;
 
+    private RenduRepository $renduRepo;
+
     
     public function __construct()
     {
@@ -34,6 +37,7 @@ class UserControlleur implements Controlleur
         $this->equiperepo = new EquipeRepository($db);
         $this->membreRepo = new MembreRepository($db);
         $this->projetDataRepo = new ProjetDataRepository($db);
+        $this->renduRepo = new RenduRepository($db);
     }
 
 
@@ -98,6 +102,8 @@ class UserControlleur implements Controlleur
             $equipe = $this->equiperepo->addEquipe($_SESSION['user']->getId(),$_POST['nom']);
             echo $equipe;
             $this->membreRepo->addMembre($equipe, $_SESSION['user']->getId());
+            $Today = date('Y-m-d');
+            $this->renduRepo->addRendu("empty",$Today, $equipe);
             header('Location: /user?onglet=Mes equipes');
         }
     }
@@ -116,12 +122,32 @@ class UserControlleur implements Controlleur
         }
     }
 
+    public function Updaterendu(){
+        if(isset($_POST)){
+            $id = $_POST['id'];
+
+            $equipe = $this->equiperepo->getEquipe($_POST['id']);
+            if($equipe->getIdChef() == $_SESSION['user']->getId()){
+                $today = date('Y-m-d');
+                $this->renduRepo->updateRendu($id, $_POST['lien'],$today);
+                header('Location: /user?onglet=Mes%20projets');
+            }else{
+                header('Location: /user?onglet=Mes%20projetss&error=notchef');
+            }
+        }
+    }
+
     public function addToEquipe(){
         if(isset($_POST)){
             list($prenom, $nom) = explode(' ', $_POST['nom']);
-            $user = $this->userRepo->getUserByNomPrenom($nom, $prenom);
+            try{
+                $user = $this->userRepo->getUserByNomPrenom($nom, $prenom);
+            }catch(\Exception $e){
+                header('Location: /user?onglet=Mes equipes&error='.$e->getMessage());
+            }
             try{
                 $res = $this->membreRepo->addMembre($_POST['id'] ,$user->getId());
+                
             }catch(\Exception $e){
                 
                 header('Location: /user?onglet=Mes equipes&error='.$e->getMessage());
@@ -169,9 +195,18 @@ class UserControlleur implements Controlleur
                 break;
             case "Mes projets":
                 try {
-                    $content->assign("projets", $this->projetDataRepo->getProjetFromUser($_SESSION['user']->getId()));
+                   /* $content->assign("projets", $this->projetDataRepo->getProjetFromUser($_SESSION['user']->getId()));
+                    $content->assign("rendus",$this->renduRepo);*/
+                    //recup list equipe de l'user
+                    //pour chaque equipe recupere le projet associé et l'afficher
+                    //du coup passé le projetRepository en paras
+                    $content->assign("equipes", $this->equiperepo->getEquipeByUser($_SESSION['user']->getId()));
+                    $content->assign("p",$this->projetDataRepo);
+                    $content->assign("rendus",$this->renduRepo);
                 } catch (\Exception $e) {
                     $content->assign("projets", []);
+                    $content->assign("p",null);
+                    $content->assign("rendus",null);
                 }
                 break;
             case "Messagerie":
