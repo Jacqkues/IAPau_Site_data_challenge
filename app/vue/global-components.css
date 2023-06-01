@@ -262,3 +262,14 @@ header .compte {
 
   z-index: 998;
 }
+.wrap {
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.flexcol {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}

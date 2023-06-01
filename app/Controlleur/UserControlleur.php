@@ -196,6 +196,7 @@ class UserControlleur implements Controlleur
             "Mes projets" => "./vue/components/user/projet.php",
             "Mes equipes" => "./vue/components/user/equipe.php",
             "Mon compte" => "./vue/components/monCompte/monCompte.php",
+            "Code Analyse" => "./vue/components/gestionnaire/code-analyse.php",
             "Messagerie" => "./vue/components/messagerie/messagerie.php",
 
         ];

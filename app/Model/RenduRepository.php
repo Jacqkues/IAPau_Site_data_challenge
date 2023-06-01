@@ -176,5 +176,23 @@ class RenduRepository{
         }
         return true;
     }
+    public function getRenduByProjet(int $idProjet){
+        $req = "SELECT * FROM Rendu WHERE idEquipe IN (SELECT idEquipe FROM Equipe WHERE idProjet = :idProjet)";
+        $statement = $this->database->getConnection()->prepare($req);
+        $statement->execute(['idProjet' => $idProjet]);
+        if($statement == NULL){
+            throw new Exception("La requête de récupération d'un rendu a échouée.");
+        }
+        $row = $statement->fetchAll();
+        $rendus = [];
+        foreach($row as $r){
+            $rendu = new Rendu();
+            $rendu->setLien($r['lien']);
+            $rendu->setDateRendu($r['dateRendu']);
+            $rendu->setIdEquipe($r['idEquipe']);
+            $rendus[] = $rendu;
+        }
+        return $rendus;
+    }
 
 }

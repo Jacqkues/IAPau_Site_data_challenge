@@ -26,7 +26,8 @@ use Lib\DatabaseConnection;
 use Model\AssociationRepository;
 use Model\QuestionException;
 use Model\ReponseException;
-
+use Model\RenduRepository;
+use Model\ProjetDataRepository;
 class GestionnaireControlleur implements Controlleur
 {
     private $userRepo;
@@ -42,6 +43,10 @@ class GestionnaireControlleur implements Controlleur
     private $questionRepo;
     private $reponseRepo;
 
+    private $renduRepo;
+
+    private $projetRepo;
+
     public function __construct()
     {
         $db = new DatabaseConnection();
@@ -56,6 +61,8 @@ class GestionnaireControlleur implements Controlleur
         $this->questionnaireRepo = new QuestionnaireRepository($db);
         $this->questionRepo = new QuestionRepository($db);
         $this->reponseRepo = new ReponseRepository($db);
+        $this->renduRepo = new RenduRepository($db);
+        $this->projetRepo = new ProjetDataRepository($db);
     }
 
     public function updateBattle(){
@@ -140,7 +147,8 @@ class GestionnaireControlleur implements Controlleur
         $fonctionnalite = [
             "Manage Defis" => "./vue/components/gestionnaire/data-challenge.php",
             "Manage Data Battle" => "./vue/components/gestionnaire/data-battle.php",
-            "Vos projets" => "./vue/components/gestionnaire/projet.php",
+            "Rendu" => "./vue/components/gestionnaire/rendu.php",
+            "Code Analyse" => "./vue/components/gestionnaire/code-analyse.php",
             "Messagerie" => "./vue/components/messagerie/messagerie.php"
         ];
         $type = $_SESSION['user']->getType();
@@ -232,6 +240,18 @@ class GestionnaireControlleur implements Controlleur
             case "Manage Data Battle":
                 $content->assign("dataBattle", $this->challengerepo->getAllBattles());
                 break;
+            case "Rendu":
+                try{
+                    $content->assign("listprojet",$this->associationRepo->getProjetByContact($_SESSION['user']->getId()));
+                }catch(Exception $e) {
+                    $content->assign("listprojet",[]);
+                }
+               
+                $content->assign("rendus", $this->renduRepo);
+                $content->assign("eq", $this->equipesRepo);
+                $content->assign("p", $this->projetRepo);
+                break;
+            
             default:
                 break;
         }
