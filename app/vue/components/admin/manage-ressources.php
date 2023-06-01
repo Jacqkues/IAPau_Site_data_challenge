@@ -229,4 +229,4 @@
 </div>
 
 <script src="./vue/components/admin/manageRessources.js"></script>
-<script src="./vue/components/ConfirmAction.js"></script>
+<script src="./vue/ConfirmAction.js"></script>

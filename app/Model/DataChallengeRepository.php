@@ -135,6 +135,62 @@ class DataChallengeRepository
         return $challenges;
     }
 
+    public function getChallengesByUser(int $idUser): array
+    {
+        //requête SQL
+        $sql = "SELECT * FROM dataChallenge WHERE idChallenge IN (
+            SELECT idChallenge FROM projetData WHERE idProjet IN (
+                SELECT idProjet FROM equipe WHERE numero IN (
+                    SELECT idEquipe FROM membre WHERE idUser = :idUser
+                )
+            )
+        ) ORDER BY idCHallenge DESC";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['idUser' => $idUser]);
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets User
+        $challenges = [];
+        foreach ($rows as $row) {
+            $challenge = new dataChallenge();
+            $challenge->setIdChallenge($row['idChallenge']);
+            $challenge->setLibelle($row['libelle']);
+            $challenge->setTempsDebut($row['tempsDebut']);
+            $challenge->setTempsFin($row['tempsFin']);
+            $challenge->setType($row['types']);
+            $challenge->setIsPublied($row['estPublier']);
+            $challenges[] = $challenge;
+        }
+        return $challenges;
+    }
+
+    public function getAllBattles(): array
+    {
+        //requête SQL
+        $sql = "SELECT * FROM dataChallenge WHERE types='battle' ORDER BY idCHallenge DESC";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute();
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets User
+        $challenges = [];
+        foreach ($rows as $row) {
+            $challenge = new dataChallenge();
+            $challenge->setIdChallenge($row['idChallenge']);
+            $challenge->setLibelle($row['libelle']);
+            $challenge->setTempsDebut($row['tempsDebut']);
+            $challenge->setTempsFin($row['tempsFin']);
+            $challenge->setType($row['types']);
+            $challenge->setIsPublied($row['estPublier']);
+            $challenges[] = $challenge;
+        }
+        return $challenges;
+    }
+
     /*!
      *  \fn deleteChallenge(int $id)
      *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 

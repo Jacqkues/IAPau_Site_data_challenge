@@ -183,6 +183,8 @@ class UserControlleur implements Controlleur
             exit();
         }
         $this->equiperepo->addProjet($idProjet, $idEquipe);
+        header('Location: /user?onglet=Mes projets');
+        exit();
     }
 
 
@@ -219,7 +221,7 @@ class UserControlleur implements Controlleur
                 break;
             case "Mes projets":
                 try {
-                   /* $content->assign("projets", $this->projetDataRepo->getProjetFromUser($_SESSION['user']->getId()));
+                    /* $content->assign("projets", $this->projetDataRepo->getProjetFromUser($_SESSION['user']->getId()));
                     $content->assign("rendus",$this->renduRepo);*/
                     //recup list equipe de l'user
                     //pour chaque equipe recupere le projet associé et l'afficher
@@ -245,7 +247,7 @@ class UserControlleur implements Controlleur
                 } catch (\Exception $e) {
                     $content->assign("equipes", []);
                 }
-                $content->assign("users", $this->userRepo);
+                $content->assign("challengerepo", $this->challengerepo);
                 break;
             case "Mes equipes":
                 try {
@@ -265,6 +267,7 @@ class UserControlleur implements Controlleur
 
         $id = $_SESSION['user']->getId();
         $content->assign("user", $this->userRepo->getUser($id));
+        $content->assign("users", $this->userRepo);
         $content = $content->render();
 
         $dashboard = new View("./vue/components/dashboard/dashboard-global.php");

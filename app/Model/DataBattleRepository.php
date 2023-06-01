@@ -85,7 +85,7 @@ class DataBattleRepository{
     */
     public function getAllBattles():array {
         //requête SQL
-        $sql = "SELECT * FROM dataBattle";
+        $sql = "SELECT * FROM dataChallenge WHERE types='battle'";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($sql);
         //exécution de la requête

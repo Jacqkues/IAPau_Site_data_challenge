@@ -43,11 +43,12 @@ a{
     cursor: pointer;
     font-weight: bold;
     padding: 0.5em;
+    text-transform: capitalize;
 }
 .red{
-    color:white;
-    background-color: red;
-    border-color: white;
+    color: red;
+    background-color: white;
+    border-color: red;
 }
 
 .wrap {

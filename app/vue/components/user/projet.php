@@ -18,37 +18,39 @@
 <?php } ?>
 <div class="container">
 
-    <?php foreach ($equipes as $equipe) { 
-        try{
+    <?php foreach ($equipes as $equipe) {
+        try {
             $projet = $p->getProjetData($equipe->getIdProjet());
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             $projet = null;
         }
 
-        
-        ?>
-        <?php if(isset($projet)) {?>
-        <div class="card">
 
-            <h1>
-                <?= $projet->getLibelle() ?>
-            </h1>
-            <p>
-                <?= $projet->getDescription() ?>
-            </p>
-            <div>
-                <p class="wrap">Votre projet : <?= $rendus->getRenduByTeam($equipe->getId())->getLien()?></p>
-                <p>Derniere modification : <?= $rendus->getRenduByTeam($equipe->getId())->getDateRendu()?></p>
+        ?>
+        <?php if (isset($projet)) { ?>
+            <div class="card">
+                <h1>
+                    <?= $projet->getLibelle() ?>
+                </h1>
+                <p>
+                    <?= $projet->getDescription() ?>
+                </p>
+                <div>
+                    <p class="wrap">Votre projet :
+                        <?= $rendus->getRenduByTeam($equipe->getId())->getLien() ?>
+                    </p>
+                    <p>Derniere modification :
+                        <?= $rendus->getRenduByTeam($equipe->getId())->getDateRendu() ?>
+                    </p>
+                </div>
+                <br>
+                <div>
+                    <?php if ($_SESSION['user']->getId() == $equipe->getIdChef()) { ?>
+                        <a href="/user?onglet=Mes%20projets&rendu&id=<?= $equipe->getId() ?>" class="bouton">Modifier le rendu</a>
+                        <a href="" class="bouton-secondaire">Répondre au questionnaire</a>
+                    <?php } ?>
+                </div>
             </div>
-            <br>
-            <div>
-                <?php if($_SESSION['user']->getId() == $equipe->getIdChef()){?>
-                <a href="/user?onglet=Mes%20projets&rendu&id=<?= $equipe->getId() ?>" class="bouton">Modifier le rendu</a>
-                <a href="" class="bouton-secondaire ">Répondre au questionnaire</a>
-                <?php } ?>
-            </div>
-        </div>
         <?php } ?>
     <?php } ?>
 

@@ -98,7 +98,7 @@ header {
   z-index: 999;
 }
 
- .logo {
+.logo {
   display: flex;
   align-items: center;
   gap: 1vw;
@@ -134,51 +134,131 @@ header .compte {
   padding: 2em;
 }
 
-.container .card{
+.container .card {
   display: flex;
   flex-direction: column;
-  width: auto;
-  max-width: 35em;
+  width: 20vw;
+  min-width: 15rem;
   
   background-color: white;
   border-radius: 1em;
   box-shadow: 0 0 1em rgba(0,0,0,0.2);
   overflow: hidden;
   transition: all 0.5s ease;
-  padding: 1em;
-  gap:1em;
-  justify-content: flex-end;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding: 50px 1em;
+  gap: 1em;
+}
+
+.card h1 {
+  margin: 0;
 }
 
 .container .card .date {
   color: rgba(0,0,0,0.5);
-  font-size: 16px;
+  font-size: 1vw;
 }
 
 .container .card .type {
-  font-size: 14px;
+  font-size: 1vw;
   font-weight: 600;
   color: rgba(0,0,0,0.7);
 }
 
 .container .card .nbP {
-  font-size: 14px;
+  font-size: 1vw;
   font-weight: 600;
   color: rgba(0,0,0,0.7);
 }
 
-.card p{
-  font-size: 14px;
+.card p {
+  font-size: 1vw;
   font-weight: 600;
   color: rgba(0,0,0,0.7);
 }
 
-.card .footer{
+.card div {
+  display: flex;
+  flex-direction: column;
+  row-gap: .5vw;
+}
+
+.card .footer {
   display: flex;
   flex-direction: column;
   gap:1em;
   
   margin-top: 1em;
+}
+
+/* Popup choix équipe */
+.popup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60vw;
+  height: 40vw;
+  transform: translate(-50%, -50%);
+
+  padding: 2vw;
+
+  display: none;
+  flex-direction: column;
+  row-gap: 2vw;
+
+  color: black;
+  background: white;
+  border: 3px solid var(--BLEU_IA_PAU);
+
+  z-index: 999;
+}
+
+.popup h2 {
+  font-weight: normal;
+}
+
+.popup .header {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  column-gap: 1vw;
+  border-bottom: 2px solid black;
+}
+
+.popup .header span {
+  width: calc((100% - 7vw)/ 8);
+  padding: .5vw;
+  padding-bottom: 1vw;
+}
+
+.popup .equipe {
+  display: flex;
+  width: 100%;
+  column-gap: 1vw;
+  cursor: pointer;
+}
+
+.popup .equipe:hover {
+  background: rgb(209, 209, 209);
+}
+
+.popup .equipe span {
+  width: calc((100% - 7vw)/ 8);
+  padding: 0 .5vw;
+  text-transform: capitalize;
+}
+
+.popup-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: none;
+
+  cursor: pointer;
+
+  z-index: 998;
 }

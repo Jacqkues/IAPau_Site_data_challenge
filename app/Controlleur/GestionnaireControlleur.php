@@ -125,7 +125,7 @@ class GestionnaireControlleur implements Controlleur
                 $content->assign("projets", $this->associationRepo->getProjetByContact($_SESSION['user']->getId()));
                 break;
             case "Manage Data Battle":
-                $content->assign("dataBattle", $this->battleRepo->getAllBattles());
+                $content->assign("dataBattle", $this->challengerepo->getAllBattles());
                 break;
             default:
                 break;

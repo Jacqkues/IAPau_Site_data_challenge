@@ -46,7 +46,7 @@ article section:first-of-type {
     color: black;
     font-weight: bold;
     padding: .75vw 1.5vw;
-    transition: all .3s;
+    transition: 100ms background-color;
 }
 
 .onglet:hover {

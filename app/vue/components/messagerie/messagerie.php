@@ -56,7 +56,7 @@
         GÉNÉRAL
       </option>
       <?php foreach ($equipes as $equipe) { ?>
-        <?php foreach ($equipe->getAllChallenges() as $challenge) { ?>
+        <?php foreach ($challengerepo->getChallengesByUser($user->getId()) as $challenge) { ?>
           <option value="<?= $challenge->getLibelle() ?>" <?=
               isset($_GET['categorie']) && $_GET['categorie'] == $challenge->getLibelle() ? "selected" : ""
               ?>>

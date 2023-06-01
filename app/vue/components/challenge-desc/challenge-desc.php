@@ -15,8 +15,8 @@
     <img src="<?php
     try {
       foreach ($detenir->getDetenirByChallenge($_GET['challenge']) as $lien_ress_chall) {
-          $ress = $ressource->getRessources($lien_ress_chall->getIdRessource());
-          if ($ress->getTypes() == 'image') {
+        $ress = $ressource->getRessources($lien_ress_chall->getIdRessource());
+        if ($ress->getTypes() == 'image') {
           $lien = $ress->getLien();
         }
         echo $lien;
@@ -27,6 +27,11 @@
     ?>" alt="challenge">
     <section>
       <div class="en-tete">
+        <?php if (isset($_GET['error'])) { ?>
+          <p class="error">
+            <?= $_GET['error'] ?>
+          </p>
+        <?php } ?>
         <p class="date">
           <?= $challenge->getTempsDebut() . " - " . $challenge->getTempsFin() ?>
         </p>
@@ -63,7 +68,8 @@
             <?php if (isset($_SESSION['user'])) { ?>
               <a class="bouton" onclick="openPopup(<?= $projetData->getIdProjet() ?>)">Participer</a>
             <?php } else { ?>
-              <a href="/login?methode=connexion&from=challenges&challenge=<?= $_GET['challenge'] ?>" class="bouton">Participer</a>
+              <a href="/login?methode=connexion&from=challenges&challenge=<?= $_GET['challenge'] ?>"
+                class="bouton">Participer</a>
             <?php } ?>
           </div>
         </div>
@@ -72,6 +78,7 @@
   </article>
 
   <?php if (isset($_SESSION['user'])) { ?>
+    <div class="popup-overlay"></div>
     <div class="popup">
       <h2>Choisissez une équipe :</h2>
       <div class="header">
@@ -86,7 +93,7 @@
       </div>
 
       <?php foreach ($equipes as $equipe) { ?>
-        <div class="equipe" onclick="inscrireEquipe(<?= $equipe->getId() ?>)">
+        <div class="equipe" onclick="inscrireEquipe(<?= $equipe->getId() . ', ' . $_GET['challenge'] ?>)">
           <?php foreach ($userRepo->getUserByEquipe($equipe->getId()) as $user) { ?>
             <span>
               <?= $user->getPrenom() . " " . $user->getNom() ?>

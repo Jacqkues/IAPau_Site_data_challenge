@@ -59,9 +59,9 @@
 <?php } ?>
 
 <div>
-    <h1>Vos equipes : </h1>
+    <h1>Vos équipes : </h1>
     <br>
-    <a href="/user?onglet=Mes%20equipes&new=true" class="bouton">Creer une equipe</a>
+    <a href="/user?onglet=Mes%20equipes&new=true" class="bouton">Créer une equipe</a>
     <br>
     <br>
 </div>
@@ -73,7 +73,7 @@
                 <?= strtoupper($equipe->getNom()) ?>
             </h3>
             <?php if ($equipe->getIdChef() == $_SESSION['user']->getId()) { ?>
-                <p>Vous etes le chef de l'equipe</p>
+                <p>Vous êtes le chef de l'equipe</p>
             <?php } else { ?>
                 <p>CHEF :
                     <?= $u->getUser($equipe->getIdChef())->getNom() ?>
@@ -99,7 +99,7 @@
             <div>
                 <div class="footer">
 
-                    <a href="" class="bouton">Details</a>
+                    <a onclick="openPopup()" class="bouton">Détails</a>
                     <?php if ($equipe->getIdChef() == $_SESSION['user']->getId()) { ?>
                         <a href="/user?onglet=Mes%20equipes&addTo=<?= $equipe->getId() ?>" class="bouton">Ajouter Membre</a>
                         <a href="/user/deleteEquipe?id=<?= $equipe->getId() ?>" class="bouton red"
@@ -110,46 +110,32 @@
             </div>
         </div>
     <?php } ?>
+
+    <div class="popup">
+        <h2>Choisissez une équipe :</h2>
+        <div class="header">
+            <span>Mb 1</span>
+            <span>Mb 2</span>
+            <span>Mb 3</span>
+            <span>Mb 4</span>
+            <span>Mb 5</span>
+            <span>Mb 6</span>
+            <span>Mb 7</span>
+            <span>Mb 8</span>
+        </div>
+
+        <?php foreach ($equipes as $equipe) { ?>
+            <div class="equipe" onclick="inscrireEquipe(<?= $equipe->getId() . ', ' . $_GET['challenge'] ?>)">
+                <?php foreach ($users->getUserByEquipe($equipe->getId()) as $user) { ?>
+                    <span>
+                        <?= $user->getPrenom() . " " . $user->getNom() ?>
+                    </span>
+                <?php } ?>
+            </div>
+        <?php } ?>
+    </div>
+    <div class="popup-overlay"></div>
 </div>
 
-<script>
-    const input = document.getElementById('autocomplete-input');
-    const dropdown = document.getElementById('autocomplete-dropdown');
-
-    input.addEventListener('input', function () {
-        const userInput = input.value;
-
-        if (userInput.length > 0) {
-            // Send AJAX request to the backend
-            const request = new XMLHttpRequest();
-            console.log('/autocomplete?query=' + userInput)
-            request.open('GET', '/autocomplete?query=' + userInput, true);
-            console.log('ok')
-            request.onload = function () {
-                if (request.status >= 200 && request.status < 400) {
-                    console.log(request.responseText)
-                    const response = JSON.parse(request.responseText);
-
-                    // Update the dropdown with the suggestions
-                    dropdown.innerHTML = '';
-                    response.forEach(function (suggestion) {
-                        const option = document.createElement('div');
-                        option.className = 'dropdown-item';
-                        option.textContent = suggestion;
-                        option.onclick = function () {
-                            input.value = suggestion;
-                            dropdown.innerHTML = '';
-                        };
-                        dropdown.appendChild(option);
-                    });
-                }
-            };
-
-            request.send();
-        } else {
-            // Clear the dropdown if the input is empty
-            dropdown.innerHTML = '';
-        }
-    });
-</script>
-<script src="./vue/components/ConfirmAction.js"></script>
+<script src="./vue/components/user/user.js" defer></script>
+<script src="./vue/ConfirmAction.js" defer></script>

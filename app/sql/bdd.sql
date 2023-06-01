@@ -111,9 +111,9 @@ CREATE TABLE Membre(
 );
 
 CREATE TABLE Rendu(
-    lien VARCHAR(200) PRIMARY KEY,
+    lien VARCHAR(200),
     dateRendu DATE NOT NULL,
-    idEquipe INT NOT NULL,
+    idEquipe INT NOT NULL PRIMARY KEY,
     FOREIGN KEY fk_equipe(idEquipe) REFERENCES Equipe(numero)
 );
 

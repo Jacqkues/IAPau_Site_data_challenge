@@ -316,15 +316,21 @@ class EquipeRepository
     public function deleteEquipe(int $id)
     {
         //requête de suppression d'une équipe
-        $req = "DELETE FROM Equipe WHERE numero = :id";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($req);
-        //exécution de la requête
-        $statement->execute(['id' => $id]);
-        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if ($statement == NULL) {
-            throw new Exception("La requête de suppression d'une équipe a échouée.");
+        $reqs = [
+            "DELETE FROM Membre WHERE idEquipe = :id",
+            "DELETE FROM rendu WHERE idEquipe = :id",
+            "DELETE FROM equipe WHERE numero = :id"
+        ];
+
+        foreach ($reqs as $req) {
+            $statement = $this->database->getConnection()->prepare($req);
+            $statement->execute(['id' => $id]);
+
+            if ($statement == NULL) {
+                throw new Exception("La requête de suppression d'une équipe a échoué.");
+            }
         }
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         return true;
     }
 
