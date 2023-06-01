@@ -256,16 +256,6 @@ class GestionnaireControlleur implements Controlleur
                 $content->assign("eq", $this->equipesRepo);
                 $content->assign("p", $this->projetRepo);
                 break;
-            case "Rendu":
-                try {
-                    $content->assign("listprojet", $this->associationRepo->getProjetByContact($_SESSION['user']->getId()));
-                } catch (Exception $e) {
-                    $content->assign("listprojet", []);
-                }
-                $content->assign("rendus", $this->renduRepo);
-                $content->assign("eq", $this->equipesRepo);
-                $content->assign("p", $this->projetRepo);
-                break;
             default:
                 break;
         }
