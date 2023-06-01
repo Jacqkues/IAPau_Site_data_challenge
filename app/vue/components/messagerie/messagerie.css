@@ -42,7 +42,7 @@
 /* PUBLIER */
 .safe-zone form {
   position: fixed;
-  bottom: 0;
+  bottom: 2vw;
   width: 75vw;
   padding: inherit;
 

@@ -102,6 +102,7 @@ class UserControlleur implements Controlleur
 
             $equipe = $this->equiperepo->addEquipe($_SESSION['user']->getId(), $_POST['nom']);
             echo $equipe;
+
             $this->membreRepo->addMembre($equipe, $_SESSION['user']->getId());
             $Today = date('Y-m-d');
             $this->renduRepo->addRendu("empty",$Today, $equipe);

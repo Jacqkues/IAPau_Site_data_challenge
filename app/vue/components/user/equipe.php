@@ -125,7 +125,7 @@
         </div>
 
         <?php foreach ($equipes as $equipe) { ?>
-            <div class="equipe" onclick="inscrireEquipe(<?= $equipe->getId() . ', ' . $_GET['challenge'] ?>)">
+            <div class="equipe" style="cursor: default;">
                 <?php foreach ($users->getUserByEquipe($equipe->getId()) as $user) { ?>
                     <span>
                         <?= $user->getPrenom() . " " . $user->getNom() ?>

@@ -209,7 +209,7 @@ class EquipeRepository
      *  \param $chef int correspodnant à l'id du chef d'équipe : celui qui créer l'équipe
      *  \return true si tout se passe bien
      */
-    public function addEquipe(int $chef,string $nom)
+    public function addEquipe(int $chef,string $nom): int
     {
         //requête d'insertion dans la bdd d'une nouvelle Equipe
         $req = "INSERT INTO Equipe (chef,nom,score,idProjet,idData) VALUES ( :chef, :nom, :score, :idProjet, :idData)";
@@ -222,7 +222,7 @@ class EquipeRepository
         if ($statement == NULL) {
             throw new Exception("La requête d'ajout d'équipe a échouée.");
         }
-        return true;
+        return $this->database->getConnection()->lastInsertId();
     }
 
 
