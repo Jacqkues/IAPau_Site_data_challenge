@@ -2,6 +2,13 @@
 
 Site web pour administrer, manager et participer aux Data Challenges de l'association IA Pau.
 
+## Lancer l'api Java
+
+```bash
+cd analyse_code
+java CodeAnalyserAPI.java
+```
+
 ## Lancer un serveur php
 
 ```bash

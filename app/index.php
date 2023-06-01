@@ -92,7 +92,8 @@ $updateRendu = new ProtectedRoute("/user/rendu",$userControlleur,"Updaterendu",$
 $inscrireEquipe = new ProtectedRoute("/inscrireEquipe",$userControlleur,"inscrireEquipe",$userGuard);
 $autocomplete = new ProtectedRoute("/autocomplete",$userControlleur,"autocomplete",$userGuard);
 $addToEquipe = new ProtectedRoute("/addEquipe",$userControlleur,"addToEquipe",$userGuard);
-
+$answerQuestion = new ProtectedRoute("/user/answer",$userControlleur,"answer",$userGuard);
+$saveResponse = new ProtectedRoute("/user/saveResponse",$userControlleur,"saveResponse",$userGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -134,6 +135,8 @@ $router->addRoute($createEquipe);
 $router->addRoute($deleteEquipe);
 $router->addRoute($updateRendu);
 $router->addRoute($inscrireEquipe);
+$router->addRoute($answerQuestion);
+$router->addRoute($saveResponse);
 $router->handleRequest();
 
 

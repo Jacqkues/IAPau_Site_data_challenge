@@ -88,7 +88,7 @@ class GestionnaireControlleur implements Controlleur
             $questionnaire = new Questionnaire();
             $questionnaire->setDebut($_POST['debut']);
             $questionnaire->setFin($_POST['fin']);
-            $questionnaire->setLien($_POST['lien']);
+            $questionnaire->setLien("");
             $questionnaire->setIdBattle($_POST['idBattle']);
             $this->questionnaireRepo->addQuestionnaire($questionnaire->getDebut(), $questionnaire->getFin(), $questionnaire->getLien(), $questionnaire->getIdBattle());
             header('Location: /gestionnaire?detail-battle&id=' . $_POST['idBattle']);
@@ -153,11 +153,12 @@ class GestionnaireControlleur implements Controlleur
     public function index()
     {
         $fonctionnalite = [
-            "Mon compte" => "./vue/components/monCompte/monCompte.php",
+            
             "Manage Defis" => "./vue/components/gestionnaire/data-challenge.php",
             "Manage Data Battle" => "./vue/components/gestionnaire/data-battle.php",
             "Rendu" => "./vue/components/gestionnaire/rendu.php",
             "Code Analyse" => "./vue/components/gestionnaire/code-analyse.php",
+            "Mon compte" => "./vue/components/monCompte/monCompte.php",
             "Messagerie" => "./vue/components/messagerie/messagerie.php"
         ];
         $type = $_SESSION['user']->getType();

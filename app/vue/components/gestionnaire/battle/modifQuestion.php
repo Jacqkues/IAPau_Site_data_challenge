@@ -31,4 +31,8 @@
             </form>
         </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <a href="/gestionnaire?onglet=Manage%20Data%20Battle" class="bouton">Valider</a>
 </div>

@@ -40,7 +40,7 @@ class QuestionnaireRepository{
         $row = $statement->fetch();
         //création d'un objet questionnaire
         $questionnaire = new Questionnaire();
-        $questionnaire->setId($row['id']);
+        $questionnaire->setId($row['idQuestionnaire']);
         $questionnaire->setDebut($row['debut']);
         $questionnaire->setFin($row['fin']);
         $questionnaire->setLien($row['lien']);

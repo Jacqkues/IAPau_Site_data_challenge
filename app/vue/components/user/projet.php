@@ -47,7 +47,24 @@
                 <div>
                     <?php if ($_SESSION['user']->getId() == $equipe->getIdChef()) { ?>
                         <a href="/user?onglet=Mes%20projets&rendu&id=<?= $equipe->getId() ?>" class="bouton">Modifier le rendu</a>
-                        <a href="" class="bouton-secondaire">Répondre au questionnaire</a>
+
+                        <?php
+                        
+                        $id_challenge = $projet->getIdDataChallenge();
+                        try{
+                            $questionnaire = $q->getQuestionnaireByBattle($id_challenge)[0];
+                        }catch(Exception $e){
+                            $questionnaire = null;
+                        }
+                        if ($questionnaire != null) {
+                            ?>
+                                <a href="/user/answer?id=<?= $questionnaire->getId()?>&idEquipe=<?= $equipe->getId() ?>" class="bouton-secondaire">Répondre au questionnaire</a>
+                            <?php
+                        }
+
+
+                        ?>
+
                     <?php } ?>
                 </div>
             </div>

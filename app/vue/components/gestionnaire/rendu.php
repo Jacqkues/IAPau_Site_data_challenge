@@ -17,7 +17,7 @@
                  Equipe :   <?= $eq->getEquipe($rendu->getIdEquipe())->getNom() ?>
                 </p>
 
-                <a href="" class="bouton">Analyser</a>
+                <a href="/gestionnaire/resultAnalyse?id=<?= $rendu->getLien() ?>" class="bouton">Analyser</a>
             </div>
         <?php } ?>
         </div>

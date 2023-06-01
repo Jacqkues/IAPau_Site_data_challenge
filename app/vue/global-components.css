@@ -3,7 +3,7 @@ body {
   --BLEU_IA_PAU: #4AB7BC;
   --BLEU_IA_PAU_LIGHT: #4ab6bcb3;
   --MAIN_COLOR: white;
-  --PADDING: 1vw 4vw;
+  --PADDING: 1vw 2vw;
 
   position: relative;
   background-color: white;

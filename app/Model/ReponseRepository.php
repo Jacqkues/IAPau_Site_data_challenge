@@ -44,7 +44,7 @@ class ReponseRepository{
 
     public function addReponse(int $idQuestion, string $reponse, int $idEquipe): bool{
         //requête d'insertion dans la bdd d'une nouvelle reponse
-        $req = "INSERT INTO Reponse (reponse, idQuestion, idEquipe) VALUES ( :reponse, :idQ, idE)";
+        $req = "INSERT INTO Reponse (reponse, idQuestion, idEquipe) VALUES ( :reponse, :idQ, :idE)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
@@ -182,6 +182,20 @@ class ReponseRepository{
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
             throw new ReponseException("La requête de modification d'une reponse a échouée.");
+        }
+        return true;
+    }
+
+    public function existReponseByEquipe(int $idEquipe, int $idQuestion) : bool{
+        //requête SQL
+        $sql = "SELECT * FROM Reponse WHERE idEquipe = :idE AND idQuestion = :idQ";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($sql);
+        //exécution de la requête
+        $statement->execute(['idE' => $idEquipe,'idQ' => $idQuestion]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            return false;
         }
         return true;
     }

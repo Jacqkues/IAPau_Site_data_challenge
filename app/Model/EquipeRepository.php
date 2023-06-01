@@ -362,7 +362,7 @@ class EquipeRepository
         //création d'un tableau d'objets Equipe
         try {
 
-            $req = "SELECT idProjet FROM equipe WHERE numero = :idEquipe";
+            $req = "SELECT idProjet FROM Equipe WHERE numero = :idEquipe";
 
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);

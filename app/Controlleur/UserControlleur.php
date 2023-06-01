@@ -13,6 +13,10 @@ use Model\ProjetDataRepository;
 use Model\RenduRepository;
 use Model\UserRepository;
 use Model\Entites\User;
+use Model\QuestionnaireRepository;
+use Model\QuestionRepository;
+use Model\ReponseRepository;
+use Model\Entites\Reponse;
 
 class UserControlleur implements Controlleur
 {
@@ -27,6 +31,11 @@ class UserControlleur implements Controlleur
 
     private RenduRepository $renduRepo;
 
+    private QuestionnaireRepository $questionnaireRepo;
+
+    private QuestionRepository $questionRepo;
+
+    private ReponseRepository $reponseRepo;
     
     public function __construct()
     {
@@ -38,8 +47,31 @@ class UserControlleur implements Controlleur
         $this->membreRepo = new MembreRepository($db);
         $this->projetDataRepo = new ProjetDataRepository($db);
         $this->renduRepo = new RenduRepository($db);
+        $this->questionnaireRepo = new QuestionnaireRepository($db);
+        $this->questionRepo = new QuestionRepository($db);
+        $this->reponseRepo = new ReponseRepository($db);
     }
 
+    public function saveResponse(){
+        if(isset($_POST)){
+            $this->reponseRepo->addReponse($_POST['idQuestion'], $_POST['reponse'], $_POST['idEquipe']);
+            header('Location: /user/answer?id='.$_POST['idBattle'] .'&idEquipe='.$_POST['idEquipe']);
+        }
+    }
+    public function answer(){
+        $id = $_GET['id'];
+        $view = new View("./vue/components/user/questionnaire.php");
+        $view->assign('questionnaire', $this->questionnaireRepo);
+        try{
+            $view->assign('questions', $this->questionRepo->getQuestionByQuestionnaire($id));
+        }catch(\Exception $e){
+            $view->assign('questions', []);
+        }
+       
+        $view->assign('reponses', $this->reponseRepo);
+        $view->assign('idEquipe', $_GET['idEquipe']);
+        $view->show();
+    }
 
     public function autocomplete()
     {
@@ -201,11 +233,11 @@ class UserControlleur implements Controlleur
     public function index()
     {
         $fonctionnalite = [
-            "Mon compte" => "./vue/components/monCompte/monCompte.php",
+            "Challenges disponibles" => "./vue/components/challenges-dispo/challenge_user.php",
             "Mes projets" => "./vue/components/user/projet.php",
             "Mes equipes" => "./vue/components/user/equipe.php",
-            "Challenges disponibles" => "./vue/components/challenges-dispo/challenge_user.php",
             "Code Analyse" => "./vue/components/gestionnaire/code-analyse.php",
+            "Mon compte" => "./vue/components/monCompte/monCompte.php",
             "Messagerie" => "./vue/components/messagerie/messagerie.php",
 
         ];
@@ -240,6 +272,7 @@ class UserControlleur implements Controlleur
                     $content->assign("equipes", $this->equiperepo->getEquipeByUser($_SESSION['user']->getId()));
                     $content->assign("p",$this->projetDataRepo);
                     $content->assign("rendus",$this->renduRepo);
+                    $content->assign("q",$this->questionnaireRepo);
                 } catch (\Exception $e) {
                     $content->assign("projets", []);
                     $content->assign("p",null);

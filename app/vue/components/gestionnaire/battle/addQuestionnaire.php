@@ -4,8 +4,6 @@
         <p>Création du Questionnaire</p>
         <form action="/gestionnaire/addQuestionnaire" method="post">
             <input type="hidden" name="idBattle" value="<?= $_GET['id'] ?>">
-            <label id="lienQ">Lien du Questionnaire:</label>
-            <input type="text" name="lien" class="bouton-input-text">
             <label id="dateDeb">Date de commencement du Questionnaire:</label>
             <input type="date" name="debut" class="bouton-input-text">
             <label id="dateFin">Date de fin du Questionnaire:</label>

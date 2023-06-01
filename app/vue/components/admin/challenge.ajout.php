@@ -12,7 +12,6 @@
 <?php } ?>
 <div>
     <h1>Ajout d'un Data <span id="type_defi">Challenge</span></h1>
-
     <form action="/admin/addChallenge" method="post">
         <input type="text" name="titre" placeholder="Titre" class="bouton-input-text" required>
         <input type="date" name="debut" id="" class="bouton-input-text" required>
