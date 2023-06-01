@@ -92,7 +92,11 @@ class UserControlleur implements Controlleur
             $this->userRepo->changeNiveau($user->getNivEtude(), $user->getId());
             $this->userRepo->changeTel($user->getNumTel(), $user->getId());
             $this->userRepo->changeMail($user->getMail(), $user->getId());
+
+            $_SESSION['user'] = $this->userRepo->getUser($user->getId());
+
             header('Location: /user?onglet=Mon compte');
+            exit();
         }
     }
 
@@ -192,10 +196,10 @@ class UserControlleur implements Controlleur
     public function index()
     {
         $fonctionnalite = [
-            "Challenges disponibles" => "./vue/components/challenges-dispo/challenge_user.php",
+            "Mon compte" => "./vue/components/monCompte/monCompte.php",
             "Mes projets" => "./vue/components/user/projet.php",
             "Mes equipes" => "./vue/components/user/equipe.php",
-            "Mon compte" => "./vue/components/monCompte/monCompte.php",
+            "Challenges disponibles" => "./vue/components/challenges-dispo/challenge_user.php",
             "Code Analyse" => "./vue/components/gestionnaire/code-analyse.php",
             "Messagerie" => "./vue/components/messagerie/messagerie.php",
 

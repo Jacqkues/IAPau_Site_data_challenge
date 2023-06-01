@@ -3,7 +3,6 @@
     --background-onglet: rgb(209, 209, 209);
 }
 
-
 article {
     min-height: 100vh;
 
@@ -22,7 +21,7 @@ article section:first-of-type {
     padding: 0;
     width: 20vw;
     background-color: var(--background-left-panel);
-    padding-top: 20px;
+    padding-top: 1.5vw;
     position: fixed;
 }
 
@@ -45,6 +44,7 @@ article section:first-of-type {
 .onglet {
     color: black;
     font-weight: bold;
+    font-size: 1.1vw;
     padding: .75vw 1.5vw;
     transition: 100ms background-color;
 }
@@ -54,12 +54,15 @@ article section:first-of-type {
 }
 
 .utilisateur {
-    margin-left: 2vw;
-    margin-top: 2vw;
+    /* margin-left: 2vw; */
+    margin: 2vw 0 0 0;
+    /* margin-top: 2vw; */
+    padding: 0 3vw;
+    text-transform: capitalize;
 }
 
-.utilisateur {
-    text-transform: capitalize;
+.utilisateur h2 {
+    font-size: 1.5vw;
 }
 
 .onglet-active {

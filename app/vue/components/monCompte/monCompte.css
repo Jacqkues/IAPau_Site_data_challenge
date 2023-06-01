@@ -1,13 +1,8 @@
-body{
-    overflow-x: hidden;
-    height: 100%;
-}
 .corps #titreCompte{
     display: flex;
-    margin-bottom: 10vh;
-    margin-top: -8vh;
-    font-size: 2vw;
+    font-size: 1.75vw;
     width: 75vw;
+    margin-bottom: 3vw;
 }
 
 
@@ -17,9 +12,8 @@ body{
 
 .corps .corpsInfo #titreInfo{
     margin-bottom: 2vh;
-    font-size: 1.5vw;
+    font-size: 1.25vw;
 }
-
 
 .corps .corpsInfo .infoUser .user .ensemble p{
     height: 1vw;
@@ -45,8 +39,8 @@ body{
     font-size: 0.9vw;
 }
 
-.corps .corpsStat #titreStat{
-    font-size: 1.5vw;
+.corps .corpsStat #titreStat {
+    font-size: 1.25vw;
 }
 
 .corps .corpsStat ul{
@@ -57,10 +51,10 @@ body{
     display: inline-block;
 }
 
-.corps .corpsStat{
+.corps .corpsStat {
     margin-bottom: 5vh;
 }
-.corps .boutonMc #lien{
+.corps .boutonMC .lien {
     display: inline-block;
     text-align: center;
     border-style: solid;
@@ -73,9 +67,8 @@ body{
     margin-right: 3vw;
 }
 
-.corps .boutonMc{
+.corps .boutonMC {
     display: inline-flex;
     position: absolute;
     right: 0;
-
 }

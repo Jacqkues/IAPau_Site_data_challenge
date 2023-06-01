@@ -5,8 +5,13 @@
     <div class="challenge">
       <img src="<?php
       try {
-        $lien_ressource_challenge = $detenir->getDetenirByChallenge($challenge->getIdChallenge());
-        echo ($ressource->getRessources($lien_ressource_challenge[0]->getIdRessource()))->getLien();
+        foreach ($detenir->getDetenirByChallenge($challenge->getIdChallenge()) as $lien_ress_chall) {
+          $ress = $ressource->getRessources($lien_ress_chall->getIdRessource());
+          if ($ress->getTypes() == 'image') {
+            $lien = $ress->getLien();
+          }
+          echo $lien;
+        }
       } catch (\Exception $e) {
         echo "vue/assets/challenge.jpg";
       }
