@@ -2,21 +2,30 @@
 
 namespace Controlleur;
 
+use Exception;
 use jmvc\Controlleur;
 use jmvc\View;
 
 use Model\DataBattleRepository;
 use Model\Entites\dataBattle;
+use Model\Entites\dataChallenge;
+use Model\Entites\Equipe;
 use Model\Entites\Questionnaire;
+use Model\Entites\Question;
+use Model\Entites\Reponse;
 use Model\EquipeRepository;
 use Model\MembreRepository;
 use Model\QuestionnaireRepository;
+use Model\QuestionRepository;
+use Model\ReponseRepository;
 use Model\RessourceRepository;
 use Model\UserRepository;
 use Model\DataChallengeRepository;
 use Model\MessagerieRepository;
 use Lib\DatabaseConnection;
 use Model\AssociationRepository;
+use Model\QuestionException;
+use Model\ReponseException;
 
 class GestionnaireControlleur implements Controlleur
 {
@@ -30,6 +39,8 @@ class GestionnaireControlleur implements Controlleur
     private $battleRepo;
     private $questionnaireRepo;
     private $associationRepo;
+    private $questionRepo;
+    private $reponseRepo;
 
     public function __construct()
     {
@@ -43,18 +54,21 @@ class GestionnaireControlleur implements Controlleur
         $this->ressourceRepository = new RessourceRepository($db);
         $this->battleRepo = new DataBattleRepository($db);
         $this->questionnaireRepo = new QuestionnaireRepository($db);
+        $this->questionRepo = new QuestionRepository($db);
+        $this->reponseRepo = new ReponseRepository($db);
     }
 
     public function updateBattle(){
-        if(isset($_POST)){
-            $battle = new dataBattle();
-            $battle->setIdBattle($_POST['id']);
-            $battle->setLibelleBattle($_POST['libelle']);
-            $battle->setDebut($_POST['debut']);
-            $battle->setFin($_POST['fin']);
-            $this->battleRepo->updateDebBattle($battle->getIdBattle(), $battle->getDebut());
-            $this->battleRepo->updateFinBattle($battle->getIdBattle(), $battle->getFin());
-            $this->battleRepo->updateLibelleBattle($battle->getIdBattle(), $battle->getLibelleBattle());
+        if(isset($_POST) && $_POST['types'] == "battle"){
+            $battle = new dataChallenge();
+            $battle->setIdChallenge($_POST['id']);
+            $battle->setLibelle($_POST['libelle']);
+            $battle->setTempsDebut($_POST['debut']);
+            $battle->setTempsFin($_POST['fin']);
+            $battle->setType($_POST['types']);
+            $this->challengerepo->updateDebBattle($battle->getIdChallenge(), $battle->getTempsDebut());
+            $this->challengerepo->updateFinBattle($battle->getIdChallenge(), $battle->getTempsFin());
+            $this->challengerepo->updateLibelleBattle($battle->getIdChallenge(), $battle->getLibelle());
             header('Location: /gestionnaire?onglet=Manage Data Battle');
         }
     }
@@ -67,10 +81,53 @@ class GestionnaireControlleur implements Controlleur
             $questionnaire->setLien($_POST['lien']);
             $questionnaire->setIdBattle($_POST['idBattle']);
             $this->questionnaireRepo->addQuestionnaire($questionnaire->getDebut(), $questionnaire->getFin(), $questionnaire->getLien(), $questionnaire->getIdBattle());
-            header('Location: /gestionnaire?onglet=Manage Data Battle');
+            header('Location: /gestionnaire?detail-battle&id='.$_POST['idBattle']);
         }
     }
 
+
+    public function ajoutQuestion(){
+        if(isset($_POST)){
+            $question = new Question();
+            $question->setQuestion($_POST['question']);
+            $question->setIdQuestionnaire($_POST['idQuestionnaire']);
+            try{
+                $this->questionRepo->addQuestion($question->getQuestion(), $question->getIdQuestionnaire());
+            }catch(QuestionException $e){
+                $this->questionRepo->addQuestion($question->getQuestion(), '');
+            }
+            header('Location: /gestionnaire?modifQuestion&id='.$question->getIdQuestionnaire());
+        }
+    }
+
+    public function updateQuestion(){
+        if(isset($_POST)){
+            $question = new Question();
+            $question->setQuestion($_POST['question']);
+            $question->setIdQuestion($_POST['id']);
+            $question->setIdQuestionnaire($_POST['idQuest']);
+            try{
+                $this->questionRepo->updateQuestion($question->getIdQuestion(), $question->getQuestion());
+            }catch(QuestionException $e){
+                $this->questionRepo->updateQuestion($question->getIdQuestion(), '');
+            }
+            header('Location: /gestionnaire?modifQuestion&id='.$question->getIdQuestionnaire());
+        }
+    }
+
+    public function deleteQuestion(){
+    
+        $question= $_GET['id'];
+        $this->questionRepo->deleteQuestion($question);
+        header('Location: /gestionnaire?modifQuestion&id='.$_GET['idQ']);
+    }
+
+    public function addPoint(){
+        if(isset($_POST)){
+            $this->equipesRepo->changeScore($_POST['score'], $_POST['id']);
+            header('Location: /gestionnaire?Reponse&id='.$_POST['idQ']);
+        }
+    }
     // tableau de bord du gestionnaire
     public function index()
     {
@@ -95,6 +152,15 @@ class GestionnaireControlleur implements Controlleur
         elseif(isset($_GET['updateBattle'])){
             $page ="./vue/components/gestionnaire/battle/updateBattle.php";
         }
+        elseif(isset($_GET['detail-battle'])){
+            $page = "./vue/components/gestionnaire/battle/detail-battle.php";
+        }elseif (isset($_GET['modifQuestion'])) {
+            $page = "./vue/components/gestionnaire/battle/modifQuestion.php";
+        }elseif (isset($_GET['Reponse'])){
+            $page = "./vue/components/gestionnaire/battle/reponse.php";
+        }elseif(isset($_GET['addQuestionnaire'])){
+            $page= "./vue/components/gestionnaire/battle/addQuestionnaire.php";
+        }
 
         $content = new View($page);
         $content->assign('type', $type);
@@ -106,6 +172,39 @@ class GestionnaireControlleur implements Controlleur
             $content->assign("membres", $this->membreRepo);
             $content->assign("users", $this->userRepo);
         }
+        elseif(isset($_GET['detail-battle'])){
+            try{
+                $content->assign("questionnaires", $this->questionnaireRepo->getQuestionnaireByBattle($_GET['id']));
+                $content->assign('battle', $this->challengerepo->getDataChallenge($_GET['id']));
+            } catch(Exception $e){
+                $content->assign("questionnaires", []);
+                $content->assign('battle', $this->challengerepo->getDataChallenge($_GET['id']));
+            }
+        }elseif(isset($_GET['modifQuestion'])){
+            try{
+                $content->assign('questions', $this->questionRepo->getQuestionByQuestionnaire($_GET['id']));
+            }catch(QuestionException $e){
+                $content->assign('questions', []);
+            }
+        }elseif(isset($_GET['Reponse'])){
+            try{
+                $content->assign('reponses', $this->reponseRepo->getAllReponses());
+                $content->assign('questions', $this->questionRepo->getQuestionByQuestionnaire($_GET['id']));  
+            }
+            catch(ReponseException $e){
+                try {
+                    $content->assign('reponses', []);
+                    $content->assign('questions', $this->questionRepo->getQuestionByQuestionnaire($_GET['id']));
+                } catch (QuestionException $e) {
+                    $content->assign('reponses', []);
+                    $content->assign('questions', []);
+                }
+            }
+            catch(QuestionException $e){
+                $content->assign('reponses', []);  
+                $content->assign('questions', []);
+            }
+        }
 
         switch ($ongletcourant) {
             case "Manage Defis":
@@ -115,7 +214,7 @@ class GestionnaireControlleur implements Controlleur
                 $categorie = isset($_GET['categorie'])?$_GET['categorie']:"GÉNÉRAL";
                 try {
                     $content->assign("messages", $this->messagerierepo->getMessageByCat($categorie));
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $content->assign("messages", []);
                 }
                 $content->assign("categories", $this->challengerepo->getAllChallenges());
@@ -125,8 +224,7 @@ class GestionnaireControlleur implements Controlleur
                 $content->assign("projets", $this->associationRepo->getProjetByContact($_SESSION['user']->getId()));
                 break;
             case "Manage Data Battle":
-                $content->assign("dataBattle", $this->battleRepo->getAllBattles());
-                break;
+                $content->assign("dataBattle", $this->challengerepo->getChallengeByType("battle"));
             default:
                 break;
         }

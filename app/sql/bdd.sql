@@ -78,7 +78,7 @@ CREATE TABLE Questionnaire(
     fin DATE,
     lien VARCHAR(200),
     idBattle INT,
-    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataBattle(idBattle) ON DELETE CASCADE
+    FOREIGN KEY fk_idBattle(idBattle) REFERENCES dataChallenge(idChallenge) ON DELETE CASCADE
 );
 
 CREATE TABLE Question(
@@ -106,8 +106,8 @@ CREATE TABLE Reponse(
     reponse VARCHAR(10000),
     idQuestion INT NOT NULL,
     idEquipe INT NOT NULL,
-    FOREIGN KEY fk_idQuestion(idQuestion) REFERENCES Question(idQuestion),
-    FOREIGN KEY fk_idEquipe(idEquipe) REFERENCES Equipe(numero)
+    FOREIGN KEY fk_idQuestion(idQuestion) REFERENCES Question(idQuestion) ON DELETE CASCADE,
+    FOREIGN KEY fk_idEquipe(idEquipe) REFERENCES Equipe(numero) ON DELETE CASCADE
 );
 
 CREATE TABLE Membre(
@@ -122,7 +122,7 @@ CREATE TABLE Rendu(
     lien VARCHAR(200) PRIMARY KEY,
     dateRendu DATE NOT NULL,
     idEquipe INT NOT NULL,
-    FOREIGN KEY fk_equipe(idEquipe) REFERENCES Equipe(numero)
+    FOREIGN KEY fk_equipe(idEquipe) REFERENCES Equipe(numero) ON DELETE CASCADE
 );
 
 CREATE TABLE Messagerie(
@@ -133,5 +133,5 @@ CREATE TABLE Messagerie(
     dateEnvoi DATE NOT NULL,
     categorie VARCHAR(200) DEFAULT 'GENERAL',
     objet VARCHAR(1000),
-    FOREIGN KEY fk_auteur(auteur) REFERENCES User(idUser)
+    FOREIGN KEY fk_auteur(auteur) REFERENCES User(idUser) ON DELETE CASCADE
 );

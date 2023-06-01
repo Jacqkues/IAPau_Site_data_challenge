@@ -92,7 +92,7 @@ class QuestionnaireRepository{
         $statement->execute();
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête d'ajout de questionnaire a échouée.");
+            throw new Exception("La requête de récupération de tous les questionnaires a échouée.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();
@@ -137,7 +137,7 @@ class QuestionnaireRepository{
         $questionnaires = [];
         foreach ($rows as $row) {
             $questionnaire = new Questionnaire();
-            $questionnaire->setId($row['id']);
+            $questionnaire->setId($row['idQuestionnaire']);
             $questionnaire->setDebut($row['debut']);
             $questionnaire->setFin($row['fin']);
             $questionnaire->setLien($row['lien']);

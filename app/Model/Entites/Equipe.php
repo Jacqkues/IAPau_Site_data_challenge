@@ -6,7 +6,6 @@ class Equipe{
     protected int $id;
     protected int $idChef; #foreign key vers la table user
     protected int $score;
-    protected int $idBattle; #foreign key vers la table dataBattle
     protected int $idProjet; #foreign key vers la table projetData
     protected int $idDataChallenge; #foreign key vers la table projetData
 
@@ -32,14 +31,6 @@ class Equipe{
 
     public function setScore($score) {
         $this->score = $score; 
-    }
-
-    public function getIdBattle() {
-        return $this->idBattle;
-    }
-
-    public function setIdBattle($idBattle) {
-        $this->idBattle = $idBattle;
     }
 
     public function getIdProjet() : int{

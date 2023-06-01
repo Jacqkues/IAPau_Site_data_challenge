@@ -19,16 +19,16 @@
       <div class="list-content">
         <div class="user-info">
           <span class="challenge-title">
-            <?= $battle->getLibelleBattle() ?>
+            <?= $battle->getLibelle() ?>
           </span>
           <span>
-            <?= $battle->getDebut() ?>
+            <?= $battle->getTempsDebut() ?>
           </span>
           <span>
-            <?= $battle->getFin() ?>
+            <?= $battle->getTempsFin() ?>
           </span>
-          <a class="bouton" href="/gestionnaire?updateBattle&id=<?= $battle->getIdBattle() ;?>">Modifier</a>
-          <a href="/gestionnaire?detail-battle&id=<?= $battle->getIdBattle(); ?>" class="bouton">Détails</a>
+          <a class="bouton" href="/gestionnaire?updateBattle&id=<?= $battle->getIdChallenge() ;?>">Modifier</a>
+          <a href="/gestionnaire?detail-battle&id=<?= $battle->getIdChallenge(); ?>" class="bouton">Détails</a>
         </div>
       </div>
     <?php } ?>

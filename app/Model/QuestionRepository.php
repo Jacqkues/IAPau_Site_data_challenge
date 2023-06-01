@@ -4,6 +4,7 @@ namespace Model;
 use Lib\DatabaseConnection;
 use Model\Entites\Question;
 use Exception;
+use Model\QuestionException;
 
 class QuestionRepository{
     //point d'accés à la base de données
@@ -26,7 +27,7 @@ class QuestionRepository{
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération de la question a échouée.");
+            throw new QuestionException("La requête de récupération de la question a échouée.");
         }
         //récupération des informations
         $row = $statement->fetch();
@@ -48,7 +49,7 @@ class QuestionRepository{
         $statement->execute(['question' => $question,'idQ' => $idQuest]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête d'ajout d'un question a échouée.");
+            throw new QuestionException("La requête d'ajout d'un question a échouée.");
         }   
         return true;
     }
@@ -71,7 +72,7 @@ class QuestionRepository{
         $statement->execute();
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération de toutes les questions a échouée.");
+            throw new QuestionException("La requête de récupération de toutes les questions a échouée.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();
@@ -95,16 +96,16 @@ class QuestionRepository{
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
-        $statement->execute(['question' => $question,'id' => $idQuestion]);
+        $statement->execute(['question' => $question,'idQ' => $idQuestion]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de modification d'une question a échouée.");
+            throw new QuestionException("La requête de modification d'une question a échouée.");
         }
         return true;
     }
 
     
-    public function getQuestionByQuestionnaure(int $idQuestionnaire) : array{
+    public function getQuestionByQuestionnaire(int $idQuestionnaire) : array{
         //requête SQL
         $sql = "SELECT * FROM Question WHERE idQuestionnaire = :idQ";
         //préparation de la requête
@@ -113,7 +114,7 @@ class QuestionRepository{
         $statement->execute(['idQ' => $idQuestionnaire]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération des questions liées à un Questionnaire a échouée.");
+            throw new QuestionException("La requête de récupération des questions liées à un Questionnaire a échouée.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();
@@ -139,7 +140,7 @@ class QuestionRepository{
         $statement->execute(['id' => $idQuestion]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de suppression d'une question a échouée.");
+            throw new QuestionException("La requête de suppression d'une question a échouée.");
         }   
         return true;
     }

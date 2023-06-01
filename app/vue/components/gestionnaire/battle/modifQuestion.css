@@ -1,0 +1,22 @@
+.corps .question .modif{
+    display: flex;
+}
+
+.corps .question .modif form{
+    align-self: center;
+}
+
+.corps .question label{
+    display: block; 
+}
+
+.corps .question form input{
+    font-size: 1vw;
+    width: 30vw;
+    margin-right: 10vw;
+}
+
+.corps .question form .bouton{
+    font-size: 1vw;
+    width: 8vw;
+}

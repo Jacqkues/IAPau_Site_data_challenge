@@ -45,7 +45,6 @@ class EquipeRepository
         $equipe = new Equipe();
         $equipe->setId($row['numero']);
         $equipe->setIdChef($row['chef']);
-        $equipe->setIdBattle($row['idBattle']);
         $equipe->setIdDataChallenge($row['idData']);
         $equipe->setIdProjet($row['idProjet']);
         $equipe->setScore($row['score']);
@@ -80,7 +79,6 @@ class EquipeRepository
             $equipe = new Equipe();
             $equipe->setId($row['numero']);
             $equipe->setIdChef($row['chef']);
-            $equipe->setIdBattle($row['idBattle']);
             $equipe->setIdDataChallenge($row['idData']);
             $equipe->setIdProjet($row['idProjet']);
             $equipe->setScore($row['score']);
@@ -116,7 +114,6 @@ class EquipeRepository
         $equipe = new Equipe();
         $equipe->setId($row['numero']);
         $equipe->setIdChef($row['chef']);
-        $equipe->setIdBattle($row['idBattle']);
         $equipe->setIdDataChallenge($row['idData']);
         $equipe->setIdProjet($row['idProjet']);
         $equipe->setScore($row['score']);
@@ -153,9 +150,6 @@ class EquipeRepository
             $equipe->setId($row['numero']);
             $equipe->setIdChef($row['chef']);
 
-            if ($row['idBattle'] != null) {
-                $equipe->setIdBattle($row['idBattle']);
-            }
             if ($row['idProjet'] != null) {
                 $equipe->setIdProjet($row['idProjet']);
             }
@@ -220,32 +214,6 @@ class EquipeRepository
         if ($statement == NULL) {
             throw new Exception("La requête d'ajout d'équipe a échouée.");
         }
-        return true;
-    }
-
-    /*!
-     *  \fn function addBattle(int $idBattle, int $idEquipe)
-     *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
-     *  \version 0.1 Premier jet
-     *  \dateTue 23 2023 - 09:32:02
-     *  \brief fonction permettant de mettre à jour une équipe qui choisi un data Battle
-     *  \param $idBattle int qui réprésente l'id d'un data Battle
-     *  \param $idEquipe int qui réprésente le numéro d'un équipe
-     *  \return true quand tout se passe bien
-     */
-    public function addBattle(int $idBattle, int $idEquipe): bool
-    {
-        //Requête pour mettre à jour l'équipe et choisir le data Battle
-        $req = "UPDATE Equipe SET idBattle = :idBattle WHERE numero = :id";
-        //préparation de la requête
-        $statement = $this->database->getConnection()->prepare($req);
-        //exécution de la requête
-        $statement->execute(['idBattle' => $idBattle, 'id' => $idEquipe]);
-        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
-        if ($statement == NULL) {
-            throw new Exception("La requête d'ajout d'un data Battle a échouée.");
-        }
-
         return true;
     }
 
@@ -363,7 +331,6 @@ class EquipeRepository
                 $equipe = new Equipe();
                 $equipe->setId($row['numero']);
                 $equipe->setIdChef($row['chef']);
-                $equipe->setIdBattle($row['idBattle']);
                 $equipe->setIdDataChallenge($row['idData']);
                 $equipe->setIdProjet($row['idProjet']);
                 $equipe->setScore($row['score']);

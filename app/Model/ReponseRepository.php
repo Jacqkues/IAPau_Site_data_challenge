@@ -4,6 +4,7 @@ namespace Model;
 use Lib\DatabaseConnection;
 use Model\Entites\Reponse;
 use Exception;
+use Model\ReponseException;
 
 class ReponseRepository{
     //point d'accés à la base de données
@@ -26,7 +27,7 @@ class ReponseRepository{
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération de la réponse a échouée.");
+            throw new ReponseException("La requête de récupération de la réponse a échouée.");
         }
         //récupération des informations
         $row = $statement->fetch();
@@ -49,7 +50,7 @@ class ReponseRepository{
         $statement->execute(['reponse' => $reponse,'idQ' => $idQuestion, 'idE' => $idEquipe]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête d'ajout d'une réponse a échouée.");
+            throw new ReponseException("La requête d'ajout d'une réponse a échouée.");
         }   
         return true;
     }
@@ -65,7 +66,7 @@ class ReponseRepository{
         $statement->execute();
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération de toutes les reponses a échouée.");
+            throw new ReponseException("La requête de récupération de toutes les reponses a échouée.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();
@@ -93,7 +94,7 @@ class ReponseRepository{
         $statement->execute(['reponse' => $reponse,'idReponse' => $idReponse]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de modification d'une reponse a échouée.");
+            throw new ReponseException("La requête de modification d'une reponse a échouée.");
         }
         return true;
     }
@@ -108,7 +109,7 @@ class ReponseRepository{
         $statement->execute(['idE' => $idEquipe]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération des réponses liées à une équipe a échouée.");
+            throw new ReponseException("La requête de récupération des réponses liées à une équipe a échouée.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();
@@ -135,7 +136,7 @@ class ReponseRepository{
         $statement->execute(['idQ' => $idQuestion]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de récupération des réponses liées à une question a échouée.");
+            throw new ReponseException("La requête de récupération des réponses liées à une question a échouée.");
         }
         //récupération du résultat
         $rows = $statement->fetchAll();
@@ -162,7 +163,7 @@ class ReponseRepository{
         $statement->execute(['id' => $idReponse]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if($statement->rowCount() === 0){
-            throw new Exception("La requête de suppression d'une reponse a échouée.");
+            throw new ReponseException("La requête de suppression d'une reponse a échouée.");
         }   
         return true;
     }
