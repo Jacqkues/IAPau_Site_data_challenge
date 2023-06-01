@@ -35,7 +35,7 @@ Procédure à suivre pour créer un administrateur à la mise en place du site :
 - Ouvrez un client MySQL, et exécutez la requête suivante :
 ```SQL
 USE challenge;
-UPDATE user SET types = "admin" WHERE id = 1;
+UPDATE user SET types = "admin" WHERE idUser = 1;
 COMMIT;
 ```
 - Sur le site, déconnectez-vous puis reconnectez-vous. Vous êtes maintenant administrateur.
