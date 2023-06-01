@@ -128,10 +128,11 @@ class GestionnaireControlleur implements Controlleur
     }
 
     public function addPoint(){
-        if(isset($_POST)){
+        if(isset($_POST) && $_POST['note'] === "false"){
+            $this->reponseRepo->updateEstNote($_POST['idRep'], true);
             $this->equipesRepo->changeScore($_POST['score'], $_POST['id']);
-            header('Location: /gestionnaire?Reponse&id='.$_POST['idQ']);
         }
+        header('Location: /gestionnaire?Reponse&id='.$_POST['idQ']);
     }
     // tableau de bord du gestionnaire
     public function index()

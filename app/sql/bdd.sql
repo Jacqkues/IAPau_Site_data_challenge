@@ -104,6 +104,7 @@ CREATE TABLE Equipe(
 CREATE TABLE Reponse(
     idReponse INT PRIMARY KEY AUTO_INCREMENT,
     reponse VARCHAR(10000),
+    note BOOLEAN DEFAULT FALSE,
     idQuestion INT NOT NULL,
     idEquipe INT NOT NULL,
     FOREIGN KEY fk_idQuestion(idQuestion) REFERENCES Question(idQuestion) ON DELETE CASCADE,

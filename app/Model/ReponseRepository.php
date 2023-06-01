@@ -37,6 +37,7 @@ class ReponseRepository{
         $reponse->setReponse($row['reponse']);
         $reponse->setIdReponse($row['idReponse']);
         $reponse->setIdEquipe($row['idEquipe']);
+        $reponse->setNote($row['note']);
         return $reponse;
     }
 
@@ -79,6 +80,7 @@ class ReponseRepository{
             $reponse->setReponse($row['reponse']);
             $reponse->setIdReponse($row['idReponse']);
             $reponse->setIdEquipe($row['idEquipe']);
+            $reponse->setNote($row['note']);
             $reponses[] = $reponse;
         }
         return $reponses;
@@ -122,6 +124,7 @@ class ReponseRepository{
             $reponse->setReponse($row['reponse']);
             $reponse->setIdReponse($row['idReponse']);
             $reponse->setIdEquipe($row['idEquipe']);
+            $reponse->setNote($row['note']);
             $reponses[] = $reponse;
         }
         return $reponses;
@@ -149,6 +152,7 @@ class ReponseRepository{
             $reponse->setReponse($row['reponse']);
             $reponse->setIdReponse($row['idReponse']);
             $reponse->setIdEquipe($row['idEquipe']);
+            $reponse->setNote($row['note']);
             $reponses[] = $reponse;
         }
         return $reponses;
@@ -165,6 +169,20 @@ class ReponseRepository{
         if($statement->rowCount() === 0){
             throw new ReponseException("La requête de suppression d'une reponse a échouée.");
         }   
+        return true;
+    }
+
+    public function updateEstNote(int $idReponse,bool $note) : bool{
+        //requête sql
+        $req = "UPDATE Reponse SET note = :note WHERE idReponse = :idReponse";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(['note' => $note,'idReponse' => $idReponse]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement->rowCount() === 0){
+            throw new ReponseException("La requête de modification d'une reponse a échouée.");
+        }
         return true;
     }
 }
