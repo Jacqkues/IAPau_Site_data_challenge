@@ -92,10 +92,10 @@
         } ?>" class="bouton-input-text" required>
         <input type="date" name="dateDeb" value="<?php if (isset($user)) {
             echo $user->getDateDeb();
-        } ?>" class="bouton-input-text">
+        } ?>" class="bouton-input-text" required>
         <input type="date" name="dateFin" value="<?php if (isset($user)) {
             echo $user->getDateFin();
-        } ?>" class="bouton-input-text">
+        } ?>" class="bouton-input-text" required>
 
         <input type="submit" class="bouton" value="Valider">
 

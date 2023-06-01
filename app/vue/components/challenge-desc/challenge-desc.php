@@ -12,7 +12,19 @@
   </header>
 
   <article>
-    <img src="<?= "vue/assets/challenge.jpg" ?>" alt="challenge">
+    <img src="<?php
+    try {
+      foreach ($detenir->getDetenirByChallenge($_GET['challenge']) as $lien_ress_chall) {
+          $ress = $ressource->getRessources($lien_ress_chall->getIdRessource());
+          if ($ress->getTypes() == 'image') {
+          $lien = $ress->getLien();
+        }
+        echo $lien;
+      }
+    } catch (\Exception $e) {
+      echo "vue/assets/challenge.jpg";
+    }
+    ?>" alt="challenge">
     <section>
       <div class="en-tete">
         <p class="date">
@@ -25,7 +37,18 @@
 
       <?php foreach ($projetsData as $projetData) { ?>
         <div class="projet">
-          <img src="vue/assets/projet.jpg" alt="projet" class="projet-img">
+          <img src="<?php
+          try {
+            foreach ($ressource->getRessourceByProjet($projetData->getIdProjet()) as $ressource) {
+              if ($ressource->getTypes() == "image") {
+                $lien = $ressource->getLien();
+              }
+              echo $lien;
+            }
+          } catch (\Exception $e) {
+            echo "vue/assets/challenge.jpg";
+          }
+          ?>" alt="projet" class="projet-img">
           <div class="projet-desc">
             <p class="titre-projet">
               <?= $projetData->getLibelle() ?>
@@ -33,7 +56,11 @@
             <p>
               <?= $projetData->getDescription() ?>
             </p>
-            <a class="bouton" onclick="openPopup()">Participer</a>
+            <?php if (isset($_SESSION['user'])) { ?>
+              <a class="bouton" onclick="openPopup()">Participer</a>
+            <?php } else { ?>
+              <a href="/login?methode=connexion&from=challenges" class="bouton">Participer</a>
+            <?php } ?>
           </div>
         </div>
       <?php } ?>

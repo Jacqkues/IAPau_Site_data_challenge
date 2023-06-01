@@ -11,6 +11,8 @@ use Model\EquipeRepository;
 use Model\MembreRepository;
 use Model\ProjetDataRepository;
 use Model\UserRepository;
+use Model\DetenirRepository;
+use Model\RessourceRepository;
 
 use Lib\DatabaseConnection;
 
@@ -23,6 +25,8 @@ class ChallengeDescControlleur implements Controlleur
   private $equipeRepo;
   private $membreRepo;
   private $userRepo;
+  private $detenir;
+  private $ressource;
 
   public function __construct()
   {
@@ -32,12 +36,16 @@ class ChallengeDescControlleur implements Controlleur
     $this->equipeRepo = new EquipeRepository($db);
     $this->membreRepo = new MembreRepository($db);
     $this->userRepo = new UserRepository($db);
+    $this->detenir = new DetenirRepository($db);
+    $this->ressource = new RessourceRepository($db);
   }
 
   public function index()
   {
     $challengeDesc = new View("./vue/components/challenge-desc/challenge-desc.php");
     $challengeDesc->assign("challenge", $this->challengeRepo->getDataChallenge($_GET['challenge']));
+    $challengeDesc->assign("detenir", $this->detenir);
+    $challengeDesc->assign("ressource", $this->ressource);
 
     // recup user
     if (!isset($_SESSION['user'])) {

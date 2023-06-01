@@ -239,17 +239,11 @@ class RessourceRepository
         $ressources = [];
         try {
             //On récupère les id des ressources liées à un projet
-            $recRess = $this->possederRepository->getPossederByProjet($idProjet);
-            //Si Mon tableau est vide c'est qu'il n'y a pas de ressources liées au projet
-            if (empty($recRess)) {
-                throw new Exception("Le tableau de ressource est vide");
-            }
-            $idRess = implode(',', array_fill(0, count($recRess), '?'));
-            $req = "SELECT * FROM Ressources WHERE idRessources IN ($idRess)";
+            $req = "SELECT * FROM Ressources WHERE idRessources IN (SELECT idressources FROM Posseder WHERE idProjet= :idP)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
-            $statement->execute($recRess);
+            $statement->execute(['idP' => $idProjet]);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if ($statement->rowCount() === 0) {
                 throw new Exception("La requête pour récupérer les ressources liées à un projet a échouée.");
