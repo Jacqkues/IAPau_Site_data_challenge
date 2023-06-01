@@ -2,6 +2,9 @@
     color: black;
 }
 
+.corps{
+    width: 70vw;
+}
 .corps h1{
     margin-bottom: 8vh;
     font-size: 1.5vw;
@@ -27,4 +30,8 @@
 .corps .list-container .list-content .user-info a ion-icon{
     color: red;
     font-size: 2vw;
+}
+
+.user-info span {
+    width: calc((80vw - 20vw) / 6) !important;
 }

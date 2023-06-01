@@ -43,7 +43,7 @@
                     <span><?= $questionnaire->getFin() ?></span>
                     <a class="bouton" href="/gestionnaire?modifQuestion&id=<?= $questionnaire->getId() ?>">Questions</a>
                     <a class="bouton" href="/gestionnaire?Reponse&id=<?= $questionnaire->getId() ?>">Réponses</a>
-                    <a href="/gestionnaire"><ion-icon name='close-outline'></ion-icon></a>
+                    <a href="/gestionnaire/deleteQuestionnaire?id=<?= $questionnaire->getId() ?>&idB=<?= $_GET['id'] ?>"><ion-icon name='close-outline'></ion-icon></a>
                 </div>
             </div>
         <?php } ?>

@@ -84,6 +84,7 @@ $addQuestion = new ProtectedRoute("/gestionnaire/ajoutQuestion",$gestionnaireCon
 $updateQuestion = new ProtectedRoute("/gestionnaire/updateQuestion",$gestionnaireControlleur,"updateQuestion",$gestionnaireGuard);
 $deleteQuestion = new ProtectedRoute("/gestionnaire/deleteQuestion",$gestionnaireControlleur,"deleteQuestion",$gestionnaireGuard);
 $addScoreGest = new ProtectedRoute("/gestionnaire/addPoint",$gestionnaireControlleur,'addPoint',$gestionnaireGuard);
+$deleteQuestionnaire = new ProtectedRoute("/gestionnaire/deleteQuestionnaire",$gestionnaireControlleur,"deleteQuestionnaire",$gestionnaireGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -118,6 +119,7 @@ $router->addRoute($addQuestion);
 $router->addRoute($updateQuestion);
 $router->addRoute($deleteQuestion);
 $router->addRoute($addScoreGest);
+$router->addRoute($deleteQuestionnaire);
 echo "<script src='./index.js'></script>";
 
 $router->handleRequest();

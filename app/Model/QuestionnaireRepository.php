@@ -149,7 +149,7 @@ class QuestionnaireRepository{
 
     public function deleteQuestionnaire(int $idQuestionnaire) : bool{
         //requête sql
-        $req = "DELETE FROM Questionnnaire WHERE idQuestionnnaire =:id";
+        $req = "DELETE FROM Questionnaire WHERE idQuestionnaire =:id";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête

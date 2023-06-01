@@ -122,6 +122,11 @@ class GestionnaireControlleur implements Controlleur
         header('Location: /gestionnaire?modifQuestion&id='.$_GET['idQ']);
     }
 
+    public function deleteQuestionnaire(){
+        $this->questionnaireRepo->deleteQuestionnaire($_GET['id']);
+        header('Location: /gestionnaire?detail-battle&id='.$_GET['idB']);
+    }
+
     public function addPoint(){
         if(isset($_POST)){
             $this->equipesRepo->changeScore($_POST['score'], $_POST['id']);
