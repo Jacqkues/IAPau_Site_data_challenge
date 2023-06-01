@@ -183,13 +183,18 @@ class UserControlleur implements Controlleur
         $idProjet = $_GET['projet'];
         $idChallenge = $_GET['challenge'];
 
-        if ($this->equiperepo->checkEquipeHasProjet($idEquipe)) {
-            header('Location: /dataChallenge?challenge=' . $idChallenge . '&error=Cette équipe est déjà inscrite à un projet.');
+        try {
+            if ($this->equiperepo->checkEquipeHasProjet($idEquipe)) {
+                header('Location: /dataChallenge?challenge=' . $idChallenge . '&error=Cette équipe est déjà inscrite à un projet.');
+                exit();
+            }
+            $this->equiperepo->addProjet($idProjet, $idEquipe);
+            header('Location: /user?onglet=Mes projets');
+            exit();
+        } catch (\Exception $e) {
+            header('Location: /dataChallenge?challenge=' . $idChallenge . '&error=Une erreur s\'est produite.');
             exit();
         }
-        $this->equiperepo->addProjet($idProjet, $idEquipe);
-        header('Location: /user?onglet=Mes projets');
-        exit();
     }
 
 
