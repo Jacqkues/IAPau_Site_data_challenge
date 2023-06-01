@@ -19,7 +19,16 @@
                                 <p>L'équipe <?= $reponse->getIdEquipe() ?> a proposé la réponse : </p>
                                 <span class="bouton-input-text"> <?= $reponse->getReponse() ?> </span> 
                             </div>
+                                <?php if($reponse->getNote()){?>
+                                    <ion-icon id="check" name="checkmark-done-outline"></ion-icon>
+                                <?php }
+                                else{ ?>
+                                    <ion-icon id="notCheck" name="close-outline"></ion-icon>
+                                <?php }
+                                ?>
                             <form action="gestionnaire/addPoint" method="post">
+                                <input type="hidden" name="note" value="<?= $reponse->getNote() ?>">
+                                <input type="hidden" name="idRep" value="<?= $reponse->getIdReponse() ?>">
                                 <input type="hidden" name="idQ" value="<?= $_GET['id'] ?>">
                                 <input type="hidden" name="id" value="<?= $reponse->getIdEquipe() ?>">
                                 <select name="score" class="bouton-input-text">
@@ -42,3 +51,7 @@
         </div>
 
     </div>
+
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

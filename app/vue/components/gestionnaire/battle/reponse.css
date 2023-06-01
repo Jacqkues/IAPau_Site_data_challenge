@@ -40,3 +40,13 @@
     padding: 0.3vw 0.5vw;
 }
 
+
+.corps .Question-Reponse .question .reponse #check{
+    color: green;
+    font-size: 2vw;
+}
+
+.corps .Question-Reponse .question .reponse #notCheck {
+    color: red;
+    font-size: 2vw;
+}

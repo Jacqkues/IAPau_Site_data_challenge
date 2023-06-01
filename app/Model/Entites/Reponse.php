@@ -7,7 +7,16 @@ class Reponse{
    protected string $reponse;
    protected int $idReponse;
    protected int $idEquipe;
+   protected bool $note;
 
+
+     public function getNote(): bool {
+          return $this->note;
+     }
+
+     public function setNote(bool $note): void {
+          $this->note = $note;
+     }
     public function getIdQuestion(): int {
          return $this->idQuestion;
     }
