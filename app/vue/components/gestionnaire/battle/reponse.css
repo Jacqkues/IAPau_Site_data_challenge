@@ -1,0 +1,42 @@
+.corps .Question-Reponse .question .titre{
+    font-size: 1.1vw;
+    font-weight: bold;
+    margin-bottom: 4vh;
+}
+
+.corps h1{
+    margin-bottom: 8vh;
+}
+
+.corps .Question-Reponse .question .reponse{
+    margin-left: 4vw;
+    display: block;
+    margin-bottom: 6vh;
+
+}
+
+.corps .Question-Reponse .question .reponse .equipe p{
+    margin-bottom: 3vh;
+    display: block;
+}
+
+.corps .Question-Reponse .question .reponse .equipe{
+    margin-bottom: 1vh;
+}
+
+.corps .Question-Reponse .question .reponse .equipe .bouton-input-text{
+    display: flex;
+    font-size: 1vw;
+    width: 50vw;
+}
+
+.corps .Question-Reponse .question .reponse form{
+    font-size: 1vw;
+    float: right;
+}
+
+.corps .Question-Reponse .question .reponse form .bouton-input-text{
+    font-size: 1vw;
+    padding: 0.3vw 0.5vw;
+}
+

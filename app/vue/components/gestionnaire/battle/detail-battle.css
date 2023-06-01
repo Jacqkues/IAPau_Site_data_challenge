@@ -1,0 +1,30 @@
+.corps .questionnaire .list-content .user-info span a{
+    color: black;
+}
+
+.corps h1{
+    margin-bottom: 8vh;
+    font-size: 1.5vw;
+}
+
+.corps h3{
+    margin-bottom: 4vh;
+    font-size: 1.2vw;
+}
+
+.corps .info span{
+    color:#4AB7BC
+}
+
+.corps .info{
+    margin-bottom: 6vh;
+}
+
+.manage-header{
+    float: right;
+}
+
+.corps .list-container .list-content .user-info a ion-icon{
+    color: red;
+    font-size: 2vw;
+}

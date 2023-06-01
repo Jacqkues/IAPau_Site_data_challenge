@@ -318,4 +318,69 @@ class DataChallengeRepository
         return $challenges;
     }
 
+    public function updateDebBattle(int $id, string $debut):bool{
+        //requête de modification
+        $req = "UPDATE dataChallenge SET debut = :deb WHERE idChallenge = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["deb" => $debut, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication de la date de début d'une battle a échouée.");
+        }
+        return true;
+    }
+
+    public function updateFinBattle(int $id, string $fin):bool{
+        //requête de modification
+        $req = "UPDATE dataChallenge SET fin = :fin WHERE idChallenge = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["fin" => $fin, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication de la date de fin d'une battle a échouée.");
+        }
+        return true;
+    }
+
+    public function updateLibelleBattle(int $id, string $libelle):bool{
+        //requête de modification
+        $req = "UPDATE dataChallenge SET libelle = :lib WHERE idChallenge = :id";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute(["lib" => $libelle, 'id' => $id]);
+        //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+        if($statement == NULL){
+            throw new Exception("La requête de modication du libelle d'une battle a échouée.");
+        }
+        return true;
+    }
+    
+    public function getChallengeByType(string $type): array{
+         //requête SQL
+         $sql = "SELECT * FROM dataChallenge WHERE types = :types";
+         //préparation de la requête
+         $statement = $this->database->getConnection()->prepare($sql);
+         //exécution de la requête
+         $statement->execute(['types' => $type]);
+         //récupération du résultat
+         $rows = $statement->fetchAll();
+         //création d'un tableau d'objets dataChallenge
+         $challenges = [];
+         foreach ($rows as $row) {
+             $challenge = new dataChallenge();
+             $challenge->setIdChallenge($row['idChallenge']);
+             $challenge->setLibelle($row['libelle']);
+             $challenge->setTempsDebut($row['tempsDebut']);
+             $challenge->setTempsFin($row['tempsFin']);
+             $challenge->setType($row['types']);
+             $challenge->setIsPublied($row['estPublier']);
+             $challenges[] = $challenge;
+         }
+         return $challenges;
+    }   
 }
