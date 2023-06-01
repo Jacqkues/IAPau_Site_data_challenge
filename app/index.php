@@ -85,6 +85,7 @@ $addQuestion = new ProtectedRoute("/gestionnaire/ajoutQuestion",$gestionnaireCon
 $updateQuestion = new ProtectedRoute("/gestionnaire/updateQuestion",$gestionnaireControlleur,"updateQuestion",$gestionnaireGuard);
 $deleteQuestion = new ProtectedRoute("/gestionnaire/deleteQuestion",$gestionnaireControlleur,"deleteQuestion",$gestionnaireGuard);
 $addScoreGest = new ProtectedRoute("/gestionnaire/addPoint",$gestionnaireControlleur,'addPoint',$gestionnaireGuard);
+$deleteQuestionnaire = new ProtectedRoute("/gestionnaire/deleteQuestionnaire",$gestionnaireControlleur,"deleteQuestionnaire",$gestionnaireGuard);
 $createEquipe = new ProtectedRoute("/user/newequipe",$userControlleur,"newequipe",$userGuard);
 $deleteEquipe = new ProtectedRoute("/user/deleteEquipe",$userControlleur,"deleteequipe",$userGuard);
 $updateRendu = new ProtectedRoute("/user/rendu",$userControlleur,"Updaterendu",$userGuard);
@@ -126,6 +127,7 @@ $router->addRoute($addQuestion);
 $router->addRoute($updateQuestion);
 $router->addRoute($deleteQuestion);
 $router->addRoute($addScoreGest);
+$router->addRoute($deleteQuestionnaire);
 $router->addRoute($autocomplete);
 $router->addRoute($addToEquipe);
 $router->addRoute($createEquipe);

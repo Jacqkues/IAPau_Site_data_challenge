@@ -28,6 +28,7 @@
 }
 
 .user-info {
+  position: relative;
   display: flex;
   align-items: center;
   column-gap: 5vw;
@@ -43,9 +44,6 @@
   padding: 1vw 0;
 }
 
-.list-content .user-info  {
-  display: flex;
-}
 
 .list-content:hover {
   background: rgb(209, 209, 209);
@@ -60,6 +58,3 @@
   text-transform: capitalize;
 }
 
-.user-info span:last-of-type {
-  
-}
