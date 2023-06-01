@@ -45,13 +45,10 @@ class EquipeRepository
         $equipe = new Equipe();
         $equipe->setId($row['numero']);
         $equipe->setIdChef($row['chef']);
-        if ($row['idBattle'] != null) {
-            $equipe->setIdBattle($row['idBattle']);
-        }
         if ($row['idProjet'] != null) {
             $equipe->setIdProjet($row['idProjet']);
         }
-        if ($row['idBattle'] != null) {
+        if ($row['idData'] != null) {
             $equipe->setIdDataChallenge($row['idData']);
         }
         $equipe->setScore($row['score']);
@@ -87,7 +84,6 @@ class EquipeRepository
             $equipe = new Equipe();
             $equipe->setId($row['numero']);
             $equipe->setIdChef($row['chef']);
-            $equipe->setIdBattle($row['idBattle']);
             $equipe->setIdDataChallenge($row['idData']);
             $equipe->setIdProjet($row['idProjet']);
             $equipe->setScore($row['score']);
@@ -124,7 +120,6 @@ class EquipeRepository
         $equipe = new Equipe();
         $equipe->setId($row['numero']);
         $equipe->setIdChef($row['chef']);
-        $equipe->setIdBattle($row['idBattle']);
         $equipe->setIdDataChallenge($row['idData']);
         $equipe->setIdProjet($row['idProjet']);
         $equipe->setScore($row['score']);
@@ -161,14 +156,10 @@ class EquipeRepository
             $equipe = new Equipe();
             $equipe->setId($row['numero']);
             $equipe->setIdChef($row['chef']);
-
-            if ($row['idBattle'] != null) {
-                $equipe->setIdBattle($row['idBattle']);
-            }
             if ($row['idProjet'] != null) {
                 $equipe->setIdProjet($row['idProjet']);
             }
-            if ($row['idBattle'] != null) {
+            if ($row['idData'] != null) {
                 $equipe->setIdDataChallenge($row['idData']);
             }
             $equipe->setScore($row['score']);
@@ -210,7 +201,7 @@ class EquipeRepository
 
 
     /*!
-     *  \fn function addEquipe(string $chef,int $idBattle,string $idProjet,string $idData)
+     *  \fn function addEquipe(string $chef,int,string $idProjet,string $idData)
      *  \author DUMORA-DANEZAN Jacques, BRIOLLET Florian, MARTINEZ Hugo, TRAVAUX Louis, SERRES Valentin 
      *  \version 0.1 Premier jet
      *  \dateTue 23 2023 - 09:15:18
@@ -221,12 +212,12 @@ class EquipeRepository
     public function addEquipe(int $chef,string $nom)
     {
         //requête d'insertion dans la bdd d'une nouvelle Equipe
-        $req = "INSERT INTO Equipe (chef,nom,score,idBattle,idProjet,idData) VALUES ( :chef, :nom, :score, :idBattle, :idProjet, :idData)";
+        $req = "INSERT INTO Equipe (chef,nom,score,idProjet,idData) VALUES ( :chef, :nom, :score, :idProjet, :idData)";
         //préparation de la requête
         $statement = $this->database->getConnection()->prepare($req);
         //exécution de la requête
         
-        $statement->execute(['chef' => $chef, 'nom' => $nom,'score' => 0, 'idBattle' => null, 'idProjet' => null, 'idData' => null]);
+        $statement->execute(['chef' => $chef, 'nom' => $nom,'score' => 0, 'idProjet' => null, 'idData' => null]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if ($statement == NULL) {
             throw new Exception("La requête d'ajout d'équipe a échouée.");
@@ -368,13 +359,10 @@ class EquipeRepository
                 $equipe = new Equipe();
                 $equipe->setId($row['numero']);
                 $equipe->setIdChef($row['chef']);
-                if ($row['idBattle'] != null) {
-                    $equipe->setIdBattle($row['idBattle']);
-                }
                 if ($row['idProjet'] != null) {
                     $equipe->setIdProjet($row['idProjet']);
                 }
-                if ($row['idBattle'] != null) {
+                if ($row['idData'] != null) {
                     $equipe->setIdDataChallenge($row['idData']);
                 }
                 if($row['idProjet'] == null){
@@ -388,5 +376,29 @@ class EquipeRepository
             throw new Exception("Erreur lors de la récupération des équipes liées à un utilisateur : " . $e->getMessage());
         }
         return $equipes;
+    }
+
+    public function checkEquipeHasProjet(int $idEquipe): bool
+    {
+        //création d'un tableau d'objets Equipe
+        try {
+
+            $req = "SELECT idProjet FROM equipe WHERE numero = :idEquipe";
+
+            //préparation de la requête
+            $statement = $this->database->getConnection()->prepare($req);
+            //exécution de la requête
+            $statement->execute(['idEquipe' => $idEquipe]);
+            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            if ($statement->rowCount() === 0) {
+                throw new Exception("La requête pour vérifier si une équipe est déjà inscrite à un projet a échoué.");
+            }
+            //récupération du résultat
+            $row = $statement->fetch();
+            return $row['idProjet'] != null;
+        
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération des équipes liées à un utilisateur : " . $e->getMessage());
+        }
     }
 }

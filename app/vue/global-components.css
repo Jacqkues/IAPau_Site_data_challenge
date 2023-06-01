@@ -67,7 +67,7 @@ body {
   outline: none;
 }
 
-a {
+a, .a {
   text-decoration: none;
   color: var(--MAIN_COLOR);
   cursor: pointer;

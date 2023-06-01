@@ -93,9 +93,12 @@ class MembreRepository
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
-        
-            $statement->execute(['idE' => $idEquipe, 'idU' => $idUser]);
-            //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
+            try {
+                $statement->execute(['idE' => $idEquipe, 'idU' => $idUser]);
+            } catch (Exception $e) {
+                throw new Exception("echecAjoutMembre");
+            }
+            // On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if ($statement->rowCount() === 0) {
                 throw new Exception("echecAjoutMembre");
             }

@@ -96,10 +96,11 @@ class UserControlleur implements Controlleur
         }
     }
 
-    public function newequipe(){
-        if(isset($_POST)){
+    public function newequipe()
+    {
+        if (isset($_POST)) {
 
-            $equipe = $this->equiperepo->addEquipe($_SESSION['user']->getId(),$_POST['nom']);
+            $equipe = $this->equiperepo->addEquipe($_SESSION['user']->getId(), $_POST['nom']);
             echo $equipe;
             $this->membreRepo->addMembre($equipe, $_SESSION['user']->getId());
             $Today = date('Y-m-d');
@@ -108,17 +109,16 @@ class UserControlleur implements Controlleur
         }
     }
 
-    public function deleteEquipe(){
-        if(isset($_POST)){
+    public function deleteEquipe()
+    {
+        if (isset($_POST)) {
             $equipe = $this->equiperepo->getEquipe($_GET['id']);
-            if($equipe->getIdChef() == $_SESSION['user']->getId()){
+            if ($equipe->getIdChef() == $_SESSION['user']->getId()) {
                 $this->equiperepo->deleteEquipe($_GET['id']);
                 header('Location: /user?onglet=Mes equipes');
-            }else{
+            } else {
                 header('Location: /user?onglet=Mes equipes&error=notchef');
             }
-           
-            
         }
     }
 
@@ -154,14 +154,38 @@ class UserControlleur implements Controlleur
                     
                 
             }
-            
 
-            if($res){
+            if ($res) {
                 header('Location: /user?onglet=Mes equipes');
+                exit();
             }
 
         }
     }
+
+    public function inscrireEquipe()
+    {
+        if (
+            !isset($_GET['equipe'])
+            || !isset($_GET['projet'])
+            || !isset($_GET['challenge'])
+        ) {
+            header('Location: /');
+            exit();
+        }
+
+        $idEquipe = $_GET['equipe'];
+        $idProjet = $_GET['projet'];
+        $idChallenge = $_GET['challenge'];
+
+        if ($this->equiperepo->checkEquipeHasProjet($idEquipe)) {
+            header('Location: /dataChallenge?challenge=' . $idChallenge . '&error=Cette équipe est déjà inscrite à un projet.');
+            exit();
+        }
+        $this->equiperepo->addProjet($idProjet, $idEquipe);
+    }
+
+
     public function index()
     {
         $fonctionnalite = [
@@ -229,7 +253,7 @@ class UserControlleur implements Controlleur
                     $content->assign("equipes", $this->equiperepo->getEquipeByUser($_SESSION['user']->getId()));
                     $content->assign("u", $this->userRepo);
                     $content->assign("eq", $this->equiperepo);
-                    $content->assign("p",$this->projetDataRepo);
+                    $content->assign("p", $this->projetDataRepo);
                 } catch (\Exception $e) {
                     $content->assign("equipes", []);
                 }

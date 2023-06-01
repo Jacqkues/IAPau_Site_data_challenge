@@ -120,6 +120,7 @@ article section .projet .projet-desc {
   display: flex;
   width: 100%;
   column-gap: 1vw;
+  cursor: pointer;
 }
 
 .popup .equipe:hover {

@@ -56,8 +56,6 @@ $registerHandler = new Route("/tryregister",$authController,"register");
 $logout = new Route("/logout",$authController,"logout");
 $challengeDesc = new Route("/dataChallenge",$challengeDescController,"index");
 
-$autocomplete = new Route("/autocomplete",$userControlleur,"autocomplete");
-$addToEquipe = new Route("/addEquipe",$userControlleur,"addToEquipe");
 
 
 //les pages protegees
@@ -86,6 +84,10 @@ $masqDefi = new ProtectedRoute("/admin/masqDefi",$adminControlleur,"masqDefi",$a
 $createEquipe = new ProtectedRoute("/user/newequipe",$userControlleur,"newequipe",$userGuard);
 $deleteEquipe = new ProtectedRoute("/user/deleteEquipe",$userControlleur,"deleteequipe",$userGuard);
 $updateRendu = new ProtectedRoute("/user/rendu",$userControlleur,"Updaterendu",$userGuard);
+$inscrireEquipe = new ProtectedRoute("/inscrireEquipe",$userControlleur,"inscrireEquipe",$userGuard);
+$autocomplete = new ProtectedRoute("/autocomplete",$userControlleur,"autocomplete",$userGuard);
+$addToEquipe = new ProtectedRoute("/addEquipe",$userControlleur,"addToEquipe",$userGuard);
+
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -121,6 +123,7 @@ $router->addRoute($addToEquipe);
 $router->addRoute($createEquipe);
 $router->addRoute($deleteEquipe);
 $router->addRoute($updateRendu);
+$router->addRoute($inscrireEquipe);
 $router->handleRequest();
 
 

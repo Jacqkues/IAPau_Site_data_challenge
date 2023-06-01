@@ -16,6 +16,13 @@ class AuthControlleur implements Controlleur
 
     public function login()
     {
+        if (isset($_GET['from']) && isset($_GET['challenge'])) {
+            $challengeId = $_GET['challenge'];
+            $from = "&from=" . $_GET['from'] . "&challenge=" . $challengeId;
+        } else {
+            $challengeId = "";
+            $from = "";
+        }
         $email = $_POST['email'];
         $mdp = $_POST['mdp'];
         $userRepo = new UserRepository(new DatabaseConnection());
@@ -24,7 +31,7 @@ class AuthControlleur implements Controlleur
             $user = $userRepo->findByEmail($email);
         } catch (Exception $e) {
             $error = "L'utilisateur n'existe pas";
-            header('Location: /login?methode=connexion&error=' . $error);
+            header('Location: /login?methode=connexion'. $from . '&error=' . $error);
             exit();
         }
 
@@ -35,13 +42,17 @@ class AuthControlleur implements Controlleur
                 echo $e;
             }
             $error = "L'utilisateur n'existe plus, le délai est dépassé.";
-            header('Location: /login?methode=connexion&error=' . $error);
+            header('Location: /login?methode=connexion' . $from . '&error=' . $error);
             exit();
         }
 
         if ($user != null) {
             if (password_verify($mdp, $user->getMdp())) {
                 $_SESSION['user'] = $user;
+                if ($from == "&from=challenges&challenge=".$challengeId) {
+                    header('Location: /dataChallenge?challenge=' . $challengeId);
+                    exit();
+                }
                 if ($user->getType() == "admin") {
                     header('Location: /admin');
                     exit();
@@ -54,7 +65,7 @@ class AuthControlleur implements Controlleur
                 }
             } else {
                 $error = "Mot de passe incorrect";
-                header('Location: /login?methode=connexion&error=' . $error);
+                header('Location: /login?methode=connexion' . $from . '&error=' . $error);
                 exit();
             }
         }

@@ -46,7 +46,11 @@
               echo $lien;
             }
           } catch (\Exception $e) {
-            echo "vue/assets/challenge.jpg";
+            try {
+              echo $projetData->getLienImg();
+            } catch (\Exception $e) {
+              echo "vue/assets/projet.jpg";
+            }
           }
           ?>" alt="projet" class="projet-img">
           <div class="projet-desc">
@@ -57,9 +61,9 @@
               <?= $projetData->getDescription() ?>
             </p>
             <?php if (isset($_SESSION['user'])) { ?>
-              <a class="bouton" onclick="openPopup()">Participer</a>
+              <a class="bouton" onclick="openPopup(<?= $projetData->getIdProjet() ?>)">Participer</a>
             <?php } else { ?>
-              <a href="/login?methode=connexion&from=challenges" class="bouton">Participer</a>
+              <a href="/login?methode=connexion&from=challenges&challenge=<?= $_GET['challenge'] ?>" class="bouton">Participer</a>
             <?php } ?>
           </div>
         </div>
@@ -82,7 +86,7 @@
       </div>
 
       <?php foreach ($equipes as $equipe) { ?>
-        <div class="equipe">
+        <div class="equipe" onclick="inscrireEquipe(<?= $equipe->getId() ?>)">
           <?php foreach ($userRepo->getUserByEquipe($equipe->getId()) as $user) { ?>
             <span>
               <?= $user->getPrenom() . " " . $user->getNom() ?>

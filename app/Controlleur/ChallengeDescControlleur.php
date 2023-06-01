@@ -43,7 +43,7 @@ class ChallengeDescControlleur implements Controlleur
   public function index()
   {
     $challengeDesc = new View("./vue/components/challenge-desc/challenge-desc.php");
-    $challengeDesc->assign("challenge", $this->challengeRepo->getDataChallenge($_GET['challenge']));
+    $challengeDesc->assign("challenge", $this->challengeRepo->getDataChallenge(intval($_GET['challenge'])));
     $challengeDesc->assign("detenir", $this->detenir);
     $challengeDesc->assign("ressource", $this->ressource);
 

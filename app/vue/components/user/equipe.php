@@ -10,6 +10,12 @@
             case "tailleMax":
                 echo "L'équipe est pleine";
                 break;
+            case "nomOrPrenomEmpty":
+                echo "Cet utilisateur semble avoir son nom ou son prénom vide.";
+                break;
+            default:
+                echo "Erreur";
+                break;
         }
         ?>
     </div>
