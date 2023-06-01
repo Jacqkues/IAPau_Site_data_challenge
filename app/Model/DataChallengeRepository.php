@@ -159,6 +159,33 @@ class DataChallengeRepository
         return true;
     }
 
+    public function getdispo(){
+        $req = "SELECT * FROM dataChallenge WHERE estPublier = 1";
+        //préparation de la requête
+        $statement = $this->database->getConnection()->prepare($req);
+        //exécution de la requête
+        $statement->execute();
+
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de récupération des challenges a échouée.");
+        }
+        //récupération du résultat
+        $rows = $statement->fetchAll();
+        //création d'un tableau d'objets User
+        $challenges = [];
+        foreach ($rows as $row) {
+            $challenge = new dataChallenge();
+            $challenge->setIdChallenge($row['idChallenge']);
+            $challenge->setLibelle($row['libelle']);
+            $challenge->setTempsDebut($row['tempsDebut']);
+            $challenge->setTempsFin($row['tempsFin']);
+            $challenge->setType($row['types']);
+            $challenge->setIsPublied($row['estPublier']);
+            $challenges[] = $challenge;
+        }
+
+        return $challenges;
+    }
     public function publierDefi(int $id)
     {
         $req = "UPDATE dataChallenge SET estPublier = 1 WHERE idChallenge = :id";
@@ -182,7 +209,7 @@ class DataChallengeRepository
         $statement->execute(['id' => $id]);
         //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
         if ($statement->rowCount() === 0) {
-            throw new Exception("La requête de publication d'un challenge a échouée.");
+            throw new Exception("La requête de masquage d'un challenge a échouée.");
         }
         return true;
     }

@@ -56,6 +56,9 @@ $registerHandler = new Route("/tryregister",$authController,"register");
 $logout = new Route("/logout",$authController,"logout");
 $challengeDesc = new Route("/dataChallenge",$challengeDescController,"index");
 
+$autocomplete = new Route("/autocomplete",$userControlleur,"autocomplete");
+$addToEquipe = new Route("/addEquipe",$userControlleur,"addToEquipe");
+
 
 //les pages protegees
 $adminDashboard = new ProtectedRoute("/admin",$adminControlleur,"index",$adminGuard);
@@ -80,6 +83,8 @@ $addpartenaire = new ProtectedRoute("/admin/addpartenaire",$adminControlleur,"ad
 $removepartenaire = new ProtectedRoute("/admin/removepartenaire",$adminControlleur,"removePartenaire",$adminGuard);
 $postDefi = new ProtectedRoute("/admin/postDefi",$adminControlleur,"postDefi",$adminGuard);
 $masqDefi = new ProtectedRoute("/admin/masqDefi",$adminControlleur,"masqDefi",$adminGuard);
+$createEquipe = new ProtectedRoute("/user/newequipe",$userControlleur,"newequipe",$userGuard);
+$deleteEquipe = new ProtectedRoute("/user/deleteEquipe",$userControlleur,"deleteequipe",$userGuard);
 //ajout des pages au router
 
 $router->addRoute($loginPage);
@@ -110,8 +115,10 @@ $router->addRoute($addpartenaire);
 $router->addRoute($removepartenaire);
 $router->addRoute($postDefi);
 $router->addRoute($masqDefi);
-echo "<script src='./index.js'></script>";
-
+$router->addRoute($autocomplete);
+$router->addRoute($addToEquipe);
+$router->addRoute($createEquipe);
+$router->addRoute($deleteEquipe);
 $router->handleRequest();
 
 

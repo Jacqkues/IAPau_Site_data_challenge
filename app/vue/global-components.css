@@ -113,3 +113,61 @@ header .compte {
   color: red;
   font-size: 1vw !important;
 }
+
+.container{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap:4em;
+  padding: 2em;
+}
+
+.container .card{
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  max-width: 20em;
+  
+  background-color: white;
+  border-radius: 1em;
+  box-shadow: 0 0 1em rgba(0,0,0,0.2);
+  overflow: hidden;
+  transition: all 0.5s ease;
+  padding: 1em;
+  gap:1em;
+  justify-content: flex-end;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.container .card .date {
+  color: rgba(0,0,0,0.5);
+  font-size: 16px;
+}
+
+.container .card .type {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
+}
+
+.container .card .nbP {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
+}
+
+.card p{
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
+}
+
+.card .footer{
+  display: flex;
+  flex-direction: column;
+  gap:1em;
+  
+  margin-top: 1em;
+}
+

@@ -43,6 +43,7 @@
 
           <?php } ?>
 
+          
           <a href="/logout" class="onglet">
             <div class="onglet">
               Deconnexion

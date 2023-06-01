@@ -28,6 +28,32 @@ class ProjetDataRepository{
      *  \param $id int représentant l'id du Projet
      *  \return retourne les informations du projet 
     */
+
+    public function getProjetFromUser(int $id){
+        $req = "SELECT * From projetData WHERE idProjet IN (SELECT idProjet FROM Equipe WHERE numero IN (SELECT idEquipe FROM Membre WHERE idUser = :id))";
+
+        $statement = $this->database->getConnection()->prepare($req);
+
+        $statement->execute(['id' => $id]);
+
+        if($statement->rowCount() === 0){
+            throw new Exception("La requête de récupération du data Challenge a échouée.");
+        }
+
+        $rows = $statement->fetchAll();
+
+        $projetAr = [];
+        foreach($rows as $row){
+            $projet = new projetData();
+            $projet->setIdProjet($row['idProjet']);
+            $projet->setLibelle($row['libelleData']);
+            $projet->setDescription($row['descrip']);
+            $projet->setLienImg($row['lienImg']);
+            $projet->setIdDataChallenge($row['idChallenge']);
+            $projetAr[] = $projet;
+        }
+        return $projetAr;
+    }
     public function getProjetData(int $id){
         //requête sql
         $req = "SELECT * FROM projetData WHERE idProjet= :id";

@@ -1,4 +1,17 @@
 <link rel="stylesheet" href="./vue/components/admin/admin.css">
+
+<?php if (isset($_GET['error'])) { ?>
+    <div class="error">
+        <?php
+        switch ($_GET['error']) {
+            case "champVide":
+                echo "Vérifié tous les champs";
+                break;
+        }
+        ?>
+    </div>
+<?php } ?>
+
 <div>
     <div class="manage-header">
         <?php if (isset($user)) { ?>
@@ -35,13 +48,13 @@
         <input type="hidden" name="id" value="<?php if (isset($user)) {
             echo $user->getId();
         } ?>" class="bouton-input-text">
-        <input type="text" name="nom" placeholder="Nom" value="<?php if (isset($user)) {
+        <input type="text" name="nom" placeholder="Nom" required value="<?php if (isset($user)) {
             echo $user->getNom();
         } ?>" class="bouton-input-text">
-        <input type="text" name="prenom" placeholder="Prénom" value="<?php if (isset($user)) {
+        <input type="text" name="prenom" placeholder="Prénom" required value="<?php if (isset($user)) {
             echo $user->getPrenom();
         } ?>" class="bouton-input-text">
-        <input type="text" name="etablissement" placeholder="etablissement" value="<?php if (isset($user)) {
+        <input type="text" name="etablissement" placeholder="etablissement" required value="<?php if (isset($user)) {
             echo $user->getEtablissement();
         } ?>" class="bouton-input-text">
 
@@ -74,7 +87,7 @@
         <input type="text" name="numTel" placeholder="numTel" value="<?php if (isset($user)) {
             echo "+33 " . $user->getNumTel();
         } ?>" class="bouton-input-text">
-        <input type="email" name="mail" placeholder="mail" value="<?php if (isset($user)) {
+        <input type="email" name="mail" placeholder="mail" required value="<?php if (isset($user)) {
             echo $user->getMail();
         } ?>" class="bouton-input-text" required>
         <input type="date" name="dateDeb" value="<?php if (isset($user)) {

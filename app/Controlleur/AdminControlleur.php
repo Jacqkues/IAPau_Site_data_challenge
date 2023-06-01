@@ -63,7 +63,7 @@ class AdminControlleur implements Controlleur
     //ajout suppresion et modification d'un utilisateur
     public function addUser()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['type']) && isset($_POST['etablissement']) && isset($_POST['nivEtude']) && isset($_POST['numTel']) && isset($_POST['dateDeb']) && isset($_POST['dateFin'])) {
             $user = new User();
             $user->setNom($_POST['nom']);
             $user->setPrenom($_POST['prenom']);
@@ -77,19 +77,26 @@ class AdminControlleur implements Controlleur
             $user->setDateFin($_POST['dateFin']);
             $this->userRepo->addUser($user);
             header('Location: /admin?onglet=User');
+        }else{
+            header('Location: /admin?form&error=champVide');
         }
 
     }
 
     public function deleteUser()
     {
-        $userId = $_GET['id'];
-        $this->userRepo->deleteUser($userId);
-        header('Location: /admin?onglet=User');
+        if(isset($_GET['id'])){
+            $userId = $_GET['id'];
+            $this->userRepo->deleteUser($userId);
+            header('Location: /admin?onglet=User');
+        }else{
+            header('Location: /admin?onglet=User');
+        }
+      
     }
 
     public function postDefi(){
-        if(isset($_GET)){
+        if(isset($_GET['id'])){
             $idChallenge = $_GET['id'];
             $this->challengerepo->publierDefi($idChallenge);
             header('Location: /admin?config&id=' . $idChallenge );
@@ -97,16 +104,18 @@ class AdminControlleur implements Controlleur
     }
 
     public function masqDefi(){
-        if(isset($_GET)){
+        if(isset($_GET['id'])){
             $idChallenge = $_GET['id'];
             $this->challengerepo->masquerDefi($idChallenge);
             header('Location: /admin?config&id=' . $idChallenge );
+        }else{
+            header('Location: /admin');
         }
     }
 
     public function updateUser()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['id']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['type']) && isset($_POST['etablissement']) && isset($_POST['nivEtude']) && isset($_POST['numTel'])) {
             $user = new User();
             $user->setId($_POST['id']);
             $user->setNom($_POST['nom']);
@@ -123,14 +132,16 @@ class AdminControlleur implements Controlleur
             $this->userRepo->changeTel($user->getNumTel(), $user->getId());
             $this->userRepo->changeMail($user->getMail(), $user->getId());
             $this->userRepo->changeType($user->getType(), $user->getId());
-            header('Location: /admin?onglet=Manage User');
+            header('Location: /admin?onglet=User');
+        }else{
+            header('Location: /admin?form&error=champVide');
         }
 
     }
 
     public function addProjet()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['titre']) && isset($_POST['description']) && isset($_POST['lienimg']) && isset($_POST['id'])) {
             $projet = new projetData();
             $projet->setLibelle($_POST['titre']);
             $projet->setDescription($_POST['description']);
@@ -143,6 +154,7 @@ class AdminControlleur implements Controlleur
 
     public function deleteProjet()
     {
+
         $projetId = $_GET['id'];
         $this->projetRepo->deleteProjet($projetId);
         header('Location: /admin?config&id=' . $_GET['idChallenge']);
@@ -151,7 +163,7 @@ class AdminControlleur implements Controlleur
     //ajout suppression et modification d'un Data Challenge
     public function addDataChallenge()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['titre']) && isset($_POST['debut']) && isset($_POST['fin']) && isset($_POST['type'])) {
             $challenge = new dataChallenge();
             $challenge->setLibelle($_POST['titre']);
             $challenge->setTempsDebut($_POST['debut']);
@@ -171,6 +183,8 @@ class AdminControlleur implements Controlleur
                 $this->projetRepo->addProjet($projet);   
             }
             header('Location: /admin?onglet=Data Defis');
+        }else{
+            header('Location: /admin?/admin?newData&error=champVide');
         }
     }
 

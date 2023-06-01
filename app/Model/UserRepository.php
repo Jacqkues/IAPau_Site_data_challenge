@@ -48,6 +48,51 @@ class UserRepository{
         return $user;
     }
 
+    public function getPrenomNom():array{
+        $sql = "SELECT prenom, nom FROM User WHERE types = 'user'";
+
+        $statement = $this->database->getConnection()->prepare($sql);
+
+        $statement->execute();
+
+        $rows = $statement->fetchAll();
+
+        $users = [];
+        foreach ($rows as $row) {
+            $users[] = $row['prenom'] . " " . $row['nom'];
+        }
+
+        return $users;
+    }
+
+    public function getUserByNomPrenom(string $nom, string $prenom){
+        $sql = "SELECT * FROM User WHERE nom = :nom AND prenom = :prenom";
+
+        $statement = $this->database->getConnection()->prepare($sql);
+
+        $statement->execute(['nom' => $nom, 'prenom' => $prenom]);
+
+        $row = $statement->fetch();
+
+        if(empty($row)){
+            throw new Exception("L'utilisateur n'existe pas");
+        }  
+        //création d'un objet User
+        $user = new User();
+        $user->setId($row['idUser']);
+        $user->setType($row['types']);
+        $user->setNom($row['nom']);
+        $user->setPrenom($row['prenom']);
+        $user->setEtablissement($row['etablissement']);
+        $user->setNivEtude($row['nivEtude']);
+        $user->setNumTel($row['numTel']);
+        $user->setMail($row['mail']);
+        $user->setDateDeb($row['dateDeb']);
+        $user->setDateFin($row['dateFin']);
+        $user->setMdp("");
+        return $user;
+    }
+
     public function getUsers():array {
         //requête SQL
         $sql = "SELECT * FROM User";
@@ -394,17 +439,12 @@ class UserRepository{
         //création d'un tableau d'objets User
         $users = [];
         try{
-            $membre = $this->membreRepository->getMembreByTeam($idEquipe);
-            if(empty($membre)){
-                throw new Exception("Le tableau des membres d'équipes est vide");
-            }
             
-            $membres = implode(',',array_fill(0, count($membre), '?'));
-            $req = "SELECT * FROM User WHERE idUser IN ($membres)";
+            $req = "SELECT * FROM User WHERE idUser IN (SELECT idUser FROM Membre WHERE idEquipe = :idEquipe)";
             //préparation de la requête
             $statement = $this->database->getConnection()->prepare($req);
             //exécution de la requête
-            $statement->execute($membre);
+            $statement->execute(['idEquipe' => $idEquipe]);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if($statement->rowCount() === 0){
                 throw new Exception("La requête pour récupérer les id des membres d'une équipe a échoué.");

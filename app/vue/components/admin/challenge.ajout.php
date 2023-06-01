@@ -1,4 +1,15 @@
 <link rel="stylesheet" href="./vue/components/admin/admin.css">
+<?php if (isset($_GET['error'])) { ?>
+    <div class="error">
+        <?php
+        switch ($_GET['error']) {
+            case "champVide":
+                echo "Vérifié tous les champs";
+                break;
+        }
+        ?>
+    </div>
+<?php } ?>
 <div>
     <h1>Ajout d'un data Challenge</h1>
 

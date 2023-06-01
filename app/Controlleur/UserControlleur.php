@@ -9,6 +9,7 @@ use Model\DataChallengeRepository;
 use Model\EquipeRepository;
 use Model\MembreRepository;
 use Model\MessagerieRepository;
+use Model\ProjetDataRepository;
 use Model\UserRepository;
 use Model\Entites\User;
 
@@ -18,6 +19,12 @@ class UserControlleur implements Controlleur
     private MessagerieRepository $messagerierepo;
     private DataChallengeRepository $challengerepo;
     private EquipeRepository $equiperepo;
+
+    private MembreRepository $membreRepo;
+
+    private ProjetDataRepository $projetDataRepo;
+
+    
     public function __construct()
     {
         $db = new DatabaseConnection();
@@ -25,8 +32,28 @@ class UserControlleur implements Controlleur
         $this->challengerepo = new DataChallengeRepository($db);
         $this->messagerierepo = new MessagerieRepository($db);
         $this->equiperepo = new EquipeRepository($db);
+        $this->membreRepo = new MembreRepository($db);
+        $this->projetDataRepo = new ProjetDataRepository($db);
     }
 
+
+    public function autocomplete()
+    {
+        $query = $_GET['query'];
+
+        // Generate autocomplete suggestions based on the query
+        $suggestions = $this->userRepo->getPrenomNom();
+
+        $filteredSuggestions = array();
+        foreach ($suggestions as $suggestion) {
+            if (strpos(strtolower($suggestion), strtolower($query)) !== false) {
+                $filteredSuggestions[] = $suggestion;
+            }
+        }
+
+        // Return the suggestions as a JSON response
+        echo json_encode($filteredSuggestions);
+    }
     public function updateUserPSW()
     {
         if (
@@ -64,20 +91,66 @@ class UserControlleur implements Controlleur
             header('Location: /user?onglet=Mon compte');
         }
     }
+
+    public function newequipe(){
+        if(isset($_POST)){
+
+            $equipe = $this->equiperepo->addEquipe($_SESSION['user']->getId(),$_POST['nom']);
+            echo $equipe;
+            $this->membreRepo->addMembre($equipe, $_SESSION['user']->getId());
+            header('Location: /user?onglet=Mes equipes');
+        }
+    }
+
+    public function deleteEquipe(){
+        if(isset($_POST)){
+            $equipe = $this->equiperepo->getEquipe($_GET['id']);
+            if($equipe->getIdChef() == $_SESSION['user']->getId()){
+                $this->equiperepo->deleteEquipe($_GET['id']);
+                header('Location: /user?onglet=Mes equipes');
+            }else{
+                header('Location: /user?onglet=Mes equipes&error=notchef');
+            }
+           
+            
+        }
+    }
+
+    public function addToEquipe(){
+        if(isset($_POST)){
+            list($prenom, $nom) = explode(' ', $_POST['nom']);
+            $user = $this->userRepo->getUserByNomPrenom($nom, $prenom);
+            try{
+                $res = $this->membreRepo->addMembre($_POST['id'] ,$user->getId());
+            }catch(\Exception $e){
+                
+                header('Location: /user?onglet=Mes equipes&error='.$e->getMessage());
+                    
+                
+            }
+            
+
+            if($res){
+                header('Location: /user?onglet=Mes equipes');
+            }
+
+        }
+    }
     public function index()
     {
         $fonctionnalite = [
+            "Challenges disponibles" => "./vue/components/challenges-dispo/challenge_user.php",
+            "Mes projets" => "./vue/components/user/projet.php",
+            "Mes equipes" => "./vue/components/user/equipe.php",
             "Mon compte" => "./vue/components/monCompte/monCompte.php",
-            "Mes challenges" => "./vue/components/admin/manage-challenge.php",
-            "Challenges disponibles" => "./vue/components/admin/manage-ressources.php",
             "Messagerie" => "./vue/components/messagerie/messagerie.php",
-            "Mes equipes" => "./vue/components/admin/manage-ressources.php"
+
         ];
         $type = "user";
         if (isset($_GET['onglet']) && $fonctionnalite[$_GET['onglet']]) {
             $ongletcourant = $_GET['onglet'];
         } else {
-            $ongletcourant = "Mon compte";
+            $ongletcourant = "Challenges disponibles";
         }
         $page = $fonctionnalite[$ongletcourant];
 
@@ -87,6 +160,20 @@ class UserControlleur implements Controlleur
         $content = new View($page);
         $content->assign('type', $type);
         switch ($ongletcourant) {
+            case "Challenges disponibles":
+                try {
+                    $content->assign("challengesDispo", $this->challengerepo->getdispo());
+                } catch (\Exception $e) {
+                    $content->assign("challengesDispo", []);
+                }
+                break;
+            case "Mes projets":
+                try {
+                    $content->assign("projets", $this->projetDataRepo->getProjetFromUser($_SESSION['user']->getId()));
+                } catch (\Exception $e) {
+                    $content->assign("projets", []);
+                }
+                break;
             case "Messagerie":
                 $categorie = isset($_GET['categorie']) ? $_GET['categorie'] : "GÉNÉRAL";
                 try {
@@ -100,6 +187,17 @@ class UserControlleur implements Controlleur
                     $content->assign("equipes", []);
                 }
                 $content->assign("users", $this->userRepo);
+                break;
+            case "Mes equipes":
+                try {
+
+                    $content->assign("equipes", $this->equiperepo->getEquipeByUser($_SESSION['user']->getId()));
+                    $content->assign("u", $this->userRepo);
+                    $content->assign("eq", $this->equiperepo);
+                    $content->assign("p",$this->projetDataRepo);
+                } catch (\Exception $e) {
+                    $content->assign("equipes", []);
+                }
                 break;
             default:
                 break;

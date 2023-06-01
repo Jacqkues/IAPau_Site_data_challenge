@@ -90,6 +90,7 @@ CREATE TABLE Question(
 
 CREATE TABLE Equipe(
     numero INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50),
     chef INT NOT NULL,
     score INT,
     idBattle INT,

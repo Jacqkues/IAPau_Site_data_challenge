@@ -73,6 +73,8 @@ class MembreRepository
         $statement->execute(['idU' => $idUser]);
 
         $types = $statement->fetch();
+        $types = $types['types'];
+
         //requête permettant de vérifier si l'on ne dépasse pas la taille maximale d'un équipe
         $compte = "SELECT COUNT(*) FROM Membre WHERE idEquipe = :id";
         //préparation de la requête
@@ -80,10 +82,11 @@ class MembreRepository
         //exécution de la requête
         $statement->execute(['id' => $idEquipe]);
         $verif = $statement->fetchAll();
+        $verif = $verif[0];
         if (count($verif) > 7) {
-            throw new Exception("Taille maximale de l'équipe atteinte");
+            throw new Exception("tailleMax");
         } elseif ($types != 'user') {
-            throw new Exception("L'utilisateur doit être un étudiant pour pouvoir rejoindre une équipe");
+            throw new Exception("userNonEtud");
         } else {
             //requête d'insertion dans la bdd d'un membre dnas une équipe
             $req = "INSERT INTO Membre VALUES ( :idE, :idU)";
@@ -93,15 +96,10 @@ class MembreRepository
             $statement->execute(['idE' => $idEquipe, 'idU' => $idUser]);
             //On vérifie que tout se passe bien, sinon on jette une nouvelle exception
             if ($statement->rowCount() === 0) {
-                throw new Exception("La requête d'ajout d'un membre a échouée.");
+                throw new Exception("echecAjoutMembre");
             }
         }
-        //Si l'équipe possède moins de 3 membres on retourne false sinon on retourne true
-        if (count($verif) < 3) {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     }
 
 

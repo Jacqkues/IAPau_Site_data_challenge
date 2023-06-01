@@ -13,7 +13,7 @@
       ?>" alt="challenge">
       <div class="challenge__desc">
         <h3>
-          <?= $challenge->getLibelle() ?>
+          <?=strtoupper($challenge->getLibelle()) ?>
         </h3>
         <p class="date">
           <?= $challenge->getTempsDebut() . " - " . $challenge->getTempsFin() ?>
