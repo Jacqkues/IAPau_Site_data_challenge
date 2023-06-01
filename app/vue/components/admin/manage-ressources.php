@@ -14,9 +14,9 @@
                 <input type="hidden" name="challenge" value="<?= $challenge->getIdChallenge() ?>">
             <?php } ?>
 
-            <input type="text" name="titre" id="" placeholder="nom">
-            <input type="text" name="lien" id="" placeholder="lien">
-            <input type="text" name="type" id="" placeholder="type">
+            <input type="text" name="titre" id="" placeholder="nom" class="bouton-input-text">
+            <input type="text" name="lien" id="" placeholder="lien" class="bouton-input-text">
+            <input type="text" name="type" id="" placeholder="type" class="bouton-input-text">
             <input type="submit" value="Ajouter au data challenge" class="bouton">
         </form>
     </div>
@@ -38,9 +38,9 @@
             <?php if (isset($idProjet)) { ?>
                 <input type="hidden" name="projetId" value="<?= $idProjet ?>">
             <?php } ?>
-            <input type="text" name="titre" id="" placeholder="nom">
-            <input type="text" name="lien" id="" placeholder="lien">
-            <input type="text" name="type" id="" placeholder="type">
+            <input type="text" name="titre" id="" placeholder="nom" class="bouton-input-text">
+            <input type="text" name="lien" id="" placeholder="lien" class="bouton-input-text">
+            <input type="text" name="type" id="" placeholder="type" class="bouton-input-text">
             <input type="submit" value="Ajouter au projet" class="bouton">
         </form>
     </div>

@@ -10,9 +10,9 @@
         <form action="/admin/addRessource" method="post">
             <input type="hidden" name="idChallenge" value="<?= $_GET['idChallenge']; ?>">
             <input type="hidden" name="projetId" value="<?= $projet->getIdProjet() ?>">
-            <input type="text" name="titre" id="" placeholder="nom">
-            <input type="text" name="lien" id="" placeholder="lien">
-            <input type="text" name="type" id="" placeholder="type">
+            <input type="text" name="titre" id="" placeholder="nom" class="bouton-input-text">
+            <input type="text" name="lien" id="" placeholder="lien" class="bouton-input-text">
+            <input type="text" name="type" id="" placeholder="type" class="bouton-input-text">
             <input type="submit" value="Ajouter au projet" class="bouton">
         </form>
     </div>
@@ -29,9 +29,9 @@
 
 
         <form action="/admin/addpartenaire" method="post">
-            <input type="hidden" name="idProjet" value="<?= $projet->getIdProjet() ?>">
-            <input type="hidden" name="idChallenge" value="<?= $_GET['idChallenge']; ?>">
-            <select name="id" id="">
+            <input class="bouton-input-text" type="hidden" name="idProjet" value="<?= $projet->getIdProjet() ?>">
+            <input class="bouton-input-text" type="hidden" name="idChallenge" value="<?= $_GET['idChallenge']; ?>">
+            <select name="id" id="" class="bouton-input-text">
                 <?php foreach ($gestionnaires as $user) { ?>
                     <option value="<?= $user->getId() ?>">
                         <?= $user->getNom() ?>     <?= $user->getPrenom() ?>

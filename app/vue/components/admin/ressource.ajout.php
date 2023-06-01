@@ -10,9 +10,9 @@
 
     <form action="/admin/addRessource" method="post">
         
-        <input type="text" name="titre" id="" placeholder="Titre" value="<?php if(isset($ressource)) echo $ressource->getNom(); ?>">
-        <input type="text" name="lien" id="" placeholder="Lien" value="<?php if(isset($ressource)) echo $ressource->getLien(); ?>">
-        <input type="text" name="type" id="" placeholder="Type" value="<?php if(isset($ressource)) echo $ressource->getTypes(); ?>">
+        <input type="text" name="titre" id="" class="bouton-input-text" placeholder="Titre" value="<?php if(isset($ressource)) echo $ressource->getNom(); ?>">
+        <input type="text" name="lien" id="" class="bouton-input-text" placeholder="Lien" value="<?php if(isset($ressource)) echo $ressource->getLien(); ?>">
+        <input type="text" name="type" id="" class="bouton-input-text" placeholder="Type" value="<?php if(isset($ressource)) echo $ressource->getTypes(); ?>">
         <?php if (isset($challenge)) { ?>
             <input type="hidden" name="challenge" value="<?= $challenge->getIdChallenge() ?>">
         <?php } ?>

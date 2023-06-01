@@ -6,10 +6,10 @@
 
 
     <form action="/admin/addProjet" method="post">
-            <input type="hidden" name="id" value="<?= $challenge->getIdChallenge(); ?>">
-            <input type="text" name="titre" id="" placeholder="Titre">
-            <textarea name="description" id="" cols="30" rows="10" placeholder="Description"></textarea>
-            <input type="text" name="lienimg" placeholder="Lien de l'image">
-            <input type="submit" value="Crée" class="bouton">
+            <input type="hidden" name="id" class="bouton-input-text" value="<?= $challenge->getIdChallenge(); ?>">
+            <input type="text" name="titre" id="" class="bouton-input-text" placeholder="Titre">
+            <textarea name="description" id="" class="bouton-input-text" cols="30" rows="10" placeholder="Description"></textarea>
+            <input type="text" name="lienimg" class="bouton-input-text" placeholder="Lien de l'image">
+            <input type="submit" value="Créer" class="bouton">
     </form>
 </div>
